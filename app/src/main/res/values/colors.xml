@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="exp_list_selected_color">#e2e2e2</color>
+
+    <color name="swipe_color_left">#61bd4f</color>
+    <color name="swipe_color_right">#eb5a46</color>
+
+    <color name="toolBarColor1">#885d9e</color>
+    <color name="actionBarColor1">#89609e</color>
+    <color name="accentColor1">#885d9e</color>
+
+    <color name="toolBarColor2">#303F9F</color>
+    <color name="actionBarColor2">#3F51B5</color>
+    <color name="accentColor2">#303F9F</color>
+
+    <color name="toolBarColor3">#00796B</color>
+    <color name="actionBarColor3">#009688</color>
+    <color name="accentColor3">#00796B</color>
+
+    <color name="toolBarColor4">#8554d1</color>
+    <color name="actionBarColor4">#985fef</color>
+    <color name="accentColor4">#8554d1</color>
+
+    <color name="fab_addButtonColorNormal">#fafafa</color>
+    <color name="fab_addButtonColorPressed">#f1f1f1</color>
+    <color name="fab_addButtonPlusIconColor">#808080</color>
+
+    <color name="fab_colorNormal">#ffefefef</color>
+    <color name="fab_colorPressed">#ffdfdfdf</color>
+</resources>

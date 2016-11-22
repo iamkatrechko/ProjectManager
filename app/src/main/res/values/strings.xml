@@ -1,0 +1,83 @@
+<resources>
+    <string name="app_name">Таск-менеджер</string>
+    <string name="service_menu">Сервисное меню</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="hint_title">Название</string>
+    <string name="hint_description">Описание</string>
+
+    <string name="fab_title_1">Подпроект</string>
+    <string name="fab_title_2">Задача</string>
+
+    <string name="activity_project_add">Новый проект</string>
+    <string name="activity_project_edit">Редактирование проекта</string>
+    <string name="activity_task_add">Новый подпроект</string>
+    <string name="activity_task_edit">Редактирование подпроекта</string>
+    <string name="activity_subtask_add">Новая задача</string>
+    <string name="activity_subtask_edit">Редактирование задачи</string>
+
+    <string-array name="priorities">
+        <item>Без приоритета</item>
+        <item>Низкий приоритет</item>
+        <item>Средний приоритет</item>
+        <item>Высокий приоритет</item>
+    </string-array>
+    <string-array name="priorities_colors">
+        <item>#00000000</item>
+        <item>#f2d600</item>
+        <item>#ffab4a</item>
+        <item>#eb5a46</item>
+    </string-array>
+
+    <string-array name="months">
+        <item>января</item>
+        <item>февраля</item>
+        <item>марта</item>
+        <item>апреля</item>
+        <item>мая</item>
+        <item>июня</item>
+        <item>июля</item>
+        <item>августа</item>
+        <item>сентября</item>
+        <item>октября</item>
+        <item>ноября</item>
+        <item>декабря</item>
+    </string-array>
+    
+    <string-array name="nav_draw_names">
+        <item>Шапка</item>
+        <item>Сегодня</item>
+        <item>7+ дней</item>
+        <item>Календарь</item>
+        <item>Проекты</item>
+        <item>Управление проектами</item>
+        <item>Метки</item>
+        <item>Фильтры</item>
+        <item>Настройки</item>
+        <item>О программе</item>
+        <item>Настройка тегов</item>
+    </string-array>
+
+    <string-array name="filters">
+        <item>Все задачи</item>
+        <item>Без приоритета</item>
+        <item>Низкий приоритет</item>
+        <item>Средний приоритет</item>
+        <item>Высокий приоритет</item>
+    </string-array>
+
+    <string-array name="nav_draw_icons">
+        <item>ic_launcher</item>
+        <item>ic_today</item>
+        <item>ic_event_note</item>
+        <item>ic_date_range</item>
+        <item>ic_assignment</item>
+        <item>ic_projects_edit</item>
+        <item>ic_label_outline</item>
+        <item>ic_label</item>
+        <item>ic_settings</item>
+        <item>ic_info</item>
+        <item>ic_info</item>
+    </string-array>
+</resources>

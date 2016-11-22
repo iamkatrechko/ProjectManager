@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/main"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+    android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:id="@+id/imageView"
+            android:src="@drawable/ic_dog"
+            android:scaleType="fitCenter"
+            android:padding="12dp"
+            android:tint="#5c5c5c"/>
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Метка"
+            android:textSize="17sp"
+            android:layout_weight="1"/>
+
+        <ImageButton
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:id="@+id/ibEdit"
+            android:src="@drawable/ic_edit"
+            android:padding="12dp"
+            android:tint="#ff7f7f7f"
+            android:scaleType="centerCrop"
+            android:background="?android:attr/selectableItemBackground"/>
+
+        <ImageButton
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:id="@+id/ibDelete"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="12dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_delete"
+            android:tint="#ff7f7f7f"/>
+
+</LinearLayout>

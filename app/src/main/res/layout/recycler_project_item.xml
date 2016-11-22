@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/main"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+    android:gravity="center_vertical">
+
+        <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:id="@+id/imageView"
+                android:src="@drawable/ic_krug"
+                android:scaleType="fitCenter"
+                android:padding="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp"/>
+
+        <TextView
+            android:id="@+id/contact_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Проект"
+            android:textSize="17sp"
+            android:layout_weight="1"/>
+
+        <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:id="@+id/imageViewEdit"
+                android:layout_marginRight="12dp"
+                android:src="@drawable/ic_edit"
+                android:tint="#ff7f7f7f"
+                android:padding="9dp"/>
+
+</LinearLayout>

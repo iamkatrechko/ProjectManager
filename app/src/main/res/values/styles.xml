@@ -1,0 +1,147 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="toolBarTheme2" parent="@style/ThemeOverlay.AppCompat.Light">
+        <item name="colorControlNormal">#ffffffff</item>
+        <item name="android:colorForeground">#ff4cff06</item>
+        <item name="android:textColorPrimary">#ffeeeeee</item>
+        <item name="android:textColorSecondary">#ffeeeeee</item>                                                        <!--Цвет текста меню (долгое нажатие меню)-->
+        <item name="android:textColorTertiary">#ffff6017</item>
+        <item name="android:colorBackground">?attr/colorPrimary</item>
+        <item name="android:textColorHint">#80ffffff</item>
+        <item name="colorControlHighlight">#30000000</item>
+        <item name="android:textColorPrimaryDisableOnly">#ffffff</item>
+    </style>
+
+    <style name="toolBarTheme" parent="@style/ThemeOverlay.AppCompat.Light">
+        <item name="colorControlNormal">#ffffffff</item>
+        <item name="android:colorForeground">#ff4cff06</item>
+        <item name="android:textColorPrimary">#ff5f5f5f</item>
+        <item name="android:textColorSecondary">#ff5f5f5f</item>                                                        <!--Цвет текста меню (долгое нажатие меню)-->
+        <item name="android:textColorTertiary">#ffff6017</item>
+        <item name="android:colorBackground">#ffffffff</item>
+        <item name="android:textColorHint">#80ffffff</item>
+        <item name="colorControlHighlight">#30000000</item>
+        <item name="android:textColorPrimaryDisableOnly">#ffffff</item>
+    </style>
+
+    <style name="TextAppearance.Design.Hint2" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
+    <style name="TextAppearance.Design.Counter.Overflow2" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textColor">#00ff00</item>
+    </style>
+
+    <style name="TextAppearance.Design.Counter2" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textColor">#00ff00</item>
+    </style>
+
+    <style name="editTextStyle2" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/asd</item>
+
+    </style>
+
+    <style name="editTextStyle" parent="@style/Widget.Design.TextInputLayout">
+        <item name="hintTextAppearance">@style/TextAppearance.Design.Hint2</item>
+        <item name="errorTextAppearance">@style/TextAppearance.Design.Error</item>
+        <item name="counterTextAppearance">@style/TextAppearance.Design.Counter2</item>
+        <item name="counterOverflowTextAppearance">@style/TextAppearance.Design.Counter.Overflow2</item>
+    </style>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme1" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:actionBarStyle" tools:ignore="NewApi">@style/MyActionBar1</item>
+        <item name="actionBarStyle">@style/MyActionBar1</item>
+        <item name="colorAccent" tools:ignore="NewApi">@color/accentColor1</item>
+        <item name="colorPrimary" tools:ignore="NewApi">@color/actionBarColor1</item>
+        <item name="colorPrimaryDark" tools:ignore="NewApi">@color/accentColor1</item>
+        <item name="android:colorControlNormal" tools:ignore="NewApi">?attr/colorPrimary</item>
+        <item name="android:colorEdgeEffect" tools:ignore="NewApi">@color/actionBarColor1</item>
+        <!--<item name="android:colorControlHighlight" tools:ignore="NewApi">@color/actionBarColor1</item> - цвет выделения карточки-->
+        <item name="android:statusBarColor" tools:ignore="NewApi">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus" tools:ignore="NewApi">true</item>
+    </style>
+
+    <style name="MyActionBar1" parent="Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:textColorPrimary">#ffff00b7</item>
+        <item name="android:background" tools:ignore="NewApi">@color/actionBarColor1</item>
+        <item name="background">@color/actionBarColor1</item>
+    </style>
+
+
+
+    <style name="AppTheme2" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:actionBarStyle" tools:ignore="NewApi">@style/MyActionBar2</item>
+        <item name="actionBarStyle">@style/MyActionBar2</item>
+        <item name="colorAccent" tools:ignore="NewApi">@color/accentColor2</item>
+        <item name="colorPrimary" tools:ignore="NewApi">@color/actionBarColor2</item>
+        <item name="colorPrimaryDark" tools:ignore="NewApi">@color/accentColor2</item>
+        <item name="android:colorControlNormal" tools:ignore="NewApi">?attr/colorPrimary</item>
+        <item name="android:colorEdgeEffect" tools:ignore="NewApi">@color/actionBarColor2</item>
+        <!--<item name="android:colorControlHighlight" tools:ignore="NewApi">@color/actionBarColor1</item> - цвет выделения карточки-->
+        <item name="android:statusBarColor" tools:ignore="NewApi">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus" tools:ignore="NewApi">true</item>
+    </style>
+
+    <style name="MyActionBar2" parent="Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:textColorPrimary">#ffff00b7</item>
+        <item name="android:background" tools:ignore="NewApi">@color/actionBarColor2</item>
+        <item name="background">@color/actionBarColor2</item>
+    </style>
+
+
+
+    <style name="AppTheme3" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:actionBarStyle" tools:ignore="NewApi">@style/MyActionBar3</item>
+        <item name="actionBarStyle">@style/MyActionBar3</item>
+        <item name="colorAccent" tools:ignore="NewApi">@color/accentColor3</item>
+        <item name="colorPrimary" tools:ignore="NewApi">@color/actionBarColor3</item>
+        <item name="colorPrimaryDark" tools:ignore="NewApi">@color/accentColor3</item>
+        <item name="android:colorControlNormal" tools:ignore="NewApi">?attr/colorPrimary</item>
+        <item name="android:colorEdgeEffect" tools:ignore="NewApi">@color/actionBarColor3</item>
+        <!--<item name="android:colorControlHighlight" tools:ignore="NewApi">@color/actionBarColor1</item> - цвет выделения карточки-->
+        <item name="android:statusBarColor" tools:ignore="NewApi">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus" tools:ignore="NewApi">true</item>
+    </style>
+
+    <style name="MyActionBar3" parent="Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:textColorPrimary">#ffff00b7</item>
+        <item name="android:background" tools:ignore="NewApi">@color/actionBarColor3</item>
+        <item name="background">@color/actionBarColor3</item>
+    </style>
+
+
+
+
+    <style name="AppTheme4" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:actionBarStyle" tools:ignore="NewApi">@style/MyActionBar4</item>
+        <item name="actionBarStyle">@style/MyActionBar4</item>
+        <item name="colorAccent" tools:ignore="NewApi">@color/accentColor4</item>
+        <item name="colorPrimary" tools:ignore="NewApi">@color/actionBarColor4</item>
+        <item name="colorPrimaryDark" tools:ignore="NewApi">@color/accentColor4</item>
+        <item name="android:colorControlNormal" tools:ignore="NewApi">?attr/colorPrimary</item>
+        <item name="android:colorEdgeEffect" tools:ignore="NewApi">@color/actionBarColor4</item>
+        <!--<item name="android:colorControlHighlight" tools:ignore="NewApi">@color/actionBarColor1</item> - цвет выделения карточки-->
+        <item name="android:statusBarColor" tools:ignore="NewApi">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus" tools:ignore="NewApi">true</item>
+    </style>
+
+    <style name="MyActionBar4" parent="Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:textColorPrimary">#ffff00b7</item>
+        <item name="android:background" tools:ignore="NewApi">@color/actionBarColor4</item>
+        <item name="background">@color/actionBarColor4</item>
+    </style>
+
+
+
+
+
+    <style name="menu_labels_style">
+        <item name="android:background">@drawable/fab_label_background</item>
+        <item name="android:textColor">#fafafa</item>
+    </style>
+</resources>
