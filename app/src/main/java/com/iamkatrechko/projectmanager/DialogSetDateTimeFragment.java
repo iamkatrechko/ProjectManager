@@ -49,6 +49,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import com.iamkatrechko.projectmanager.utils.DateUtils;
+
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -97,8 +99,8 @@ public class DialogSetDateTimeFragment extends DialogFragment {
         final CheckBox checkBoxTime = (CheckBox) view.findViewById(R.id.checkBoxTime);
 
         if (date.equals("null")){
-            editTextDate.setText(m.getTodayDate());
-            setBufDate(m.getTodayDate());
+            editTextDate.setText(DateUtils.getTodayDate());
+            setBufDate(DateUtils.getTodayDate());
         } else {
             editTextDate.setText(date);
             setBufDate(date);

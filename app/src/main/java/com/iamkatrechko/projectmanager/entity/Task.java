@@ -52,8 +52,8 @@ public class Task {
     public Task() {
         //Генерирование уникального идентификатора
         mID = UUID.randomUUID();
-        mTags = new ArrayList<UUID>();
-        mTasks = new ArrayList<Task>();
+        mTags = new ArrayList<>();
+        mTasks = new ArrayList<>();
         setIsDone(false);
         setIsNotify(false);
     }

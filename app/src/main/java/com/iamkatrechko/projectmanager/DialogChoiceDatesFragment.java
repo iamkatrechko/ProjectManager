@@ -42,6 +42,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 
+import com.iamkatrechko.projectmanager.utils.DateUtils;
+
 public class DialogChoiceDatesFragment extends DialogFragment {
     Methods m;
     String date;
@@ -83,10 +85,10 @@ public class DialogChoiceDatesFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int item) {
                 switch (item){
                     case 0:
-                        sendResult(m.getTodayDate(), "null");
+                        sendResult(DateUtils.getTodayDate(), "null");
                         break;
                     case 1:
-                        sendResult(m.getTomorrowDate(), "null");
+                        sendResult(DateUtils.getTomorrowDate(), "null");
                         break;
                     case 2:
                         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();

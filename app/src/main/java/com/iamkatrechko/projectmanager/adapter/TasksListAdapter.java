@@ -40,7 +40,7 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.View
     final private static int ADAPTER_ITEM_TYPE_TASK = 1;
     MyNotificationManager myNotificationManager;
     private Context mContext;
-    private List<Task> aTasks;
+    private List<Task> mTasks;
     /** Цвета для обозначения приоритетов */
     private String[] aColors;
     /** Слушатель нажатия на подпроект/задачу */
@@ -53,7 +53,7 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.View
     public TasksListAdapter(List<Task> tasks, Context context, UUID ID) {
         lab = ProjectLab.get(context);
         mId = ID;
-        aTasks = tasks;
+        mTasks = tasks;
         mContext = context;
         m = new Methods(mContext);
         aColors = context.getResources().getStringArray(R.array.priorities_colors);
@@ -69,22 +69,22 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.View
             return;
         }
 
-        lab.moveItem(lab.getParentIdOfTask(aTasks.get(fromPosition).getID()), fromPosition, toPosition);
+        lab.moveItem(lab.getParentIdOfTask(mTasks.get(fromPosition).getID()), fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
     }
 
     @Override
     public void onItemDismiss(int position) {
-        myNotificationManager.deleteNotification(aTasks.get(position).getID());
-        aTasks.remove(position);
+        myNotificationManager.deleteNotification(mTasks.get(position).getID());
+        mTasks.remove(position);
         notifyItemRemoved(position);
-        //notifyItemRangeChanged(position, aTasks.size());
+        //notifyItemRangeChanged(position, mTasks.size());
     }
 
     @Override
     public int getItemViewType(int position) {
         try {
-            if (aTasks.get(position).getType().equals(Task.TASK_TYPE_SUB_PROJECT)) {
+            if (mTasks.get(position).getType().equals(Task.TASK_TYPE_SUB_PROJECT)) {
                 return ADAPTER_ITEM_TYPE_SUB_PROJECT;
             } else {
                 return ADAPTER_ITEM_TYPE_TASK;
@@ -96,9 +96,9 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.View
     }
 
     public void setIsDone(int position) {
-        Log.d("setIsDone", String.valueOf(position) + " - " + aTasks.get(position).getTitle());
-        myNotificationManager.deleteNotification(aTasks.get(position).getID());
-        aTasks.get(position).setIsDone(true);
+        Log.d("setIsDone", String.valueOf(position) + " - " + mTasks.get(position).getTitle());
+        myNotificationManager.deleteNotification(mTasks.get(position).getID());
+        mTasks.get(position).setIsDone(true);
         notifyItemRemoved(position);
         notifyItemRangeInserted(position, 1);
         //notifyDataSetChanged();
@@ -121,7 +121,7 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.View
 
     @Override
     public void onBindViewHolder(final TasksListAdapter.ViewHolder vHolder, final int position) {
-        final Task task = aTasks.get(position);
+        final Task task = mTasks.get(position);
         vHolder._id = task.getID();
         vHolder.sType = task.getType();
 
@@ -172,7 +172,7 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.View
 
     @Override
     public int getItemCount() {
-        return aTasks.size();
+        return mTasks.size();
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {

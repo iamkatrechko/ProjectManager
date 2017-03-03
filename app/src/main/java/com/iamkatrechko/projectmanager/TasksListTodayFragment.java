@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.iamkatrechko.projectmanager.entity.Project;
 import com.iamkatrechko.projectmanager.entity.Task;
+import com.iamkatrechko.projectmanager.utils.DateUtils;
 
 import java.util.List;
 import java.util.UUID;
@@ -65,7 +66,7 @@ public class TasksListTodayFragment extends Fragment {
         recyclerView = (RecyclerView) v.findViewById(R.id.section_list);
         AddFloatingActionButton actionAdd = (AddFloatingActionButton) v.findViewById(R.id.action_add);
 
-        mTasksList = lab.getTodayTasksList(m.getTodayDate());
+        mTasksList = lab.getTodayTasksList(DateUtils.getTodayDate());
         needUpdate = false;                                                                         //Одноразовое отключение повторной загрузки при старте в onResume
 
         adapter = new TasksAdapter(mTasksList, getActivity());
@@ -110,7 +111,7 @@ public class TasksListTodayFragment extends Fragment {
 
         public void removeItem(int position) {
             lab.removeTaskByID(mTasks.get(position).getID());
-            mTasks = lab.getTodayTasksList(m.getTodayDate());
+            mTasks = lab.getTodayTasksList(DateUtils.getTodayDate());
             notifyDataSetChanged();
         }
 
@@ -217,7 +218,7 @@ public class TasksListTodayFragment extends Fragment {
     //Полная перезагрузка списка задач со сменой дат и прочее
     private void fullUpdateList(){
         if (needUpdate){
-            mTasksList = lab.getTodayTasksList(m.getTodayDate());
+            mTasksList = lab.getTodayTasksList(DateUtils.getTodayDate());
             adapter = new TasksAdapter(mTasksList, getActivity());
 
             recyclerView.setAdapter(adapter);
