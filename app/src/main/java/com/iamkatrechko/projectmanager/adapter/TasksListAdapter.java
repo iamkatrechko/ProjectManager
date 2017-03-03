@@ -38,7 +38,7 @@ import java.util.UUID;
 public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.ViewHolder> implements ItemTouchHelperAdapter {
     final private static int ADAPTER_ITEM_TYPE_SUB_PROJECT = 0;
     final private static int ADAPTER_ITEM_TYPE_TASK = 1;
-    MyNotificationManager myNotificationManager;
+    private MyNotificationManager myNotificationManager;
     private Context mContext;
     private List<Task> mTasks;
     /** Цвета для обозначения приоритетов */
@@ -47,8 +47,8 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.View
     private OnItemClickListener mItemClickListener;
     private ProjectLab lab;
     private Paint p = new Paint();
-    UUID mId;
-    Methods m;
+    private UUID mId;
+    private Methods m;
 
     public TasksListAdapter(List<Task> tasks, Context context, UUID ID) {
         lab = ProjectLab.get(context);
@@ -141,32 +141,32 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.View
     @Override
     public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
         //Полоса приоритета скрыта => подпроект => запретить свайп
-        if (viewHolder.itemView.findViewById(R.id.priority_color).getVisibility() == View.GONE) {
+        boolean isSubProject = viewHolder.getItemViewType() == ADAPTER_ITEM_TYPE_SUB_PROJECT;
+        if (isSubProject) {
             return;
         }
 
-        Bitmap icon;
         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-
+            Bitmap icon;
             View itemView = viewHolder.itemView;
             float height = (float) itemView.getBottom() - (float) itemView.getTop();
             float width = height / 3;
 
+            RectF icon_dest;
             if (dX > 0) {
                 p.setColor(mContext.getResources().getColor(R.color.swipe_color_right));
                 RectF background = new RectF((float) itemView.getLeft(), (float) itemView.getTop(), dX, (float) itemView.getBottom());
                 c.drawRect(background, p);
                 icon = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_delete);
-                RectF icon_dest = new RectF((float) itemView.getLeft() + width, (float) itemView.getTop() + width, (float) itemView.getLeft() + 2 * width, (float) itemView.getBottom() - width);
-                c.drawBitmap(icon, null, icon_dest, p);
+                icon_dest = new RectF((float) itemView.getLeft() + width, (float) itemView.getTop() + width, (float) itemView.getLeft() + 2 * width, (float) itemView.getBottom() - width);
             } else {
                 p.setColor(mContext.getResources().getColor(R.color.swipe_color_left));
                 RectF background = new RectF((float) itemView.getRight() + dX, (float) itemView.getTop(), (float) itemView.getRight(), (float) itemView.getBottom());
                 c.drawRect(background, p);
                 icon = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_done);
-                RectF icon_dest = new RectF((float) itemView.getRight() - 2 * width, (float) itemView.getTop() + width, (float) itemView.getRight() - width, (float) itemView.getBottom() - width);
-                c.drawBitmap(icon, null, icon_dest, p);
+                icon_dest = new RectF((float) itemView.getRight() - 2 * width, (float) itemView.getTop() + width, (float) itemView.getRight() - width, (float) itemView.getBottom() - width);
             }
+            c.drawBitmap(icon, null, icon_dest, p);
         }
     }
 
@@ -221,12 +221,6 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.View
                     }
                 }
             });
-
-                /*itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                    }
-                });*/
         }
 
         @Override

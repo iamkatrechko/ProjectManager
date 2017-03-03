@@ -39,13 +39,11 @@ public class TasksListOfWeekFragment extends Fragment {
 
     boolean needUpdate = true;                                                                      //Требуется ли полностью обновить (обработать) список задач
     RecyclerView recyclerView;
-    private Paint p = new Paint();
 
     UUID ID;
 
     public static TasksListOfWeekFragment newInstance() {
-        TasksListOfWeekFragment fragment = new TasksListOfWeekFragment();
-        return fragment;
+        return new TasksListOfWeekFragment();
     }
 
     @Override
@@ -54,7 +52,6 @@ public class TasksListOfWeekFragment extends Fragment {
         setHasOptionsMenu(true);
         setRetainInstance(true);
         m = new Methods(getActivity());
-
         lab = ProjectLab.get(getActivity());
     }
 
@@ -99,7 +96,7 @@ public class TasksListOfWeekFragment extends Fragment {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public static class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> {
-        public static Context mContext;
+        private Context mContext;
         private List<Task> mTasks;
         private String[] colors;
 
@@ -232,6 +229,7 @@ public class TasksListOfWeekFragment extends Fragment {
 
     private void initSwipe(){
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT/* | ItemTouchHelper.RIGHT*/) {
+            private Paint p = new Paint();
 
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
