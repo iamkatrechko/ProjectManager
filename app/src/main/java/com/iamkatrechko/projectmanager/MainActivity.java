@@ -14,6 +14,9 @@ import android.util.TypedValue;
 import android.view.*;
 import android.widget.*;
 
+import com.iamkatrechko.projectmanager.entity.Project;
+import com.iamkatrechko.projectmanager.entity.Tag;
+
 import java.util.ArrayList;
 import java.util.UUID;
 

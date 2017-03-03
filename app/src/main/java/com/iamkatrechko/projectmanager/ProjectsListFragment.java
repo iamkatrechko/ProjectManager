@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
+import com.iamkatrechko.projectmanager.entity.Project;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +59,7 @@ public class ProjectsListFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ProjectEditActivity.class);
-                intent.putExtra("ID", "0");
+                intent.putExtra("mId", "0");
                 intent.putExtra("Operation", "add");
                 startActivity(intent);
             }
@@ -99,7 +100,7 @@ public class ProjectsListFragment extends Fragment{
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(mContext, ProjectEditActivity.class);
-                        intent.putExtra("ID", _id.toString());
+                        intent.putExtra("mId", _id.toString());
                         intent.putExtra("Operation", "edit");
                         mContext.startActivity(intent);
                     }
@@ -108,7 +109,7 @@ public class ProjectsListFragment extends Fragment{
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(mContext, ProjectEditActivity.class);
-                        intent.putExtra("ID", _id.toString());
+                        intent.putExtra("mId", _id.toString());
                         intent.putExtra("Operation", "edit");
                         mContext.startActivity(intent);
                     }

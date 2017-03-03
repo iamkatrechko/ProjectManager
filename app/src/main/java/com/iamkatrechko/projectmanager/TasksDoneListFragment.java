@@ -1,7 +1,6 @@
 package com.iamkatrechko.projectmanager;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.iamkatrechko.projectmanager.entity.Task;
 
 import java.util.List;
 import java.util.UUID;
@@ -36,7 +37,7 @@ public class TasksDoneListFragment extends Fragment{
         TasksDoneListFragment fragment = new TasksDoneListFragment();
         Bundle args = new Bundle();
 
-        args.putString("ID", ID.toString());
+        args.putString("mId", ID.toString());
 
         fragment.setArguments(args);
         return fragment;
@@ -48,7 +49,7 @@ public class TasksDoneListFragment extends Fragment{
         setHasOptionsMenu(true);
         setRetainInstance(true);
 
-        ID = UUID.fromString(getArguments().getString("ID"));
+        ID = UUID.fromString(getArguments().getString("mId"));
 
         lab = ProjectLab.get(getActivity());
     }
@@ -73,7 +74,7 @@ public class TasksDoneListFragment extends Fragment{
     @Override
     public void onResume() {
         super.onResume();
-        /*mTasksList = lab.getTasksListOnAllLevel(ID);
+        /*mTasksList = lab.getTasksListOnAllLevel(mId);
         adapter = new TasksAdapter(mTasksList, getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));*/

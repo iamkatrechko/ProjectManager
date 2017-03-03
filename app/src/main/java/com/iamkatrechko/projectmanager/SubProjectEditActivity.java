@@ -24,7 +24,7 @@ public class SubProjectEditActivity extends AppCompatActivity {
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         a = getSupportActionBar();
 
-        String ID = getIntent().getStringExtra("ID");
+        String ID = getIntent().getStringExtra("mId");
         String operation = getIntent().getStringExtra("Operation");
         String parentID = getIntent().getStringExtra("parent_ID");
 

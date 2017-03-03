@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.iamkatrechko.projectmanager.entity.Task;
+
 import java.util.UUID;
 
 /**
@@ -27,7 +29,7 @@ public class SubProjectEditFragment extends Fragment implements View.OnClickList
         SubProjectEditFragment fragment = new SubProjectEditFragment();
         Bundle args = new Bundle();
 
-        args.putString("ID", ID);
+        args.putString("mId", ID);
         args.putString("Operation", operation);
         args.putString("parentID", parentID);
 
@@ -40,9 +42,9 @@ public class SubProjectEditFragment extends Fragment implements View.OnClickList
         super.onCreate(savedInstanceState);
         lab = ProjectLab.get(getActivity());
 
-        String checkID = getArguments().getString("ID");
+        String checkID = getArguments().getString("mId");
         if (!checkID.equals("0")) {
-            ID = UUID.fromString(getArguments().getString("ID"));
+            ID = UUID.fromString(getArguments().getString("mId"));
         }
         Operation = getArguments().getString("Operation");
     }

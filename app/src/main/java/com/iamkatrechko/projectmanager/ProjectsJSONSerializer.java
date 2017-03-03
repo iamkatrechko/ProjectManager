@@ -3,6 +3,8 @@ package com.iamkatrechko.projectmanager;
 import android.content.Context;
 import android.util.Log;
 
+import com.iamkatrechko.projectmanager.entity.Project;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONTokener;

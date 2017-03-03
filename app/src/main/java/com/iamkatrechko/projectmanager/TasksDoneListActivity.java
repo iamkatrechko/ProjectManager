@@ -26,7 +26,7 @@ public class TasksDoneListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         a = getSupportActionBar();
 
-        UUID ID = UUID.fromString(getIntent().getStringExtra("ID"));
+        UUID ID = UUID.fromString(getIntent().getStringExtra("mId"));
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

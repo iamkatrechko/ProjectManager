@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.iamkatrechko.projectmanager.entity.Project;
+
 import java.util.Random;
 import java.util.UUID;
 
@@ -31,7 +33,7 @@ public class ProjectEditFragment extends Fragment implements View.OnClickListene
         ProjectEditFragment fragment = new ProjectEditFragment();
         Bundle args = new Bundle();
 
-        args.putString("ID", ID);
+        args.putString("mId", ID);
         args.putString("Operation", operation);
 
         fragment.setArguments(args);
@@ -43,9 +45,9 @@ public class ProjectEditFragment extends Fragment implements View.OnClickListene
         super.onCreate(savedInstanceState);
         lab = ProjectLab.get(getActivity());
 
-        String checkID = getArguments().getString("ID");
+        String checkID = getArguments().getString("mId");
         if (!checkID.equals("0")) {
-            ID = UUID.fromString(getArguments().getString("ID"));
+            ID = UUID.fromString(getArguments().getString("mId"));
         }
         Operation = getArguments().getString("Operation");
     }

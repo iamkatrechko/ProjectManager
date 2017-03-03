@@ -22,7 +22,7 @@ public class TagEditActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        String ID = getIntent().getStringExtra("ID");
+        String ID = getIntent().getStringExtra("mId");
         String operation = getIntent().getStringExtra("Operation");
         //String parentID = getIntent().getStringExtra("parent_ID");
 

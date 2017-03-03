@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.iamkatrechko.projectmanager.entity.Task;
+
 import java.util.UUID;
 
 /**
@@ -25,7 +27,7 @@ public class TasksListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         a = getSupportActionBar();
 
-        UUID ID = UUID.fromString(getIntent().getStringExtra("ID"));
+        UUID ID = UUID.fromString(getIntent().getStringExtra("mId"));
         String Type = getIntent().getStringExtra("Type");
 
         if (Type.equals(Task.TASK_TYPE_SUB_PROJECT)){

@@ -22,6 +22,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
+import com.iamkatrechko.projectmanager.entity.Project;
+import com.iamkatrechko.projectmanager.entity.Task;
 
 import java.util.List;
 import java.util.UUID;
@@ -78,7 +80,7 @@ public class TasksListTodayFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), TaskEditActivity.class);
-                intent.putExtra("ID", "0");
+                intent.putExtra("mId", "0");
                 intent.putExtra("parent_ID", lab.getProjects().get(0).getID().toString());
                 intent.putExtra("Operation", "add");
                 startActivity(intent);
@@ -181,7 +183,7 @@ public class TasksListTodayFragment extends Fragment {
                             return;
                         }
                         Intent intent = new Intent(mContext, TaskEditActivity.class);
-                        intent.putExtra("ID", _id.toString());
+                        intent.putExtra("mId", _id.toString());
                         intent.putExtra("Operation", "edit");
                         intent.putExtra("parent_ID", "0");
                         mContext.startActivity(intent);
@@ -196,7 +198,7 @@ public class TasksListTodayFragment extends Fragment {
                             return;
                         }
                         Intent intent = new Intent(mContext, TaskEditActivity.class);
-                        intent.putExtra("ID", _id.toString());
+                        intent.putExtra("mId", _id.toString());
                         intent.putExtra("Operation", "edit");
                         intent.putExtra("parent_ID", "0");
                         mContext.startActivity(intent);

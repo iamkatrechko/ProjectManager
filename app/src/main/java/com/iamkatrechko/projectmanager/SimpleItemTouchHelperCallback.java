@@ -6,11 +6,13 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.iamkatrechko.projectmanager.adapter.TasksListAdapter;
+
 public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
-    private final TasksListFragment.TasksAdapter mAdapter;
+    private final TasksListAdapter mAdapter;
 
-    public SimpleItemTouchHelperCallback(TasksListFragment.TasksAdapter adapter) {
+    public SimpleItemTouchHelperCallback(TasksListAdapter adapter) {
         mAdapter = adapter;
     }
 

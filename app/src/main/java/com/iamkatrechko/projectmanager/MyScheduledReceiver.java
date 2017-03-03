@@ -6,9 +6,10 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+
+import com.iamkatrechko.projectmanager.entity.Task;
 
 import java.util.UUID;
 
@@ -39,7 +40,7 @@ public class MyScheduledReceiver extends BroadcastReceiver {
     }
 
     private void showNotification(Context context, Intent intent){
-        UUID id = UUID.fromString(intent.getStringExtra("ID"));
+        UUID id = UUID.fromString(intent.getStringExtra("mId"));
         //Task task = lab.getTaskOnAllLevel(id);
         Task task = new Task();
         task.setTitle("Задача");
@@ -63,7 +64,7 @@ public class MyScheduledReceiver extends BroadcastReceiver {
 
 
         Intent intentSetDone = new Intent(context, MyScheduledReceiver.class);
-        intentSetDone.putExtra("ID", String.valueOf(id));
+        intentSetDone.putExtra("mId", String.valueOf(id));
         intentSetDone.setAction(ACTION_RECEIVER_SET_DONE);
         PendingIntent pIntentSetDone = PendingIntent.getBroadcast(context, id.hashCode(), intentSetDone, PendingIntent.FLAG_ONE_SHOT);
 
@@ -93,7 +94,7 @@ public class MyScheduledReceiver extends BroadcastReceiver {
 
     private void setDone(Context context, Intent intent){
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        UUID id = UUID.fromString(intent.getStringExtra("ID"));
+        UUID id = UUID.fromString(intent.getStringExtra("mId"));
         nm.cancel(id.hashCode());
         Task task = lab.getTaskOnAllLevel(id);
         if (task != null){

@@ -2,7 +2,10 @@ package com.iamkatrechko.projectmanager;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
+
+import com.iamkatrechko.projectmanager.entity.Project;
+import com.iamkatrechko.projectmanager.entity.Tag;
+import com.iamkatrechko.projectmanager.entity.Task;
 
 import org.json.JSONException;
 
@@ -69,7 +72,7 @@ public class ProjectLab {
     /**
      * Возвращает {@link Project}
      * из списка всех проектов
-     * @param id ID искомого проекта
+     * @param id mId искомого проекта
      * @return Проект
      */
     public Project getProject(UUID id) {
@@ -83,7 +86,7 @@ public class ProjectLab {
     /**
      * Возвращает {@link Task}, находящийся
      * на любой глубине проекта
-     * @param id ID искомого подпроекта/задачи
+     * @param id mId искомого подпроекта/задачи
      * @return Подпроект/задача
      */
     public Task getTaskOnAllLevel(UUID id){
@@ -126,7 +129,7 @@ public class ProjectLab {
 
     /**
      * Возвращает уровень (глубину) проекта/подпроекта/задачи
-     * @param id ID проекта/подпроекта/задачи
+     * @param id mId проекта/подпроекта/задачи
      * @return Уровень (0 - 4)
      */
     public int getLevelOfParent(UUID id){
@@ -159,7 +162,7 @@ public class ProjectLab {
 
     /**
      * Возвращает список {@link Task} проекта/подпроекта
-     * @param parentID ID родителя (проекта/подпроекта)
+     * @param parentID mId родителя (проекта/подпроекта)
      * @return Список задач
      */
     public List<Task> getTasksListOnAllLevel(UUID parentID){
@@ -192,7 +195,7 @@ public class ProjectLab {
     /**
      * Возвращает позицию последнего подпроекта в списке задач/подпроектов
      * для вставки созданного подпроекта перед задачами
-     * @param parentID ID родителя (проекта/подпроекта)
+     * @param parentID mId родителя (проекта/подпроекта)
      * @return Позиция в списке
      */
     public int getLastTaskIndex(UUID parentID){
@@ -337,7 +340,7 @@ public class ProjectLab {
 
     /**
      * Возвращает {@link Project}, в котором находится входная задача
-     * @param id ID задачи
+     * @param id mId задачи
      * @return Проект
      */
     public Project getProjectOfTask(UUID id){
@@ -368,8 +371,8 @@ public class ProjectLab {
     }
 
     /**
-     * Полностью удаляет {@link Task} по его ID
-     * @param id ID задачи для удаления
+     * Полностью удаляет {@link Task} по его mId
+     * @param id mId задачи для удаления
      */
     public void removeTaskByID(UUID id){
         for (Project p : mProjects) {
@@ -402,7 +405,7 @@ public class ProjectLab {
     /**
      * Перемещает {@link Task} на выбранную позицию,
      * сдвигая остальные вверх/вниз
-     * @param parentID ID проекта/подпроекта перемещаемой задачи
+     * @param parentID mId проекта/подпроекта перемещаемой задачи
      */
     public void moveItem(UUID parentID, int fromPosition, int toPosition){
         List<Task> list = getTasksListOnAllLevel(parentID);
@@ -422,10 +425,10 @@ public class ProjectLab {
     }
 
     /**
-     * Возвращает ID родительского элемента
-     * @param id ID подпроекта/задачи, родителя которого
+     * Возвращает mId родительского элемента
+     * @param id mId подпроекта/задачи, родителя которого
      *           требуется найти
-     * @return ID родителя
+     * @return mId родителя
      */
     public UUID getParentIdOfTask(UUID id){
         for (Project p : mProjects) {
@@ -455,7 +458,7 @@ public class ProjectLab {
 
     /**
      * Возвращает путь к проекту/подпроекту, включая его имя
-     * @param id ID проекта/подпроекта
+     * @param id mId проекта/подпроекта
      * @return Путь к проекту/подпроекту
      */
     public String getHistory(UUID id){

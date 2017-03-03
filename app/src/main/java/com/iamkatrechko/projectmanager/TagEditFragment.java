@@ -7,9 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
 
-import java.util.Random;
+import com.iamkatrechko.projectmanager.entity.Tag;
+
 import java.util.UUID;
 
 /**
@@ -26,7 +26,7 @@ public class TagEditFragment extends Fragment implements View.OnClickListener {
         TagEditFragment fragment = new TagEditFragment();
 
         Bundle args = new Bundle();
-        args.putString("ID", ID);
+        args.putString("mId", ID);
         args.putString("Operation", operation);
         fragment.setArguments(args);
         return fragment;
@@ -37,7 +37,7 @@ public class TagEditFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         lab = ProjectLab.get(getActivity());
 
-        String checkID = getArguments().getString("ID");
+        String checkID = getArguments().getString("mId");
         if (!checkID.equals("0")) {
             ID = UUID.fromString(checkID);
         }

@@ -5,7 +5,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
+
+import com.iamkatrechko.projectmanager.entity.Task;
 
 import java.util.Calendar;
 import java.util.UUID;
@@ -25,7 +26,7 @@ public class MyNotificationManager {
 
     /**
      * Установка напоминания для заданной задачи
-     * @param id ID задачи для установки
+     * @param id mId задачи для установки
      */
     public void addNotification(UUID id){
         Task task = lab.getTaskOnAllLevel(id);
@@ -43,7 +44,7 @@ public class MyNotificationManager {
         }
 
         Intent intent = new Intent(mContext, MyScheduledReceiver.class);
-        intent.putExtra("ID", String.valueOf(id));
+        intent.putExtra("mId", String.valueOf(id));
         intent.setAction(MyScheduledReceiver.ACTION_RECEIVER_SHOW_MESSAGE);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, generateRequestCode(id), intent, PendingIntent.FLAG_ONE_SHOT);
 
@@ -54,13 +55,13 @@ public class MyNotificationManager {
 
     /**
      * Удаляет напоминание для заданной задачи
-     * @param id ID задачи для удаления
+     * @param id mId задачи для удаления
      */
     public void deleteNotification(UUID id){
         Log.d("MyNotificationManager", "Удаление напоминания - " + lab.getTaskOnAllLevel(id).getTitle());
 
         Intent intent = new Intent(mContext, MyScheduledReceiver.class);
-        intent.putExtra("ID", String.valueOf(id));
+        intent.putExtra("mId", String.valueOf(id));
         intent.setAction(MyScheduledReceiver.ACTION_RECEIVER_SHOW_MESSAGE);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, generateRequestCode(id), intent, PendingIntent.FLAG_ONE_SHOT);
 

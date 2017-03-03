@@ -18,8 +18,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.iamkatrechko.projectmanager.entity.Task;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.UUID;
 
 /**
@@ -65,7 +66,7 @@ public class TaskEditFragment extends Fragment implements View.OnClickListener{
         TaskEditFragment fragment = new TaskEditFragment();
 
         Bundle args = new Bundle();
-        args.putString("ID", ID);
+        args.putString("mId", ID);
         args.putString("Operation", operation);
         args.putString("parentID", parentID);
         fragment.setArguments(args);
@@ -99,9 +100,9 @@ public class TaskEditFragment extends Fragment implements View.OnClickListener{
         m = new Methods(getActivity());
         myNotificationManager = new MyNotificationManager(getActivity());
 
-        String checkID = getArguments().getString("ID");
+        String checkID = getArguments().getString("mId");
         if (!checkID.equals("0")) {
-            ID = UUID.fromString(getArguments().getString("ID"));
+            ID = UUID.fromString(getArguments().getString("mId"));
         }
         Operation = getArguments().getString("Operation");
     }

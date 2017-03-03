@@ -1,4 +1,4 @@
-package com.iamkatrechko.projectmanager;
+package com.iamkatrechko.projectmanager.entity;
 
 import java.util.UUID;
 

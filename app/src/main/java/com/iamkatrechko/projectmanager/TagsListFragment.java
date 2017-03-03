@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
+import com.iamkatrechko.projectmanager.entity.Tag;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -52,7 +53,7 @@ public class TagsListFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), TagEditActivity.class);
-                intent.putExtra("ID", "0");
+                intent.putExtra("mId", "0");
                 intent.putExtra("Operation", "add");
                 startActivity(intent);
             }
@@ -123,7 +124,7 @@ public class TagsListFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(mContext, TagEditActivity.class);
-                        intent.putExtra("ID", _id.toString());
+                        intent.putExtra("mId", _id.toString());
                         intent.putExtra("Operation", "edit");
                         mContext.startActivity(intent);
                     }

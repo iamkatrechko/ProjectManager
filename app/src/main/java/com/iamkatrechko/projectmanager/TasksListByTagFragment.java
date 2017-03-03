@@ -22,6 +22,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.iamkatrechko.projectmanager.entity.Task;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -108,7 +110,7 @@ public class TasksListByTagFragment extends Fragment {
             if (fromPosition == toPosition){
                 return;
             }
-            //if (toPosition < lab.getLastTaskIndex(ID)){
+            //if (toPosition < lab.getLastTaskIndex(mId)){
             //    return;
             //}
 
@@ -235,7 +237,7 @@ public class TasksListByTagFragment extends Fragment {
                         public void onClick(View view) {
                             //Не отрабатывается нажатие
                             Intent intent = new Intent(aContext, SubProjectEditActivity.class);
-                            intent.putExtra("ID", _id.toString());
+                            intent.putExtra("mId", _id.toString());
                             intent.putExtra("Operation", "edit");
                             intent.putExtra("parent_ID", "0");
                             aContext.startActivity(intent);
@@ -253,13 +255,13 @@ public class TasksListByTagFragment extends Fragment {
                     public void onClick(View v) {
                         if (sType.equals(Task.TASK_TYPE_SUB_PROJECT)) {                             //Если нажата "Задача" -> переходим дальше
                             Intent intent = new Intent(aContext, TasksListActivity.class);
-                            intent.putExtra("ID", _id.toString());
+                            intent.putExtra("mId", _id.toString());
                             intent.putExtra("Type", sType);
                             aContext.startActivity(intent);
                             getActivity().overridePendingTransition(R.anim.act_slide_left_in, R.anim.act_slide_left_out);
                         } else {                                                                    //Если нажата "Подзадача" -> редактируем
                             Intent intent = new Intent(aContext, TaskEditActivity.class);
-                            intent.putExtra("ID", _id.toString());
+                            intent.putExtra("mId", _id.toString());
                             intent.putExtra("Operation", "edit");
                             intent.putExtra("parent_ID", "0");
                             aContext.startActivity(intent);
