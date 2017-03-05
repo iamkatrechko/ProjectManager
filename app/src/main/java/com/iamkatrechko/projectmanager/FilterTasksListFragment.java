@@ -34,7 +34,7 @@ import java.util.UUID;
 /**
  * Created by Muxa on 25.02.2016.
  */
-public class FilterTasksListFragment extends Fragment{
+public class FilterTasksListFragment extends Fragment {
     static Methods m;
     MyNotificationManager myNotificationManager;
 
@@ -83,7 +83,7 @@ public class FilterTasksListFragment extends Fragment{
         fMenu.setVisibility(View.GONE);
 
         v.findViewById(R.id.textViewHistory).setVisibility(View.GONE);
-        switch (filterType){
+        switch (filterType) {
             case 0:
                 mTasksList = lab.getAllTasks();
                 break;
@@ -167,7 +167,7 @@ public class FilterTasksListFragment extends Fragment{
 
         @Override
         public void onItemMove(int fromPosition, int toPosition) {
-            if (fromPosition == toPosition){
+            if (fromPosition == toPosition) {
                 return;
             }
             //if (toPosition < lab.getLastTaskIndex(mId)){
@@ -189,18 +189,18 @@ public class FilterTasksListFragment extends Fragment{
         @Override
         public int getItemViewType(int position) {
             try {
-                if (aTasks.get(position).getType().equals(Task.TASK_TYPE_SUB_PROJECT)){
+                if (aTasks.get(position).getType().equals(Task.TASK_TYPE_SUB_PROJECT)) {
                     return ADAPTER_ITEM_TYPE_SUB_PROJECT;
-                }else{
+                } else {
                     return ADAPTER_ITEM_TYPE_TASK;
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 Log.d("TasksListFragment", e.getLocalizedMessage());
             }
             return 0;
         }
 
-        public void setIsDone(int position){
+        public void setIsDone(int position) {
             Log.d("setIsDone", String.valueOf(position) + " - " + aTasks.get(position).getTitle());
             myNotificationManager.deleteNotification(aTasks.get(position).getID());
             aTasks.get(position).setIsDone(true);
@@ -215,9 +215,9 @@ public class FilterTasksListFragment extends Fragment{
             LayoutInflater inflater = LayoutInflater.from(context);
 
             View recyclerView;
-            if (viewType == ADAPTER_ITEM_TYPE_SUB_PROJECT){
+            if (viewType == ADAPTER_ITEM_TYPE_SUB_PROJECT) {
                 recyclerView = inflater.inflate(R.layout.recycler_task_item_poject, parent, false);
-            }else {
+            } else {
                 recyclerView = inflater.inflate(R.layout.recycler_task_item, parent, false);
             }
 
@@ -247,48 +247,49 @@ public class FilterTasksListFragment extends Fragment{
         public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
 
             //Полоса приоритета скрыта => подпроект => запретить свайп
-            if (viewHolder.itemView.findViewById(R.id.priority_color).getVisibility() == View.GONE){
+            if (viewHolder.itemView.findViewById(R.id.priority_color).getVisibility() == View.GONE) {
                 return;
             }
 
             Bitmap icon;
-            if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE){
+            if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
 
                 View itemView = viewHolder.itemView;
                 float height = (float) itemView.getBottom() - (float) itemView.getTop();
                 float width = height / 3;
 
-                if(dX > 0){
+                if (dX > 0) {
                     p.setColor(getResources().getColor(R.color.swipe_to_delete_color));
                     RectF background = new RectF((float) itemView.getLeft(), (float) itemView.getTop(), dX, (float) itemView.getBottom());
                     c.drawRect(background, p);
                     icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_done);
-                    RectF icon_dest = new RectF((float) itemView.getLeft() + width, (float) itemView.getTop() + width, (float) itemView.getLeft()+ 2 * width, (float) itemView.getBottom() - width);
+                    RectF icon_dest = new RectF((float) itemView.getLeft() + width, (float) itemView.getTop() + width, (float) itemView.getLeft() + 2 * width, (float) itemView.getBottom() - width);
                     c.drawBitmap(icon, null, icon_dest, p);
                 } else {
                     p.setColor(getResources().getColor(R.color.swipe_to_set_done_color));
                     RectF background = new RectF((float) itemView.getRight() + dX, (float) itemView.getTop(), (float) itemView.getRight(), (float) itemView.getBottom());
                     c.drawRect(background, p);
                     icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_delete);
-                    RectF icon_dest = new RectF((float) itemView.getRight() - 2 * width, (float) itemView.getTop() + width,(float) itemView.getRight() - width, (float) itemView.getBottom() - width);
+                    RectF icon_dest = new RectF((float) itemView.getRight() - 2 * width, (float) itemView.getTop() + width, (float) itemView.getRight() - width, (float) itemView.getBottom() - width);
                     c.drawBitmap(icon, null, icon_dest, p);
                 }
             }
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder{
+        public class ViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
             public UUID _id;
             public String sType;
             public TextView tvTitle;
             public TextView tvDescription;
             public ImageView ivImage;
             public ImageView ivImageRemind;
-            public FrameLayout flPriority;                                                          //Полоса с цветом приоритета
+            /** Полоса с цветом приоритета */
+            public FrameLayout flPriority;
 
             public ViewHolder(final View itemView) {
                 super(itemView);
 
-                if (getItemViewType() == ADAPTER_ITEM_TYPE_SUB_PROJECT){
+                if (getItemViewType() == ADAPTER_ITEM_TYPE_SUB_PROJECT) {
                     tvTitle = (TextView) itemView.findViewById(R.id.title);
                     tvDescription = (TextView) itemView.findViewById(R.id.description);
                     ivImage = (ImageView) itemView.findViewById(R.id.imageView2);
@@ -303,7 +304,7 @@ public class FilterTasksListFragment extends Fragment{
                             aContext.startActivity(intent);
                         }
                     });
-                }else {
+                } else {
                     tvTitle = (TextView) itemView.findViewById(R.id.title);
                     tvDescription = (TextView) itemView.findViewById(R.id.description);
                     flPriority = (FrameLayout) itemView.findViewById(R.id.priority_color);

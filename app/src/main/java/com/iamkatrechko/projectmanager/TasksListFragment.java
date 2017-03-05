@@ -104,11 +104,12 @@ public class TasksListFragment extends Fragment {
 
         adapter = new TasksListAdapter(getActivity(), ID, true, true,
                 getResources().getColor(R.color.swipe_to_set_done_color),
-                getResources().getColor(R.color.swipe_to_delete_color));
+                getResources().getColor(R.color.swipe_to_delete_color),
+                R.drawable.ic_done, R.drawable.ic_delete, false);
 
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClicker(String type, UUID id) {
+            public void onItemClick(String type, UUID id) {
                 if (type.equals(Task.TASK_TYPE_SUB_PROJECT)) {
                     //Если нажата "Задача" -> переходим дальше
                     Intent intent = new Intent(getActivity(), TasksListActivity.class);
@@ -125,6 +126,25 @@ public class TasksListFragment extends Fragment {
                     startActivity(intent);
                     getActivity().overridePendingTransition(R.anim.act_slide_down_in, R.anim.act_slide_down_out);
                 }
+            }
+        });
+        adapter.setOnSwipedListener(new SimpleItemTouchHelperCallback.OnItemSwipeListener() {
+            @Override
+            public void onItemLeftSwipe(int position) {
+                //Log.d("setIsDone", String.valueOf(position) + " - " + mTasks.get(position).getTitle());
+                //myNotificationManager.deleteNotification(mTasks.get(position).getID());
+                mTasksList.get(position).setIsDone(true);
+                adapter.notifyItemRemoved(position);
+                adapter.notifyItemRangeInserted(position, 1);
+                //notifyDataSetChanged();
+            }
+
+            @Override
+            public void onItemRightSwipe(int position) {
+                //myNotificationManager.deleteNotification(mTasks.get(position).getID());
+                mTasksList.remove(position);
+                adapter.notifyItemRemoved(position);
+                //notifyItemRangeChanged(position, mTasks.size());
             }
         });
         mTasksListRecyclerView.setHasFixedSize(true);

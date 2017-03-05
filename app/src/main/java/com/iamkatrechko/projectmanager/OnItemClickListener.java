@@ -7,5 +7,5 @@ import java.util.UUID;
  */
 public interface OnItemClickListener {
 
-    void onItemClicker(String type, UUID id);
+    void onItemClick(String type, UUID id);
 }

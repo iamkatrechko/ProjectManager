@@ -2,9 +2,9 @@ package com.iamkatrechko.projectmanager.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -16,7 +16,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.iamkatrechko.projectmanager.ItemTouchHelperAdapter;
 import com.iamkatrechko.projectmanager.ItemTouchHelperViewHolder;
 import com.iamkatrechko.projectmanager.Methods;
 import com.iamkatrechko.projectmanager.MyNotificationManager;
@@ -24,6 +23,7 @@ import com.iamkatrechko.projectmanager.OnItemClickListener;
 import com.iamkatrechko.projectmanager.ProjectLab;
 import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.SimpleItemTouchHelperCallback;
+import com.iamkatrechko.projectmanager.SimpleItemTouchHelperCallback.*;
 import com.iamkatrechko.projectmanager.SubProjectEditActivity;
 import com.iamkatrechko.projectmanager.entity.Task;
 
@@ -33,7 +33,10 @@ import java.util.UUID;
 /**
  * Created by Muxa on 03.03.2017.
  */
-public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.ViewHolder> implements ItemTouchHelperAdapter {
+public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.ViewHolder> implements OnItemMoveAndSwipeListener {
+
+    enum ViewTypes {VIEW_TYPE_TASK, VIEW_TYPE_PROJECT, VIEW_TYPE_DATE_LABEL}
+
     final public static int ADAPTER_ITEM_TYPE_SUB_PROJECT = 0;
     final public static int ADAPTER_ITEM_TYPE_TASK = 1;
     private MyNotificationManager myNotificationManager;
@@ -43,20 +46,26 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.View
     private String[] aColors;
     /** Слушатель нажатия на подпроект/задачу */
     private OnItemClickListener mItemClickListener;
+    /** Слушатель свайпа элементов списка влево/вправо */
+    private OnItemSwipeListener mItemSwipeListener;
     private ProjectLab lab;
     private UUID mId;
     private Methods m;
     private SimpleItemTouchHelperCallback callback;
 
     public TasksListAdapter(Context context, UUID ID, boolean swipeToLeft, boolean swipeToRight,
-                            @ColorInt int swipeToLeftColor, @ColorInt int swipeToRightColor) {
+                            @ColorInt int swipeToLeftColor, @ColorInt int swipeToRightColor,
+                            @DrawableRes int swipeToLeftIcon, @DrawableRes int swipeToRightIcon,
+                            boolean dragItem) {
         mContext = context;
         lab = ProjectLab.get(context);
         mId = ID;
         m = new Methods(mContext);
         aColors = context.getResources().getStringArray(R.array.priorities_colors);
         myNotificationManager = new MyNotificationManager(context);
-        callback = new SimpleItemTouchHelperCallback(mContext, this, swipeToLeft, swipeToRight, swipeToLeftColor, swipeToRightColor);
+        callback = new SimpleItemTouchHelperCallback(mContext, this, swipeToLeft, swipeToRight,
+                swipeToLeftColor, swipeToRightColor,
+                swipeToLeftIcon, swipeToRightIcon, dragItem);
     }
 
     public void setData(List<Task> tasks) {
@@ -74,31 +83,6 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.View
     }
 
     @Override
-    public void onItemMove(int fromPosition, int toPosition) {
-        // Если предыдущая позиция равна настоящей, либо задача поднялась выше подпроекта
-        // TODO вычислять подпроект через instanceof
-        if (fromPosition == toPosition || toPosition < lab.getLastTaskIndex(mId)) {
-            return;
-        }
-
-        lab.moveItem(lab.getParentIdOfTask(mTasks.get(fromPosition).getID()), fromPosition, toPosition);
-        notifyItemMoved(fromPosition, toPosition);
-    }
-
-    //@Override
-    public void onItemDismiss(int position) {
-        myNotificationManager.deleteNotification(mTasks.get(position).getID());
-        mTasks.remove(position);
-        notifyItemRemoved(position);
-        //notifyItemRangeChanged(position, mTasks.size());
-    }
-
-    @Override
-    public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-
-    }
-
-    @Override
     public int getItemViewType(int position) {
         try {
             if (mTasks.get(position).getType().equals(Task.TASK_TYPE_SUB_PROJECT)) {
@@ -112,21 +96,30 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.View
         return 0;
     }
 
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+        // Если предыдущая позиция равна настоящей, либо задача поднялась выше подпроекта
+        // TODO вычислять подпроект через instanceof
+        if (fromPosition == toPosition || toPosition < lab.getLastTaskIndex(mId)) {
+            return;
+        }
+
+        lab.moveItem(lab.getParentIdOfTask(mTasks.get(fromPosition).getID()), fromPosition, toPosition);
+        notifyItemMoved(fromPosition, toPosition);
+    }
+
+    @Override
     public void onItemLeftSwipe(int position) {
-        setIsDone(position);
+        if (mItemSwipeListener != null) {
+            mItemSwipeListener.onItemLeftSwipe(position);
+        }
     }
 
+    @Override
     public void onItemRightSwipe(int position) {
-        onItemDismiss(position);
-    }
-
-    public void setIsDone(int position) {
-        Log.d("setIsDone", String.valueOf(position) + " - " + mTasks.get(position).getTitle());
-        myNotificationManager.deleteNotification(mTasks.get(position).getID());
-        mTasks.get(position).setIsDone(true);
-        notifyItemRemoved(position);
-        notifyItemRangeInserted(position, 1);
-        //notifyDataSetChanged();
+        if (mItemSwipeListener != null) {
+            mItemSwipeListener.onItemRightSwipe(position);
+        }
     }
 
     @Override
@@ -172,6 +165,10 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.View
         mItemClickListener = listener;
     }
 
+    public void setOnSwipedListener(OnItemSwipeListener swipeListener) {
+        mItemSwipeListener = swipeListener;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
         public UUID _id;
         public String sType;
@@ -210,7 +207,7 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.View
                 @Override
                 public void onClick(View v) {
                     if (mItemClickListener != null) {
-                        mItemClickListener.onItemClicker(sType, _id);
+                        mItemClickListener.onItemClick(sType, _id);
                     }
                 }
             });

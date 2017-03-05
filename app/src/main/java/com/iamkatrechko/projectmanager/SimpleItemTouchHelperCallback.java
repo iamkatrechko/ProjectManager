@@ -7,11 +7,11 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.iamkatrechko.projectmanager.adapter.TasksListAdapter;
 
@@ -30,16 +30,24 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     private int mSwipeToLeftColor;
     /** Цвет заполнения для свайпа вправо */
     private int mSwipeToRightColor;
+    private int mSwipeToLeftIcon;
+    private int mSwipeToRightIcon;
+    private boolean mDragItem;
 
     public SimpleItemTouchHelperCallback(Context context, TasksListAdapter adapter,
                                          boolean swipeToLeft, boolean swipeToRight,
-                                         @ColorInt int swipeToLeftColor, @ColorInt int swipeToRightColor) {
+                                         @ColorInt int swipeToLeftColor, @ColorInt int swipeToRightColor,
+                                         @DrawableRes int swipeToLeftIcon, @DrawableRes int swipeToRightIcon,
+                                         boolean dragItem) {
         mContext = context;
         mAdapter = adapter;
         mSwipeToLeft = swipeToLeft;
         mSwipeToRight = swipeToRight;
         mSwipeToLeftColor = swipeToLeftColor;
         mSwipeToRightColor = swipeToRightColor;
+        mSwipeToLeftIcon = swipeToLeftIcon;
+        mSwipeToRightIcon = swipeToRightIcon;
+        mDragItem = dragItem;
     }
 
     @Override
@@ -57,7 +65,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
         if (mAdapter.getItemViewType(viewHolder.getAdapterPosition()) == 0) {
             return 0;
         }
-        final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+        final int dragFlags = mDragItem ? (ItemTouchHelper.UP | ItemTouchHelper.DOWN) : 0;
         final int swipeFlags = (mSwipeToLeft ? ItemTouchHelper.START : 0) | (mSwipeToRight ? ItemTouchHelper.END : 0);
         return makeMovementFlags(dragFlags, swipeFlags);
     }
@@ -132,5 +140,32 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
             }
             c.drawBitmap(icon, null, icon_dest, p);
         }
+    }
+
+    /** Слушатель перемешения и свайпа элементов списка */
+    public interface OnItemMoveAndSwipeListener extends OnItemSwipeListener {
+
+        /**
+         * Слушатель перемещения элемента списка
+         * @param fromPosition начальная позиция
+         * @param toPosition   конечная позиция
+         */
+        void onItemMove(int fromPosition, int toPosition);
+    }
+
+    /** Слушатель свайпа элементов списка влево/вправо */
+    public interface OnItemSwipeListener {
+
+        /**
+         * Слушатель свайпа элемента влево
+         * @param position позиция смещенного элемента
+         */
+        void onItemLeftSwipe(int position);
+
+        /**
+         * Слушатель свайпа элемента вправо
+         * @param position позиция смещенного элемента
+         */
+        void onItemRightSwipe(int position);
     }
 }
