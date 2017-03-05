@@ -33,7 +33,6 @@ public class TasksListFragment extends Fragment {
     public TasksListAdapter adapter;
     public ProjectLab lab;
     private RecyclerView mTasksListRecyclerView;
-    private ItemTouchHelper mItemTouchHelper;
 
     FloatingActionsMenu fMenu;
 
@@ -103,7 +102,10 @@ public class TasksListFragment extends Fragment {
 
         mTasksList = lab.getTasksListOnAllLevel(ID);
 
-        adapter = new TasksListAdapter(mTasksList, getActivity(), ID);
+        adapter = new TasksListAdapter(getActivity(), ID, true, true,
+                getResources().getColor(R.color.swipe_to_set_done_color),
+                getResources().getColor(R.color.swipe_to_delete_color));
+
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClicker(String type, UUID id) {
@@ -128,12 +130,7 @@ public class TasksListFragment extends Fragment {
         mTasksListRecyclerView.setHasFixedSize(true);
         mTasksListRecyclerView.setAdapter(adapter);
         mTasksListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        //Инициализация свайпов
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
-        mItemTouchHelper = new ItemTouchHelper(callback);
-        mItemTouchHelper.attachToRecyclerView(mTasksListRecyclerView);
-        ///////////////////////
+        adapter.setData(mTasksList);
 
         Log.d("TasksListFragment", "Уровень вхождения - " + lab.getLevelOfParent(ID));
         return v;

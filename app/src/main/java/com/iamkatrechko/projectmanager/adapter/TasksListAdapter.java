@@ -2,12 +2,9 @@ package com.iamkatrechko.projectmanager.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.RectF;
+import android.support.annotation.ColorInt;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -26,6 +23,7 @@ import com.iamkatrechko.projectmanager.MyNotificationManager;
 import com.iamkatrechko.projectmanager.OnItemClickListener;
 import com.iamkatrechko.projectmanager.ProjectLab;
 import com.iamkatrechko.projectmanager.R;
+import com.iamkatrechko.projectmanager.SimpleItemTouchHelperCallback;
 import com.iamkatrechko.projectmanager.SubProjectEditActivity;
 import com.iamkatrechko.projectmanager.entity.Task;
 
@@ -36,8 +34,8 @@ import java.util.UUID;
  * Created by Muxa on 03.03.2017.
  */
 public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.ViewHolder> implements ItemTouchHelperAdapter {
-    final private static int ADAPTER_ITEM_TYPE_SUB_PROJECT = 0;
-    final private static int ADAPTER_ITEM_TYPE_TASK = 1;
+    final public static int ADAPTER_ITEM_TYPE_SUB_PROJECT = 0;
+    final public static int ADAPTER_ITEM_TYPE_TASK = 1;
     private MyNotificationManager myNotificationManager;
     private Context mContext;
     private List<Task> mTasks;
@@ -46,26 +44,40 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.View
     /** Слушатель нажатия на подпроект/задачу */
     private OnItemClickListener mItemClickListener;
     private ProjectLab lab;
-    private Paint p = new Paint();
     private UUID mId;
     private Methods m;
+    private SimpleItemTouchHelperCallback callback;
 
-    public TasksListAdapter(List<Task> tasks, Context context, UUID ID) {
+    public TasksListAdapter(Context context, UUID ID, boolean swipeToLeft, boolean swipeToRight,
+                            @ColorInt int swipeToLeftColor, @ColorInt int swipeToRightColor) {
+        mContext = context;
         lab = ProjectLab.get(context);
         mId = ID;
-        mTasks = tasks;
-        mContext = context;
         m = new Methods(mContext);
         aColors = context.getResources().getStringArray(R.array.priorities_colors);
         myNotificationManager = new MyNotificationManager(context);
+        callback = new SimpleItemTouchHelperCallback(mContext, this, swipeToLeft, swipeToRight, swipeToLeftColor, swipeToRightColor);
+    }
+
+    public void setData(List<Task> tasks) {
+        mTasks = tasks;
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        // Инициализация свайпов
+        ItemTouchHelper mItemTouchHelper;
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
-        if (fromPosition == toPosition) {
-            return;
-        }
-        if (toPosition < lab.getLastTaskIndex(mId)) {
+        // Если предыдущая позиция равна настоящей, либо задача поднялась выше подпроекта
+        // TODO вычислять подпроект через instanceof
+        if (fromPosition == toPosition || toPosition < lab.getLastTaskIndex(mId)) {
             return;
         }
 
@@ -73,12 +85,17 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.View
         notifyItemMoved(fromPosition, toPosition);
     }
 
-    @Override
+    //@Override
     public void onItemDismiss(int position) {
         myNotificationManager.deleteNotification(mTasks.get(position).getID());
         mTasks.remove(position);
         notifyItemRemoved(position);
         //notifyItemRangeChanged(position, mTasks.size());
+    }
+
+    @Override
+    public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+
     }
 
     @Override
@@ -93,6 +110,14 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.View
             Log.d("TasksListFragment", e.getLocalizedMessage());
         }
         return 0;
+    }
+
+    public void onItemLeftSwipe(int position) {
+        setIsDone(position);
+    }
+
+    public void onItemRightSwipe(int position) {
+        onItemDismiss(position);
     }
 
     public void setIsDone(int position) {
@@ -136,38 +161,6 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.View
         vHolder.tvDescription.setText(m.getFormatDate(task.getDate(), task.getTime()));
         vHolder.flPriority.setBackgroundColor(Color.parseColor(aColors[task.getPriority()]));
         vHolder.ivImageRemind.setVisibility(task.getIsNotify() ? View.VISIBLE : View.GONE);
-    }
-
-    @Override
-    public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-        //Полоса приоритета скрыта => подпроект => запретить свайп
-        boolean isSubProject = viewHolder.getItemViewType() == ADAPTER_ITEM_TYPE_SUB_PROJECT;
-        if (isSubProject) {
-            return;
-        }
-
-        if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-            Bitmap icon;
-            View itemView = viewHolder.itemView;
-            float height = (float) itemView.getBottom() - (float) itemView.getTop();
-            float width = height / 3;
-
-            RectF icon_dest;
-            if (dX > 0) {
-                p.setColor(mContext.getResources().getColor(R.color.swipe_color_right));
-                RectF background = new RectF((float) itemView.getLeft(), (float) itemView.getTop(), dX, (float) itemView.getBottom());
-                c.drawRect(background, p);
-                icon = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_delete);
-                icon_dest = new RectF((float) itemView.getLeft() + width, (float) itemView.getTop() + width, (float) itemView.getLeft() + 2 * width, (float) itemView.getBottom() - width);
-            } else {
-                p.setColor(mContext.getResources().getColor(R.color.swipe_color_left));
-                RectF background = new RectF((float) itemView.getRight() + dX, (float) itemView.getTop(), (float) itemView.getRight(), (float) itemView.getBottom());
-                c.drawRect(background, p);
-                icon = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_done);
-                icon_dest = new RectF((float) itemView.getRight() - 2 * width, (float) itemView.getTop() + width, (float) itemView.getRight() - width, (float) itemView.getBottom() - width);
-            }
-            c.drawBitmap(icon, null, icon_dest, p);
-        }
     }
 
     @Override

@@ -1,9 +1,16 @@
 package com.iamkatrechko.projectmanager;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.support.annotation.ColorInt;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.iamkatrechko.projectmanager.adapter.TasksListAdapter;
@@ -11,9 +18,28 @@ import com.iamkatrechko.projectmanager.adapter.TasksListAdapter;
 public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     private final TasksListAdapter mAdapter;
+    /** Возможность свайпа влево */
+    private boolean mSwipeToLeft;
+    /** Возможность свайпа вправо */
+    private boolean mSwipeToRight;
+    private Paint p = new Paint();
+    /** Контекст */
+    private Context mContext;
 
-    public SimpleItemTouchHelperCallback(TasksListAdapter adapter) {
+    /** Цвет заполнения для свайпа влево */
+    private int mSwipeToLeftColor;
+    /** Цвет заполнения для свайпа вправо */
+    private int mSwipeToRightColor;
+
+    public SimpleItemTouchHelperCallback(Context context, TasksListAdapter adapter,
+                                         boolean swipeToLeft, boolean swipeToRight,
+                                         @ColorInt int swipeToLeftColor, @ColorInt int swipeToRightColor) {
+        mContext = context;
         mAdapter = adapter;
+        mSwipeToLeft = swipeToLeft;
+        mSwipeToRight = swipeToRight;
+        mSwipeToLeftColor = swipeToLeftColor;
+        mSwipeToRightColor = swipeToRightColor;
     }
 
     @Override
@@ -28,11 +54,11 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-        if (mAdapter.getItemViewType(viewHolder.getAdapterPosition()) == 0){
+        if (mAdapter.getItemViewType(viewHolder.getAdapterPosition()) == 0) {
             return 0;
         }
         final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-        final int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+        final int swipeFlags = (mSwipeToLeft ? ItemTouchHelper.START : 0) | (mSwipeToRight ? ItemTouchHelper.END : 0);
         return makeMovementFlags(dragFlags, swipeFlags);
     }
 
@@ -46,12 +72,12 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         int position = viewHolder.getAdapterPosition();
 
-        if (direction == 32){
-            Log.d("onSwiped", "LEFT");
-            mAdapter.onItemDismiss(position);
-        } else {
+        if (direction == ItemTouchHelper.END) {
             Log.d("onSwiped", "RIGHT");
-            mAdapter.setIsDone(position);
+            mAdapter.onItemRightSwipe(position);
+        } else {
+            Log.d("onSwiped", "LEFT");
+            mAdapter.onItemLeftSwipe(position);
         }
     }
 
@@ -77,6 +103,34 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
 
-        mAdapter.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+        // Считывать разрешение на свайп через интерфейс у адаптера на каждый холдер и принимать во внимание общее разрешение на свайп
+        //Полоса приоритета скрыта => подпроект => запретить свайп
+        boolean isSubProject = viewHolder.getItemViewType() == TasksListAdapter.ADAPTER_ITEM_TYPE_SUB_PROJECT;
+        if (isSubProject) {
+            return;
+        }
+
+        if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+            Bitmap icon;
+            View itemView = viewHolder.itemView;
+            float height = (float) itemView.getBottom() - (float) itemView.getTop();
+            float width = height / 3;
+
+            RectF icon_dest;
+            if (dX < 0) {
+                p.setColor(mSwipeToLeftColor);
+                RectF background = new RectF((float) itemView.getRight() + dX, (float) itemView.getTop(), (float) itemView.getRight(), (float) itemView.getBottom());
+                c.drawRect(background, p);
+                icon = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_done);
+                icon_dest = new RectF((float) itemView.getRight() - 2 * width, (float) itemView.getTop() + width, (float) itemView.getRight() - width, (float) itemView.getBottom() - width);
+            } else {
+                p.setColor(mSwipeToRightColor);
+                RectF background = new RectF((float) itemView.getLeft(), (float) itemView.getTop(), dX, (float) itemView.getBottom());
+                c.drawRect(background, p);
+                icon = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_delete);
+                icon_dest = new RectF((float) itemView.getLeft() + width, (float) itemView.getTop() + width, (float) itemView.getLeft() + 2 * width, (float) itemView.getBottom() - width);
+            }
+            c.drawBitmap(icon, null, icon_dest, p);
+        }
     }
 }

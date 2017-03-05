@@ -259,14 +259,14 @@ public class FilterTasksListFragment extends Fragment{
                 float width = height / 3;
 
                 if(dX > 0){
-                    p.setColor(getResources().getColor(R.color.swipe_color_left));
+                    p.setColor(getResources().getColor(R.color.swipe_to_delete_color));
                     RectF background = new RectF((float) itemView.getLeft(), (float) itemView.getTop(), dX, (float) itemView.getBottom());
                     c.drawRect(background, p);
                     icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_done);
                     RectF icon_dest = new RectF((float) itemView.getLeft() + width, (float) itemView.getTop() + width, (float) itemView.getLeft()+ 2 * width, (float) itemView.getBottom() - width);
                     c.drawBitmap(icon, null, icon_dest, p);
                 } else {
-                    p.setColor(getResources().getColor(R.color.swipe_color_right));
+                    p.setColor(getResources().getColor(R.color.swipe_to_set_done_color));
                     RectF background = new RectF((float) itemView.getRight() + dX, (float) itemView.getTop(), (float) itemView.getRight(), (float) itemView.getBottom());
                     c.drawRect(background, p);
                     icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_delete);

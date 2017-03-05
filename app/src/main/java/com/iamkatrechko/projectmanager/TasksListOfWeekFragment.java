@@ -35,7 +35,7 @@ public class TasksListOfWeekFragment extends Fragment {
     Methods m;
     List<Task> mTasksList;
     TasksAdapter adapter;
-    static ProjectLab lab;
+    ProjectLab lab;
 
     boolean needUpdate = true;                                                                      //Требуется ли полностью обновить (обработать) список задач
     RecyclerView recyclerView;
@@ -95,7 +95,7 @@ public class TasksListOfWeekFragment extends Fragment {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> {
+    public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> {
         private Context mContext;
         private List<Task> mTasks;
         private String[] colors;
@@ -129,20 +129,20 @@ public class TasksListOfWeekFragment extends Fragment {
 
             vHolder.tvTitle.setText(task.getTitle());
 
-            if (!task.getTime().equals("null")){
+            if (!task.getTime().equals("null")) {
                 vHolder.tvDescription.setText(task.getTime());
-            }else{
+            } else {
                 vHolder.tvDescription.setText("");
             }
 
             vHolder.flPriority.setBackgroundColor(Color.parseColor(colors[task.getPriority()]));
 
-            if (task.getType().equals("date")){
+            if (task.getType().equals("date")) {
                 vHolder.tvDateOfTasks.setVisibility(View.VISIBLE);
                 vHolder.tvDateOfTasks.setText(task.getDate());
                 vHolder.cardView.setVisibility(View.GONE);
             }
-            if (task.getType().equals(Task.TASK_TYPE_TASK)){
+            if (task.getType().equals(Task.TASK_TYPE_TASK)) {
                 vHolder.tvDateOfTasks.setVisibility(View.GONE);
                 vHolder.cardView.setVisibility(View.VISIBLE);
             }
@@ -151,8 +151,8 @@ public class TasksListOfWeekFragment extends Fragment {
             vHolder.tvProjectName.setText(project.getTitle());
             vHolder.ivProjectColor.setColorFilter(project.getColor());
         }
-        
-        public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
             public UUID _id;
             public String sType;
             public TextView tvTitle;
@@ -191,7 +191,7 @@ public class TasksListOfWeekFragment extends Fragment {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (sType.equals("date")){
+                        if (sType.equals("date")) {
                             return;
                         }
                         Intent intent = new Intent(mContext, TaskEditActivity.class);
@@ -211,8 +211,8 @@ public class TasksListOfWeekFragment extends Fragment {
     }
 
     //Полная перезагрузка списка задач со сменой дат и прочее
-    public void fullUpdateList(){
-        if (needUpdate){
+    public void fullUpdateList() {
+        if (needUpdate) {
             mTasksList = lab.getOfWeekTasksList();
             adapter = new TasksAdapter(mTasksList, getActivity());
 
@@ -223,12 +223,11 @@ public class TasksListOfWeekFragment extends Fragment {
         needUpdate = true;
     }
 
-
     ////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private void initSwipe(){
-        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT/* | ItemTouchHelper.RIGHT*/) {
+    private void initSwipe() {
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             private Paint p = new Paint();
 
             @Override
@@ -239,11 +238,11 @@ public class TasksListOfWeekFragment extends Fragment {
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
-                if (mTasksList.get(position).getType().equals("date")){
+                if (mTasksList.get(position).getType().equals("date")) {
                     return;
                 }
 
-                if (direction == ItemTouchHelper.LEFT){
+                if (direction == ItemTouchHelper.LEFT) {
                     Log.d("onSwiped", "LEFT");
                     adapter.removeItem(position);
                 } else {
@@ -256,18 +255,18 @@ public class TasksListOfWeekFragment extends Fragment {
             public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
 
                 //Полоса приоритета скрыта => подпроект => запретить свайп
-                if (viewHolder.itemView.findViewById(R.id.card_view).getVisibility() == View.GONE){
+                if (viewHolder.itemView.findViewById(R.id.card_view).getVisibility() == View.GONE) {
                     return;
                 }
 
                 Bitmap icon;
-                if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE){
+                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
 
                     View itemView = viewHolder.itemView;
                     float height = (float) itemView.getBottom() - (float) itemView.getTop();
                     float width = height / 3;
 
-                    if(dX > 0){
+                    if (dX > 0) {
                         //Resources resources = getActivity().getResources();
                         //DisplayMetrics metrics = resources.getDisplayMetrics();
                         //float dp = px / ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
@@ -278,14 +277,14 @@ public class TasksListOfWeekFragment extends Fragment {
                         RectF background = new RectF((float) itemView.getLeft(), (float) itemView.getTop(), dX, (float) itemView.getBottom());
                         c.drawRect(background, p);
                         icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_down);
-                        RectF icon_dest = new RectF((float) itemView.getLeft() + width, (float) itemView.getTop() + width, (float) itemView.getLeft()+ 2 * width, (float) itemView.getBottom() - width);
+                        RectF icon_dest = new RectF((float) itemView.getLeft() + width, (float) itemView.getTop() + width, (float) itemView.getLeft() + 2 * width, (float) itemView.getBottom() - width);
                         c.drawBitmap(icon, null, icon_dest, p);
                     } else {
                         p.setColor(Color.parseColor("#D32F2F"));
                         RectF background = new RectF((float) itemView.getRight() + dX, (float) itemView.getTop(), (float) itemView.getRight(), (float) itemView.getBottom());
                         c.drawRect(background, p);
                         icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_done);
-                        RectF icon_dest = new RectF((float) itemView.getRight() - 2 * width, (float) itemView.getTop() + width,(float) itemView.getRight() - width, (float) itemView.getBottom() - width);
+                        RectF icon_dest = new RectF((float) itemView.getRight() - 2 * width, (float) itemView.getTop() + width, (float) itemView.getRight() - width, (float) itemView.getBottom() - width);
                         c.drawBitmap(icon, null, icon_dest, p);
                     }
                 }
