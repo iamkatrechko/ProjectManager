@@ -11,21 +11,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
+import com.iamkatrechko.projectmanager.adapter.TagListAdapter;
 import com.iamkatrechko.projectmanager.entity.Tag;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class TagsListFragment extends Fragment {
-    ProjectLab lab;
-    ArrayList<Tag> mTagsList = new ArrayList<>();
-    TagListAdapter adapter;
+    private ProjectLab lab;
+    private ArrayList<Tag> mTagsList = new ArrayList<>();
+    private TagListAdapter adapter;
 
-    public static TagsListFragment newInstance(){
+    public static TagsListFragment newInstance() {
         return new TagsListFragment();
     }
 
@@ -44,7 +42,45 @@ public class TagsListFragment extends Fragment {
 
         RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.section_list);
         mTagsList = lab.getTags();
-        adapter = new TagListAdapter(mTagsList, getActivity());
+        adapter = new TagListAdapter(mTagsList);
+        adapter.setOnClickListener(new TagListAdapter.OnTagItemClickListener() {
+            @Override
+            public void onDeleteClick(Tag tag) {
+                //Подтверждение удаления
+                //Удаление тега
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Подтверждение")
+                        .setMessage("Вы уверены, что хотите удалить метку?")
+                        //.setIcon(R.drawable.ic_android_cat)
+                        .setCancelable(false)
+                        .setNegativeButton("Нет",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                })
+                        .setPositiveButton("Да",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        /*Tag tag = ProjectLab.get(getActivity()).getTagByID(id);
+                                        int pos = mTagsList.indexOf(tag);
+                                        mTagsList.remove(tag);
+                                        notifyItemRemoved(pos);*/
+                                    }
+                                });
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+
+            @Override
+            public void onEditClick(Tag tag) {
+                Intent intent = new Intent(getActivity(), TagEditActivity.class);
+                intent.putExtra("mId", tag.getID().toString());
+                intent.putExtra("Operation", "edit");
+                getActivity().startActivity(intent);
+            }
+        });
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplication()));
 
@@ -66,98 +102,5 @@ public class TagsListFragment extends Fragment {
     public void onResume() {
         super.onResume();
         adapter.notifyDataSetChanged();
-    }
-
-    public static class TagListAdapter extends RecyclerView.Adapter<TagListAdapter.ViewHolder> {
-        public static Context mContext;
-        private ArrayList<Tag> aTagList = new ArrayList<>();
-
-        public TagListAdapter(ArrayList<Tag> tagList, Context context) {
-            aTagList = tagList;
-            mContext = context;
-        }
-
-        public void deleteTag(UUID id){
-            Tag tag = ProjectLab.get(mContext).getTagByID(id);
-            int pos = aTagList.indexOf(tag);
-            aTagList.remove(tag);
-            notifyItemRemoved(pos);
-        }
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            Context context = parent.getContext();
-            LayoutInflater inflater = LayoutInflater.from(context);
-
-            View recyclerView = inflater.inflate(R.layout.recycler_tag_item, parent, false);
-
-            return new ViewHolder(recyclerView);
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHolder vHolder, int position) {
-            Tag tag = aTagList.get(position);
-
-            vHolder._id = tag.getID();
-            vHolder.tvTitle.setText(tag.getTitle());
-        }
-
-        @Override
-        public int getItemCount() {
-            return aTagList.size();
-        }
-
-        public class ViewHolder extends RecyclerView.ViewHolder {
-            public UUID _id;
-            public TextView tvTitle;
-            public ImageButton ibEdit;
-            public ImageButton ibDelete;
-
-            public ViewHolder(View itemView) {
-                super(itemView);
-
-                tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
-                ibEdit = (ImageButton) itemView.findViewById(R.id.ibEdit);
-                ibDelete = (ImageButton) itemView.findViewById(R.id.ibDelete);
-
-                ibEdit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(mContext, TagEditActivity.class);
-                        intent.putExtra("mId", _id.toString());
-                        intent.putExtra("Operation", "edit");
-                        mContext.startActivity(intent);
-                    }
-                });
-
-                ibDelete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        //Подтверждение удаления
-                        //Удаление тега
-                        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                        builder.setTitle("Подтверждение")
-                                .setMessage("Вы уверены, что хотите удалить метку?")
-                                //.setIcon(R.drawable.ic_android_cat)
-                                .setCancelable(false)
-                                .setNegativeButton("Нет",
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                dialog.cancel();
-                                            }
-                                        })
-                                .setPositiveButton("Да",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                deleteTag(_id);
-                                            }
-                                        });
-                        AlertDialog alert = builder.create();
-                        alert.show();
-                    }
-                });
-            }
-        }
     }
 }
