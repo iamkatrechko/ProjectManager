@@ -90,7 +90,7 @@ public class ProjectsListFragment extends Fragment{
             // and does the view lookups to find each subview
             public ViewHolder(View itemView) {
                 // Stores the itemView in a public final member variable that can be used
-                // to access the context from any ViewHolder instance.
+                // to access the context from any ViewHolderTask instance.
                 super(itemView);
 
                 nameTextView = (TextView) itemView.findViewById(R.id.contact_name);

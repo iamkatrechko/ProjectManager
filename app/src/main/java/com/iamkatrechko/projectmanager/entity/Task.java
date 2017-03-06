@@ -1,5 +1,7 @@
 package com.iamkatrechko.projectmanager.entity;
 
+import com.iamkatrechko.projectmanager.new_entity.AbstractTaskObject;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -7,8 +9,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.UUID;
 
-/** Объект подпроекта/задачи*/
-public class Task {
+/** Объект подпроекта/задачи */
+public class Task extends AbstractTaskObject {
     private static final String JSON_ID = "id";
     private static final String JSON_TITLE = "title";
     private static final String JSON_DESCRIPTION = "description";
@@ -24,29 +26,29 @@ public class Task {
     public final static String TASK_TYPE_SUB_PROJECT = "sub_project";
     public final static String TASK_TYPE_TASK = "task";
 
-    /** ID подпроекта/задачи*/
+    /** ID подпроекта/задачи */
     private UUID mID;
-    /** Название подпроекта/задачи*/
+    /** Название подпроекта/задачи */
     private String mTitle;
-    /** Описание подпроекта/задачи*/
+    /** Описание подпроекта/задачи */
     private String mDescription;
-    /** Метка о выполнении*/
+    /** Метка о выполнении */
     private Boolean mIsDone;
-    /** Тип задачи (подпроект/задача)*/
+    /** Тип задачи (подпроект/задача) */
     private String mType;
-    /** Дата. Формат "DD.MM.YYYY"*/
+    /** Дата. Формат "DD.MM.YYYY" */
     private String mDate;
-    /** Время. Формат "HH:MM"*/
+    /** Время. Формат "HH:MM" */
     private String mTime;
-    /** Уведомление включено?*/
+    /** Уведомление включено? */
     private boolean mIsNotify;
-    /** Приоритет: 0 - без, 3 - высокий*/
+    /** Приоритет: 0 - без, 3 - высокий */
     private int mPriority;
-    /** Повторяется?*/
+    /** Повторяется? */
     private boolean mIsRepeat;
-    /** Список ID тегов ({@link Tag})*/
+    /** Список ID тегов ({@link Tag}) */
     private ArrayList<UUID> mTags;
-    /** Подзадачи*/
+    /** Подзадачи */
     private ArrayList<Task> mTasks;
 
     public Task() {
@@ -79,7 +81,7 @@ public class Task {
     }
 
     public Boolean getIsDone() {
-        if (mIsDone == null){
+        if (mIsDone == null) {
             mIsDone = false;
         }
         return mIsDone;
@@ -98,7 +100,7 @@ public class Task {
     }
 
     public String getDate() {
-        if (mDate == null){
+        if (mDate == null) {
             return "null";
         }
         return mDate;
@@ -109,7 +111,7 @@ public class Task {
     }
 
     public String getTime() {
-        if (mTime == null){
+        if (mTime == null) {
             return "null";
         }
         return mTime;
@@ -162,13 +164,13 @@ public class Task {
         mDescription = json.getString(JSON_DESCRIPTION);
         mType = json.getString(JSON_TYPE);
 
-        if (mType.equals(TASK_TYPE_SUB_PROJECT)){
+        if (mType.equals(TASK_TYPE_SUB_PROJECT)) {
             mTasks = new ArrayList<Task>();
             JSONArray array = json.getJSONArray(JSON_LIST);
             for (int i = 0; i < array.length(); i++) {
                 mTasks.add(new Task(array.getJSONObject(i)));
             }
-        }else{
+        } else {
             mIsDone = json.getBoolean(JSON_IS_DONE);
             mDate = json.optString(JSON_DATE, "null");
             mTime = json.optString(JSON_TIME, "null");
@@ -184,7 +186,7 @@ public class Task {
         JSONObject json = new JSONObject();
 
         //Если сохраняемая задача является подпроектом
-        if (mType.equals(TASK_TYPE_SUB_PROJECT)){
+        if (mType.equals(TASK_TYPE_SUB_PROJECT)) {
             json.put(JSON_ID, mID.toString());
             json.put(JSON_TITLE, mTitle);
             json.put(JSON_DESCRIPTION, mDescription);
@@ -196,7 +198,7 @@ public class Task {
             json.put(JSON_LIST, array);
             /////////////////////////////////////
 
-        }else{
+        } else {
             json.put(JSON_ID, mID.toString());
             json.put(JSON_TITLE, mTitle);
             json.put(JSON_DESCRIPTION, mDescription);
@@ -221,19 +223,24 @@ public class Task {
      * @param tagID ID искомой метки
      * @return true, если метка присутствует
      */
-    public boolean existTag(UUID tagID){
+    public boolean existTag(UUID tagID) {
         return getTags().contains(tagID);
     }
 
-    public void addTag(Tag t){
-        if (!existTag(t.getID())){
+    public void addTag(Tag t) {
+        if (!existTag(t.getID())) {
             getTags().add(t.getID());
         }
     }
 
-    public void deleteTag(Tag t){
-        if (existTag(t.getID())){
+    public void deleteTag(Tag t) {
+        if (existTag(t.getID())) {
             getTags().remove(t.getID());
         }
+    }
+
+    @Override
+    public int getViewType() {
+        return getType().equals(TASK_TYPE_SUB_PROJECT) ? 0 : 1;
     }
 }

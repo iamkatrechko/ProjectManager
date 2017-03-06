@@ -35,7 +35,7 @@ public class ProjectLab {
 
         //loadProjectsFromJSON();
         //if (mProjects.size() == 0){
-            generateTestData();
+        generateTestData();
         //}
         //generateTestData();
     }
@@ -47,7 +47,7 @@ public class ProjectLab {
         return sProjectLab;
     }
 
-    public void loadProjectsFromJSON(){
+    public void loadProjectsFromJSON() {
         try {
             mProjects = projectsJSONSerializer.loadProjects();
         } catch (IOException | JSONException e) {
@@ -56,7 +56,7 @@ public class ProjectLab {
         }
     }
 
-    public void saveProjectsIntoJSON(){
+    public void saveProjectsIntoJSON() {
         try {
             projectsJSONSerializer.saveProjects(mProjects);
         } catch (JSONException | IOException e) {
@@ -89,7 +89,7 @@ public class ProjectLab {
      * @param id mId искомого подпроекта/задачи
      * @return Подпроект/задача
      */
-    public Task getTaskOnAllLevel(UUID id){
+    public Task getTaskOnAllLevel(UUID id) {
         for (Project p : mProjects) {
             for (Task t1 : p.getTasks()) {
                 if (t1.getID().equals(id)) {
@@ -98,7 +98,7 @@ public class ProjectLab {
                     for (Task t2 : t1.getTasks()) {
                         if (t2.getID().equals(id)) {
                             return t2;
-                        }else {
+                        } else {
                             for (Task t3 : t2.getTasks()) {
                                 if (t3.getID().equals(id)) {
                                     return t3;
@@ -132,12 +132,12 @@ public class ProjectLab {
      * @param id mId проекта/подпроекта/задачи
      * @return Уровень (0 - 4)
      */
-    public int getLevelOfParent(UUID id){
+    public int getLevelOfParent(UUID id) {
         //Уровни: 0 - проект; 1, 2, 3 - подпроекты
         for (Project p : mProjects) {
             if (p.getID().equals(id)) {
                 return 0;                                                                                               //Уровень 0
-            }else {
+            } else {
                 for (Task t1 : p.getTasks()) {
                     if (t1.getID().equals(id)) {
                         return 1;                                                                                       //Уровень 1
@@ -145,7 +145,7 @@ public class ProjectLab {
                         for (Task t2 : t1.getTasks()) {
                             if (t2.getID().equals(id)) {
                                 return 2;                                                                               //Уровень 2
-                            }else{                                                                                      //Отключение создания подпроектов на уровне
+                            } else {                                                                                      //Отключение создания подпроектов на уровне
                                 for (Task t3 : t2.getTasks()) {
                                     if (t3.getID().equals(id)) {
                                         return 3;                                                                       //Уровень 3
@@ -165,11 +165,11 @@ public class ProjectLab {
      * @param parentID mId родителя (проекта/подпроекта)
      * @return Список задач
      */
-    public List<Task> getTasksListOnAllLevel(UUID parentID){
+    public List<Task> getTasksListOnAllLevel(UUID parentID) {
         for (Project p : mProjects) {
             if (p.getID().equals(parentID)) {
                 return p.getTasks();
-            }else {
+            } else {
                 for (Task t1 : p.getTasks()) {
                     if (t1.getID().equals(parentID)) {
                         return t1.getTasks();
@@ -177,7 +177,7 @@ public class ProjectLab {
                         for (Task t2 : t1.getTasks()) {
                             if (t2.getID().equals(parentID)) {
                                 return t2.getTasks();
-                            }else{
+                            } else {
                                 for (Task t3 : t2.getTasks()) {
                                     if (t3.getID().equals(parentID)) {
                                         return t3.getTasks();
@@ -198,10 +198,10 @@ public class ProjectLab {
      * @param parentID mId родителя (проекта/подпроекта)
      * @return Позиция в списке
      */
-    public int getLastTaskIndex(UUID parentID){
+    public int getLastTaskIndex(UUID parentID) {
         List<Task> list = getTasksListOnAllLevel(parentID);
-        for (int i = 0; i < list.size(); i++){
-            if (list.get(i).getType().equals(Task.TASK_TYPE_TASK)){
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getType().equals(Task.TASK_TYPE_TASK)) {
                 return i;
             }
         }
@@ -214,7 +214,7 @@ public class ProjectLab {
      * @param date строковая переменная типа "YYYY.MM.DD"
      * @return Список задач
      */
-    public List<Task> getTodayTasksList(String date){
+    public List<Task> getTodayTasksList(String date) {
         List<Task> todayList = new ArrayList<Task>();
         Task taskDate = new Task();
         taskDate.setTitle("");
@@ -232,14 +232,14 @@ public class ProjectLab {
                     if (t1.getDate().equals(date)) {
                         todayList.add(t1);
                     }
-                }else {
+                } else {
 
                     for (Task t2 : t1.getTasks()) {
                         if (t2.getType().equals(Task.TASK_TYPE_TASK)) {
                             if (t2.getDate().equals(date)) {
                                 todayList.add(t2);
                             }
-                        }else {
+                        } else {
 
                             for (Task t3 : t2.getTasks()) {
                                 if (t3.getType().equals(Task.TASK_TYPE_TASK)) {
@@ -254,7 +254,7 @@ public class ProjectLab {
             }
         }
 
-        if (todayList.size() == 1){
+        if (todayList.size() == 1) {
             todayList.get(0).setDate("Нет задач на сегодня");
         }
 
@@ -266,8 +266,8 @@ public class ProjectLab {
      * (с добавление меток-дат между задачами)
      * @return Список задач
      */
-    public List<Task> getOfWeekTasksList(){
-        ArrayList<Task> todayList = new ArrayList<Task>();
+    public List<Task> getOfWeekTasksList() {
+        ArrayList<Task> todayList = new ArrayList<>();
 
         String[] week = m.getWeekDate();
         int i = 0;
@@ -276,11 +276,11 @@ public class ProjectLab {
             Task taskDate = new Task();
             taskDate.setTitle("");
             taskDate.setDescription("");
-            if (i == 1){
+            if (i == 1) {
                 taskDate.setDate("Сегодня - " + m.getDate(date));
-            }else if (i == 2){
+            } else if (i == 2) {
                 taskDate.setDate("Завтра - " + m.getDate(date));
-            }else {
+            } else {
                 taskDate.setDate(m.getDate(date));
             }
             taskDate.setTime("11:11");
@@ -295,14 +295,14 @@ public class ProjectLab {
                         if (t1.getDate().equals(date)) {
                             todayList.add(t1);
                         }
-                    }else {
+                    } else {
 
                         for (Task t2 : t1.getTasks()) {
                             if (t2.getType().equals(Task.TASK_TYPE_TASK)) {
                                 if (t2.getDate().equals(date)) {
                                     todayList.add(t2);
                                 }
-                            }else {
+                            } else {
 
                                 for (Task t3 : t2.getTasks()) {
                                     if (t3.getType().equals(Task.TASK_TYPE_TASK)) {
@@ -318,13 +318,13 @@ public class ProjectLab {
             }
 
             //Если в этот день нет задач, удаляем элемент с датой
-            if (todayList.get(todayList.size() - 1).getType().equals("date")){
+            if (todayList.get(todayList.size() - 1).getType().equals("date")) {
                 todayList.remove(todayList.size() - 1);
             }
         }
 
         //Если задач нет, оставляем метку об этом
-        if (todayList.size() == 0){
+        if (todayList.size() == 0) {
             Task taskDate = new Task();
             taskDate.setTitle("");
             taskDate.setDescription("");
@@ -343,11 +343,11 @@ public class ProjectLab {
      * @param id mId задачи
      * @return Проект
      */
-    public Project getProjectOfTask(UUID id){
+    public Project getProjectOfTask(UUID id) {
         for (Project p : mProjects) {
             if (p.getID().equals(id)) {
                 return p;
-            }else {
+            } else {
                 for (Task t1 : p.getTasks()) {
                     if (t1.getID().equals(id)) {
                         return p;
@@ -355,7 +355,7 @@ public class ProjectLab {
                         for (Task t2 : t1.getTasks()) {
                             if (t2.getID().equals(id)) {
                                 return p;
-                            }else{
+                            } else {
                                 for (Task t3 : t2.getTasks()) {
                                     if (t3.getID().equals(id)) {
                                         return p;
@@ -374,7 +374,7 @@ public class ProjectLab {
      * Полностью удаляет {@link Task} по его mId
      * @param id mId задачи для удаления
      */
-    public void removeTaskByID(UUID id){
+    public void removeTaskByID(UUID id) {
         for (Project p : mProjects) {
 
             for (Task t1 : p.getTasks()) {
@@ -407,7 +407,7 @@ public class ProjectLab {
      * сдвигая остальные вверх/вниз
      * @param parentID mId проекта/подпроекта перемещаемой задачи
      */
-    public void moveItem(UUID parentID, int fromPosition, int toPosition){
+    public void moveItem(UUID parentID, int fromPosition, int toPosition) {
         List<Task> list = getTasksListOnAllLevel(parentID);
 
         Log.d("onItemMove - Positions", "" + fromPosition + " : " + toPosition);
@@ -430,7 +430,7 @@ public class ProjectLab {
      *           требуется найти
      * @return mId родителя
      */
-    public UUID getParentIdOfTask(UUID id){
+    public UUID getParentIdOfTask(UUID id) {
         for (Project p : mProjects) {
 
             for (Task t1 : p.getTasks()) {
@@ -461,7 +461,7 @@ public class ProjectLab {
      * @param id mId проекта/подпроекта
      * @return Путь к проекту/подпроекту
      */
-    public String getHistory(UUID id){
+    public String getHistory(UUID id) {
         String history = " > ";
 
         for (Project p : mProjects) {
@@ -493,7 +493,7 @@ public class ProjectLab {
      * Возвращает список всез задач {@link Task} всех проектов
      * @return Список задач {@link Task}
      */
-    public ArrayList<Task> getAllTasks(){
+    public ArrayList<Task> getAllTasks() {
         ArrayList<Task> tasksList = new ArrayList<Task>();
 
         for (Project p : mProjects) {
@@ -525,7 +525,7 @@ public class ProjectLab {
      * @param priority Искомый приоритет
      * @return Список задач
      */
-    public ArrayList<Task> getTasksPriority(int priority){
+    public ArrayList<Task> getTasksPriority(int priority) {
         ArrayList<Task> tasksList = new ArrayList<Task>();
 
         for (Project p : mProjects) {
@@ -587,9 +587,9 @@ public class ProjectLab {
         return tasksList;
     }
 
-    public Tag getTagByID(UUID tagID){
-        for (Tag t : mTags){
-            if (t.getID().equals(tagID)){
+    public Tag getTagByID(UUID tagID) {
+        for (Tag t : mTags) {
+            if (t.getID().equals(tagID)) {
                 return t;
             }
         }
@@ -601,20 +601,20 @@ public class ProjectLab {
     ////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void generateTags(){
-        for (int i = 0; i < 6; i++){
+    public void generateTags() {
+        for (int i = 0; i < 6; i++) {
             Tag t = new Tag();
             t.setTitle("Тэг #" + i);
             mTags.add(t);
         }
     }
 
-    public void reloadData(){
+    public void reloadData() {
         mProjects = new ArrayList<>();
         generateTestData();
     }
 
-    public void deleteData(){
+    public void deleteData() {
         mProjects = new ArrayList<>();
         Project p = new Project();
         p.setTitle("Общий список");
@@ -622,7 +622,7 @@ public class ProjectLab {
         mProjects.add(p);
     }
 
-    public void generateTestData(){
+    public void generateTestData() {
         String[] projectNamesList = {"Общий список - ", "Личные цели - ", "Рабочий список - ", "Покупки - ", "Фильмы к просмотру", "Проект #"};
         Random random = new Random();
 

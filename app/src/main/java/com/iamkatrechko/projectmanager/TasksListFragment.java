@@ -19,7 +19,10 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.iamkatrechko.projectmanager.adapter.TasksListAdapter;
 import com.iamkatrechko.projectmanager.entity.Task;
+import com.iamkatrechko.projectmanager.new_entity.AbstractTaskObject;
+import com.iamkatrechko.projectmanager.new_entity.DateLabel;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,8 +32,8 @@ import java.util.UUID;
 public class TasksListFragment extends Fragment {
     Methods m;
 
-    List<Task> mTasksList;
-    public TasksListAdapter adapter;
+    List<AbstractTaskObject> mTasksList = new ArrayList<>();
+    private TasksListAdapter adapter;
     public ProjectLab lab;
     private RecyclerView mTasksListRecyclerView;
 
@@ -99,28 +102,33 @@ public class TasksListFragment extends Fragment {
         if (lab.getLevelOfParent(ID) == 2) {                                                         //Скрытие кнопки добавление подпроекта
             fMenu.removeButton(actionA);
         }
-
-        mTasksList = lab.getTasksListOnAllLevel(ID);
+        mTasksList.add(new DateLabel());
+        mTasksList.addAll(lab.getTasksListOnAllLevel(ID));
+        mTasksList.add(new DateLabel());
+        mTasksList.add(new DateLabel());
+        mTasksList.add(new DateLabel());
 
         adapter = new TasksListAdapter(getActivity(), ID, true, true,
                 getResources().getColor(R.color.swipe_to_set_done_color),
                 getResources().getColor(R.color.swipe_to_delete_color),
-                R.drawable.ic_done, R.drawable.ic_delete, false);
+                R.drawable.ic_done, R.drawable.ic_delete, true);
 
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(String type, UUID id) {
-                if (type.equals(Task.TASK_TYPE_SUB_PROJECT)) {
+            public void onItemClick(int type, AbstractTaskObject item) {
+                if (type == TasksListAdapter.ADAPTER_ITEM_TYPE_SUB_PROJECT) {
                     //Если нажата "Задача" -> переходим дальше
+                    Task subProject = (Task) item;
                     Intent intent = new Intent(getActivity(), TasksListActivity.class);
-                    intent.putExtra("mId", id.toString());
-                    intent.putExtra("Type", type);
+                    intent.putExtra("mId", subProject.getID().toString());
+                    intent.putExtra("Type", subProject.getType());
                     startActivity(intent);
                     getActivity().overridePendingTransition(R.anim.act_slide_left_in, R.anim.act_slide_left_out);
-                } else {
+                } else if (type == TasksListAdapter.ADAPTER_ITEM_TYPE_TASK) {
                     //Если нажата "Подзадача" -> редактируем
+                    Task subProject = (Task) item;
                     Intent intent = new Intent(getActivity(), TaskEditActivity.class);
-                    intent.putExtra("mId", id.toString());
+                    intent.putExtra("mId", subProject.getID().toString());
                     intent.putExtra("Operation", "edit");
                     intent.putExtra("parent_ID", "0");
                     startActivity(intent);
@@ -133,7 +141,7 @@ public class TasksListFragment extends Fragment {
             public void onItemLeftSwipe(int position) {
                 //Log.d("setIsDone", String.valueOf(position) + " - " + mTasks.get(position).getTitle());
                 //myNotificationManager.deleteNotification(mTasks.get(position).getID());
-                mTasksList.get(position).setIsDone(true);
+                ((Task) mTasksList.get(position)).setIsDone(true);
                 adapter.notifyItemRemoved(position);
                 adapter.notifyItemRangeInserted(position, 1);
                 //notifyDataSetChanged();

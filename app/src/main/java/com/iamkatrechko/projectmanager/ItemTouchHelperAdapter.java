@@ -11,8 +11,8 @@ public interface ItemTouchHelperAdapter {
      *
      * @param fromPosition The start position of the moved item.
      * @param toPosition   Then end position of the moved item.
-     //* @see RecyclerView#getAdapterPositionFor(RecyclerView.ViewHolder)
-     //* @see RecyclerView.ViewHolder#getAdapterPosition()
+     //* @see RecyclerView#getAdapterPositionFor(RecyclerView.ViewHolderTask)
+     //* @see RecyclerView.ViewHolderTask#getAdapterPosition()
      */
     void onItemMove(int fromPosition, int toPosition);
 
@@ -20,8 +20,8 @@ public interface ItemTouchHelperAdapter {
      * Called when an item has been dismissed by a swipe.
      *
      * @param position The position of the item dismissed.
-     //* @see RecyclerView#getAdapterPositionFor(RecyclerView.ViewHolder)
-     //* @see RecyclerView.ViewHolder#getAdapterPosition()
+     //* @see RecyclerView#getAdapterPositionFor(RecyclerView.ViewHolderTask)
+     //* @see RecyclerView.ViewHolderTask#getAdapterPosition()
      */
     void onItemDismiss(int position);
 
