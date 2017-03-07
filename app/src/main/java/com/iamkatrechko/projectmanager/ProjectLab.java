@@ -10,9 +10,12 @@ import com.iamkatrechko.projectmanager.entity.Task;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.UUID;
 
@@ -208,43 +211,30 @@ public class ProjectLab {
         return 0;
     }
 
-    /**
-     * Возвращает список задач на заданную дату
-     * (с добавление метки-даты в на 1-ой позиции списка списка)
-     * @param date строковая переменная типа "YYYY.MM.DD"
-     * @return Список задач
-     */
-    public List<Task> getTodayTasksList(String date) {
-        List<Task> todayList = new ArrayList<Task>();
-        Task taskDate = new Task();
-        taskDate.setTitle("");
-        taskDate.setDescription("");
-        taskDate.setDate("Сегодня - " + date);
-        taskDate.setTime("11:11");
-        taskDate.setIsDone(true);
-        taskDate.setType("date");
-        todayList.add(taskDate);
+    public List<Task> getTodayTasks() {
+        List<Task> result = new ArrayList<>();
+        String date = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(Calendar.getInstance().getTimeInMillis());
 
         for (Project p : mProjects) {
 
             for (Task t1 : p.getTasks()) {
                 if (t1.getType().equals(Task.TASK_TYPE_TASK)) {
                     if (t1.getDate().equals(date)) {
-                        todayList.add(t1);
+                        result.add(t1);
                     }
                 } else {
 
                     for (Task t2 : t1.getTasks()) {
                         if (t2.getType().equals(Task.TASK_TYPE_TASK)) {
                             if (t2.getDate().equals(date)) {
-                                todayList.add(t2);
+                                result.add(t2);
                             }
                         } else {
 
                             for (Task t3 : t2.getTasks()) {
                                 if (t3.getType().equals(Task.TASK_TYPE_TASK)) {
                                     if (t3.getDate().equals(date)) {
-                                        todayList.add(t3);
+                                        result.add(t3);
                                     }
                                 }
                             }
@@ -254,11 +244,7 @@ public class ProjectLab {
             }
         }
 
-        if (todayList.size() == 1) {
-            todayList.get(0).setDate("Нет задач на сегодня");
-        }
-
-        return todayList;
+        return result;
     }
 
     /**

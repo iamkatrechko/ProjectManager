@@ -14,6 +14,7 @@ import com.iamkatrechko.projectmanager.adapter.TasksListAdapter;
 import com.iamkatrechko.projectmanager.entity.Task;
 import com.iamkatrechko.projectmanager.new_entity.AbstractTaskObject;
 import com.iamkatrechko.projectmanager.new_entity.DateLabel;
+import com.iamkatrechko.projectmanager.utils.TasksUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,21 +81,7 @@ public class TasksListOfWeekFragment extends Fragment {
             }
         });
         List<Task> tasks = lab.getAllTasks();
-        String date = "";
-        for (Task task : tasks) {
-            if (task.getViewType() == TasksListAdapter.ADAPTER_ITEM_TYPE_TASK) {
-                if (task.getDate() != null) {
-                    if (!date.equals(task.getDate())) {
-                        DateLabel dateLabel = new DateLabel();
-                        dateLabel.setCalendarString(task.getDate());
-                        mTasksWithDates.add(dateLabel);
-                        date = task.getDate();
-                    }
-
-                    mTasksWithDates.add(task);
-                }
-            }
-        }
+        mTasksWithDates = TasksUtils.addDateLabels(tasks);
 
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
