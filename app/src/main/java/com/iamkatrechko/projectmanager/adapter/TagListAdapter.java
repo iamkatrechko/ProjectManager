@@ -1,9 +1,5 @@
 package com.iamkatrechko.projectmanager.adapter;
 
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +14,9 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 /**
- * Список тегов
+ * Адаптер списка тегов
  * Created on 06.03.2017
- * author: ivanov_m
+ *         by author: iamkatrechko
  */
 public class TagListAdapter extends RecyclerView.Adapter<TagListAdapter.ViewHolder> {
 
@@ -29,10 +25,18 @@ public class TagListAdapter extends RecyclerView.Adapter<TagListAdapter.ViewHold
     /** Интерфейс слушателя нажатий кнопки удалить/редактировать тег */
     private OnTagItemClickListener mClickListener;
 
+    /**
+     * Конструктор
+     * @param tagList список тэгов
+     */
     public TagListAdapter(ArrayList<Tag> tagList) {
         mTagsList = tagList;
     }
 
+    /**
+     * Установить слушатель нажатия на элементы
+     * @param listener слушатель нажатия на элементы
+     */
     public void setOnClickListener(OnTagItemClickListener listener) {
         mClickListener = listener;
     }
