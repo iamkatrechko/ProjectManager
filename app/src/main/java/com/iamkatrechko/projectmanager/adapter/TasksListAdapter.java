@@ -138,7 +138,7 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             case ADAPTER_ITEM_TYPE_DATE:
                 return new TasksListAdapter.ViewHolderDate(inflater.inflate(R.layout.recycler_date_item, parent, false));
         }
-        return new ViewHolderTask(inflater.inflate(R.layout.recycler_task_item, parent, false));
+        return null;
     }
 
     @Override
@@ -161,7 +161,7 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 Task task = (Task) taskObject;
                 vH._id = task.getID();
                 vH.tvTitle.setText(task.getTitle());
-                vH.itemView.findViewById(R.id.card_view).setVisibility(task.getIsDone() ? View.GONE : View.VISIBLE);
+                //vH.itemView.findViewById(R.id.card_view).setVisibility(task.getIsDone() ? View.GONE : View.VISIBLE);
                 vH.tvDescription.setText(m.getFormatDate(task.getDate(), task.getTime()));
                 vH.flPriority.setBackgroundColor(Color.parseColor(aColors[task.getPriority()]));
                 vH.ivImageRemind.setVisibility(task.getIsNotify() ? View.VISIBLE : View.GONE);
@@ -229,12 +229,14 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         @Override
         public void onItemSelected() {
-            ((CardView) itemView.findViewById(R.id.card_view)).setCardElevation(m.getPXfromDP(4));
+            //TODO доделать тень
+            //((CardView) itemView.findViewById(R.id.card_view)).setCardElevation(m.getPXfromDP(4));
         }
 
         @Override
         public void onItemClear() {
-            ((CardView) itemView.findViewById(R.id.card_view)).setCardElevation(m.getPXfromDP(2));
+            //TODO доделать тень
+            //((CardView) itemView.findViewById(R.id.card_view)).setCardElevation(m.getPXfromDP(2));
         }
     }
 
@@ -278,12 +280,14 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         @Override
         public void onItemSelected() {
-            ((CardView) itemView.findViewById(R.id.card_view)).setCardElevation(m.getPXfromDP(4));
+            //TODO доделать тень
+            //((CardView) itemView.findViewById(R.id.card_view)).setCardElevation(m.getPXfromDP(4));
         }
 
         @Override
         public void onItemClear() {
-            ((CardView) itemView.findViewById(R.id.card_view)).setCardElevation(m.getPXfromDP(2));
+            //TODO доделать тень
+            //((CardView) itemView.findViewById(R.id.card_view)).setCardElevation(m.getPXfromDP(2));
         }
     }
 

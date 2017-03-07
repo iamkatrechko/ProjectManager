@@ -1,83 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:card_view="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:background="?android:attr/selectableItemBackground"
+              >
 
-    <android.support.v7.widget.CardView
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/card_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            card_view:cardElevation="2dp"
-            card_view:cardCornerRadius="2dp"
-            card_view:cardUseCompatPadding="true"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="2dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:background="#ffffff">
+
+        <FrameLayout
+            android:id="@+id/priority_color"
+            android:layout_width="3dp"
+            android:layout_height="match_parent"
+            android:background="#eb5a46">
+        </FrameLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:background="?android:attr/selectableItemBackground"
-            android:id="@+id/card_view_back">
-
-            <FrameLayout
-                android:layout_width="3dp"
-                android:layout_height="match_parent"
-                android:id="@+id/priority_color"
-                android:background="#eb5a46">
-            </FrameLayout>
+            android:layout_height="56dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
             <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                android:gravity="center_vertical">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical">
-
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Название задачи"
-                            android:id="@+id/title"
-                            android:textSize="18sp"
-                            android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:textColor="#424242"
-                        android:singleLine="true"
-                        android:layout_weight="1" />
-
-                    <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:id="@+id/imageViewRemind"
-                        android:layout_marginRight="8dp"
-                        android:src="@drawable/ic_alarm"
-                        android:tint="#757575" />
-                </LinearLayout>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Срок выполнения"
-                        android:id="@+id/description"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                    android:textColor="#757575"
-                    android:textSize="13sp"
-                    android:layout_marginBottom="2dp"
-                    android:singleLine="true" />
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:text="Название задачи"
+                    android:textColor="#424242"
+                    android:textSize="18sp"/>
+
+                <ImageView
+                    android:id="@+id/imageViewRemind"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginRight="8dp"
+                    android:src="@drawable/ic_alarm"
+                    android:tint="#757575"/>
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:singleLine="true"
+                android:text="Срок выполнения"
+                android:textColor="#757575"
+                android:textSize="13sp"/>
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:background="#e2e2e2">
+
+    </FrameLayout>
+
 </LinearLayout>

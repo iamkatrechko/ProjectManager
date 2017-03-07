@@ -102,11 +102,7 @@ public class TasksListFragment extends Fragment {
         if (lab.getLevelOfParent(ID) == 2) {                                                         //Скрытие кнопки добавление подпроекта
             fMenu.removeButton(actionA);
         }
-        mTasksList.add(new DateLabel());
         mTasksList.addAll(lab.getTasksListOnAllLevel(ID));
-        mTasksList.add(new DateLabel());
-        mTasksList.add(new DateLabel());
-        mTasksList.add(new DateLabel());
 
         adapter = new TasksListAdapter(getActivity(), ID, true, true,
                 getResources().getColor(R.color.swipe_to_set_done_color),
