@@ -211,6 +211,10 @@ public class ProjectLab {
         return 0;
     }
 
+    /**
+     * Возвращает список задач на сегодня
+     * @return список задач на сегодня
+     */
     public List<Task> getTodayTasks() {
         List<Task> result = new ArrayList<>();
         String date = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(Calendar.getInstance().getTimeInMillis());

@@ -76,6 +76,12 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         notifyDataSetChanged();
     }
 
+    public void setTasksData(List<Task> tasks) {
+        mTasks.clear();
+        mTasks.addAll(tasks);
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
