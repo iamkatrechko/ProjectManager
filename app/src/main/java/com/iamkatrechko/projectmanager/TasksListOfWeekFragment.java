@@ -59,7 +59,7 @@ public class TasksListOfWeekFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        adapter = new TasksListAdapter(getActivity(), null, true, false,
+        adapter = new TasksListAdapter(getActivity(), true, false,
                 getResources().getColor(R.color.swipe_to_set_done_color),
                 getResources().getColor(R.color.swipe_to_delete_color),
                 R.drawable.ic_done, R.drawable.ic_delete, false);

@@ -69,7 +69,7 @@ public class TasksListByTagFragment extends Fragment {
 
         mTasksList = lab.getTasksListByTagID(tagID);
 
-        adapter = new TasksListAdapter(getActivity(), null, true, true,
+        adapter = new TasksListAdapter(getActivity(), true, true,
                 getResources().getColor(R.color.swipe_to_set_done_color),
                 getResources().getColor(R.color.swipe_to_delete_color),
                 R.drawable.ic_done, R.drawable.ic_delete, false);

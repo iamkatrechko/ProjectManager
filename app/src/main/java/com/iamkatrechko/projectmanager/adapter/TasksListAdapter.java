@@ -52,17 +52,15 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     /** Слушатель свайпа элементов списка влево/вправо */
     private OnItemSwipeListener mItemSwipeListener;
     private ProjectLab lab;
-    private UUID mId;
     private Methods m;
     private SimpleItemTouchHelperCallback callback;
 
-    public TasksListAdapter(Context context, UUID ID, boolean swipeToLeft, boolean swipeToRight,
+    public TasksListAdapter(Context context, boolean swipeToLeft, boolean swipeToRight,
                             @ColorInt int swipeToLeftColor, @ColorInt int swipeToRightColor,
                             @DrawableRes int swipeToLeftIcon, @DrawableRes int swipeToRightIcon,
                             boolean dragItem) {
         mContext = context;
         lab = ProjectLab.get(context);
-        mId = ID;
         m = new Methods(mContext);
         aColors = context.getResources().getStringArray(R.array.priorities_colors);
         myNotificationManager = new MyNotificationManager(context);
@@ -98,11 +96,10 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
-        // Если предыдущая позиция равна настоящей, либо задача поднялась выше подпроекта
-        // TODO вычислять подпроект через instanceof
-        if (fromPosition == toPosition || toPosition < lab.getLastTaskIndex(mId)) {
+        if (fromPosition == toPosition || getItemViewType(toPosition) != ADAPTER_ITEM_TYPE_TASK) {
             return;
         }
+
         AbstractTaskObject taskObject = mTasks.get(fromPosition);
         if (taskObject instanceof Task) {
             Task task = (Task) taskObject;
