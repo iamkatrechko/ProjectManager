@@ -85,7 +85,7 @@ public class FilterTasksListFragment extends Fragment {
                 getResources().getColor(R.color.swipe_to_set_done_color),
                 getResources().getColor(R.color.swipe_to_delete_color),
                 R.drawable.ic_done, R.drawable.ic_delete, false);
-        adapter.setTasksData(mTasksList);
+        adapter.setData(mTasksList);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

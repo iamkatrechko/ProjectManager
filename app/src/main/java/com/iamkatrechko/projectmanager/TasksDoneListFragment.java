@@ -17,7 +17,7 @@ import java.util.UUID;
 /**
  * Created by Muxa on 25.02.2016.
  */
-public class TasksDoneListFragment extends Fragment{
+public class TasksDoneListFragment extends Fragment {
 
     private List<Task> mTasksList;
     private TasksListAdapter adapter;
@@ -60,7 +60,7 @@ public class TasksDoneListFragment extends Fragment{
                 getResources().getColor(R.color.swipe_to_set_done_color),
                 getResources().getColor(R.color.swipe_to_delete_color),
                 R.drawable.ic_done, R.drawable.ic_delete, false);
-        adapter.setTasksData(mTasksList);
+        adapter.setData(mTasksList);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

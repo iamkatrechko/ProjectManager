@@ -1,26 +1,12 @@
 package com.iamkatrechko.projectmanager;
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.iamkatrechko.projectmanager.adapter.TasksListAdapter;
 import com.iamkatrechko.projectmanager.entity.Task;
@@ -38,7 +24,7 @@ public class TasksListByTagFragment extends Fragment {
     private List<Task> mTasksList;
     private TasksListAdapter adapter;
 
-    public static TasksListByTagFragment newInstance(UUID tagID){
+    public static TasksListByTagFragment newInstance(UUID tagID) {
         TasksListByTagFragment fragment = new TasksListByTagFragment();
 
         Bundle args = new Bundle();
@@ -73,7 +59,7 @@ public class TasksListByTagFragment extends Fragment {
                 getResources().getColor(R.color.swipe_to_set_done_color),
                 getResources().getColor(R.color.swipe_to_delete_color),
                 R.drawable.ic_done, R.drawable.ic_delete, false);
-        adapter.setTasksData(mTasksList);
+        adapter.setData(mTasksList);
 
         recyclerView.setAdapter(adapter);
 

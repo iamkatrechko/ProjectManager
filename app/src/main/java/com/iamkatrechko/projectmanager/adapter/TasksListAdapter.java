@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
@@ -37,14 +36,11 @@ import java.util.UUID;
  */
 public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements OnItemMoveAndSwipeListener {
 
-    enum ViewTypes {VIEW_TYPE_TASK, VIEW_TYPE_PROJECT, VIEW_TYPE_DATE_LABEL}
-
     final public static int ADAPTER_ITEM_TYPE_SUB_PROJECT = 0;
     final public static int ADAPTER_ITEM_TYPE_TASK = 1;
     final public static int ADAPTER_ITEM_TYPE_DATE = 3;
-    private MyNotificationManager myNotificationManager;
     private Context mContext;
-    private List<AbstractTaskObject> mTasks = new ArrayList<>();
+    private List<? extends AbstractTaskObject> mTasks = new ArrayList<>();
     /** Цвета для обозначения приоритетов */
     private String[] aColors;
     /** Слушатель нажатия на подпроект/задачу */
@@ -54,6 +50,8 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private ProjectLab lab;
     private Methods m;
     private SimpleItemTouchHelperCallback callback;
+    private RecyclerView mRecyclerView;
+    private View mEmptyView;
 
     public TasksListAdapter(Context context, boolean swipeToLeft, boolean swipeToRight,
                             @ColorInt int swipeToLeftColor, @ColorInt int swipeToRightColor,
@@ -63,26 +61,34 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         lab = ProjectLab.get(context);
         m = new Methods(mContext);
         aColors = context.getResources().getStringArray(R.array.priorities_colors);
-        myNotificationManager = new MyNotificationManager(context);
         callback = new SimpleItemTouchHelperCallback(mContext, this, swipeToLeft, swipeToRight,
                 swipeToLeftColor, swipeToRightColor,
                 swipeToLeftIcon, swipeToRightIcon, dragItem);
     }
 
-    public void setData(List<AbstractTaskObject> tasks) {
+    public void setData(List<? extends AbstractTaskObject> tasks) {
         mTasks = tasks;
         notifyDataSetChanged();
     }
 
-    public void setTasksData(List<Task> tasks) {
-        mTasks.clear();
-        mTasks.addAll(tasks);
-        notifyDataSetChanged();
+    public void setEmptyListView(View view) {
+        mEmptyView = view;
+        super.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                if (mEmptyView != null && mRecyclerView != null) {
+                    mEmptyView.setVisibility(mTasks.isEmpty() ? View.VISIBLE : View.GONE);
+                    mRecyclerView.setVisibility(mTasks.isEmpty() ? View.GONE : View.VISIBLE);
+                }
+            }
+        });
     }
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
+        mRecyclerView = recyclerView;
         // Инициализация свайпов
         ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(recyclerView);
