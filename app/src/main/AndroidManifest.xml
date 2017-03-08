@@ -22,6 +22,9 @@
                 android:name=".ServiceMenu"
                 android:label="Сервисное меню"/>
         <activity
+                android:name=".ProjectsListActivity"
+                android:label="Проекты"/>
+        <activity
                 android:name=".TasksListActivity"
                 android:label="Задачи проекта" />
         <activity
