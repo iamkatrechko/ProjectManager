@@ -36,7 +36,6 @@ public class ProjectLab {
         generateTags();
         projectsJSONSerializer = ProjectsJSONSerializer.get(appContext);
 
-
         //loadProjectsFromJSON();
         //if (mProjects.size() == 0){
         generateTestData();
@@ -250,83 +249,6 @@ public class ProjectLab {
         }
 
         return result;
-    }
-
-    /**
-     * Возвращает список задач на ближайшую неделю
-     * (с добавление меток-дат между задачами)
-     * @return Список задач
-     */
-    public List<Task> getOfWeekTasksList() {
-        ArrayList<Task> todayList = new ArrayList<>();
-
-        String[] week = m.getWeekDate();
-        int i = 0;
-        for (String date : week) {
-            i++;
-            Task taskDate = new Task();
-            taskDate.setTitle("");
-            taskDate.setDescription("");
-            if (i == 1) {
-                taskDate.setDate("Сегодня - " + m.getDate(date));
-            } else if (i == 2) {
-                taskDate.setDate("Завтра - " + m.getDate(date));
-            } else {
-                taskDate.setDate(m.getDate(date));
-            }
-            taskDate.setTime("11:11");
-            taskDate.setIsDone(true);
-            taskDate.setType("date");
-            todayList.add(taskDate);
-
-            for (Project p : mProjects) {
-
-                for (Task t1 : p.getTasks()) {
-                    if (t1.getType().equals(Task.TASK_TYPE_TASK)) {
-                        if (t1.getDate().equals(date)) {
-                            todayList.add(t1);
-                        }
-                    } else {
-
-                        for (Task t2 : t1.getTasks()) {
-                            if (t2.getType().equals(Task.TASK_TYPE_TASK)) {
-                                if (t2.getDate().equals(date)) {
-                                    todayList.add(t2);
-                                }
-                            } else {
-
-                                for (Task t3 : t2.getTasks()) {
-                                    if (t3.getType().equals(Task.TASK_TYPE_TASK)) {
-                                        if (t3.getDate().equals(date)) {
-                                            todayList.add(t3);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            //Если в этот день нет задач, удаляем элемент с датой
-            if (todayList.get(todayList.size() - 1).getType().equals("date")) {
-                todayList.remove(todayList.size() - 1);
-            }
-        }
-
-        //Если задач нет, оставляем метку об этом
-        if (todayList.size() == 0) {
-            Task taskDate = new Task();
-            taskDate.setTitle("");
-            taskDate.setDescription("");
-            taskDate.setDate("Нет задач");
-            taskDate.setTime("11:11");
-            taskDate.setIsDone(true);
-            taskDate.setType("date");
-            todayList.add(taskDate);
-        }
-
-        return todayList;
     }
 
     /**

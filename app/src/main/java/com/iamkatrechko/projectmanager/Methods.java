@@ -1,19 +1,10 @@
 package com.iamkatrechko.projectmanager;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.res.Resources;
-import android.support.v7.app.AlertDialog;
-import android.util.DisplayMetrics;
-import android.util.Log;
-
 import com.iamkatrechko.projectmanager.utils.DateUtils;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
-
 public class Methods {
+
     private Context mContext;
 
     public Methods(Context context) {
@@ -28,25 +19,6 @@ public class Methods {
      */
     public String getFormatDate(String date, String time) {
         return getFormatDate2(date, time);
-        /*String formatDate;
-
-        if (date.equals(getTodayDate())){
-            if (time.equals("null")){
-                formatDate = "Сегодня";
-            }else {
-                formatDate = "Сегодня - " + time;
-            }
-        }else if (date.equals("null")){
-            formatDate = "";
-        }else{
-            if (time.equals("null")){
-                formatDate = date;
-            }else{
-                formatDate = date + " - " + time;
-            }
-        }
-
-        return formatDate;*/
     }
 
     /**
@@ -102,10 +74,6 @@ public class Methods {
         return formatDate;
     }
 
-    public String getDate(String date) {
-        return setBufDate(date);
-    }
-
     private String setBufDate(String date) {
         String[] months = mContext.getResources().getStringArray(R.array.months);
         int year = Integer.valueOf(date.split("\\.")[2]);
@@ -120,34 +88,5 @@ public class Methods {
         }
 
         return newDate;
-    }
-
-    /**
-     * Возвращает массив с датами следующих 7-ми дней, в т.ч. сегодня
-     * @return Массив строк в формате "YYYY.MM.DD"
-     */
-    public String[] getWeekDate() {
-        String[] result = new String[7];
-
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        for (int i = 0; i < 7; i++) {
-            String date = dateFormat.format(c.getTime());
-            result[i] = date;
-            c.add(Calendar.DAY_OF_YEAR, 1);
-        }
-
-        return result;
-    }
-
-    /**
-     * Переводит DP в пиксели
-     * @param dp Количество DP
-     * @return Количество пикселей
-     */
-    public float getPXfromDP(int dp) {
-        Resources resources = mContext.getResources();
-        DisplayMetrics metrics = resources.getDisplayMetrics();
-        return dp * ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 }
