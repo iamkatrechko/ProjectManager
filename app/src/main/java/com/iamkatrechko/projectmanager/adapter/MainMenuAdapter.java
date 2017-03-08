@@ -84,9 +84,9 @@ public class MainMenuAdapter extends BaseExpandableListAdapter {
             //Настройка шапки
             //convertView.findViewById(R.id.linearMain).setBackgroundColor(color);
         } else {
-            ImageView iconGroup = (ImageView) convertView.findViewById(R.id.iconGroup);
-            TextView textGroup = (TextView) convertView.findViewById(R.id.textGroup);
-            ImageView imageViewIndicator = (ImageView) convertView.findViewById(R.id.imageViewIndicator);
+            ImageView iconGroup = (ImageView) convertView.findViewById(R.id.image_view_icon);
+            TextView textGroup = (TextView) convertView.findViewById(R.id.text_view_title);
+            ImageView imageViewIndicator = (ImageView) convertView.findViewById(R.id.image_view_indicator);
 
             iconGroup.setImageResource(menuItem.getIconId());
             textGroup.setText(menuItem.getTitle());
