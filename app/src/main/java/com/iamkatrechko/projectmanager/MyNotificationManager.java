@@ -16,8 +16,8 @@ import java.util.UUID;
  */
 public class MyNotificationManager {
 
-    Context mContext;
-    ProjectLab lab;
+    private Context mContext;
+    private ProjectLab lab;
 
     public MyNotificationManager(Context context){
         mContext = context;
