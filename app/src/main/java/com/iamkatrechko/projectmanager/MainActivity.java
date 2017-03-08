@@ -8,15 +8,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.*;
 import android.widget.*;
 
 import com.iamkatrechko.projectmanager.adapter.MainMenuAdapter;
 import com.iamkatrechko.projectmanager.entity.Project;
 import com.iamkatrechko.projectmanager.entity.Tag;
-import com.iamkatrechko.projectmanager.expandable_menu.AbstractExpMenuItem;
+import com.iamkatrechko.projectmanager.expandable_menu.ExpMenuItem;
 import com.iamkatrechko.projectmanager.expandable_menu.ExpMenuItems;
 
 import java.util.ArrayList;
@@ -40,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     /** Адаптер списка главного меню */
     private MainMenuAdapter adapter;
     /** Список элеметов главного меню */
-    private List<AbstractExpMenuItem> menuItems;
+    private List<ExpMenuItem> menuItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,24 +101,24 @@ public class MainActivity extends AppCompatActivity {
 
         menuItems = new ArrayList<>();
         for (ExpMenuItems expMenuItems : ExpMenuItems.values()) {
-            AbstractExpMenuItem item = new AbstractExpMenuItem(expMenuItems);
+            ExpMenuItem item = new ExpMenuItem(expMenuItems);
             switch (expMenuItems) {
                 case MENU_ITEM_PROJECTS:
                     ArrayList<Project> projects = lab.getProjects();
                     for (Project project : projects) {
-                        item.addChildItem(new AbstractExpMenuItem.ChildItem(project.getTitle(), project.getColor()));
+                        item.addChildItem(new ExpMenuItem.ChildItem(project.getTitle(), project.getColor()));
                     }
                     break;
                 case MENU_ITEM_FILTERS:
                     String[] list = getResources().getStringArray(R.array.filters);
                     for (String filter : list) {
-                        item.addChildItem(new AbstractExpMenuItem.ChildItem(filter, Color.BLACK));
+                        item.addChildItem(new ExpMenuItem.ChildItem(filter, Color.BLACK));
                     }
                     break;
                 case MENU_ITEM_TAGS:
                     ArrayList<Tag> tags = lab.getTags();
                     for (Tag tag : tags) {
-                        item.addChildItem(new AbstractExpMenuItem.ChildItem(tag.getTitle(), Color.BLACK));
+                        item.addChildItem(new ExpMenuItem.ChildItem(tag.getTitle(), Color.BLACK));
                     }
                     break;
             }
