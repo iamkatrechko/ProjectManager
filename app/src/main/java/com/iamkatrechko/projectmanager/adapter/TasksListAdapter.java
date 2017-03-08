@@ -84,8 +84,7 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         // Инициализация свайпов
-        ItemTouchHelper mItemTouchHelper;
-        mItemTouchHelper = new ItemTouchHelper(callback);
+        ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
@@ -139,35 +138,21 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder vHolderAll, final int position) {
-        final AbstractTaskObject taskObject = mTasks.get(position);
+    public void onBindViewHolder(final RecyclerView.ViewHolder vHolder, final int position) {
+        AbstractTaskObject taskObject = mTasks.get(position);
 
         // TODO Добавить ViewHolder с меткой проекта для списка в календаре из разметки recycler_task_item_calendar
         switch (getItemViewType(position)) {
             case ADAPTER_ITEM_TYPE_SUB_PROJECT: {
-                ViewHolderSubProject vH = (ViewHolderSubProject) vHolderAll;
-                Task task = (Task) taskObject;
-
-                vH._id = task.getID();
-                vH.tvTitle.setText(task.getTitle());
-                vH.tvDescription.setText(task.getDescription());
+                ((ViewHolderSubProject) vHolder).bindView(taskObject);
                 break;
             }
             case ADAPTER_ITEM_TYPE_TASK: {
-                ViewHolderTask vH = (ViewHolderTask) vHolderAll;
-                Task task = (Task) taskObject;
-                vH._id = task.getID();
-                vH.tvTitle.setText(task.getTitle());
-                //vH.itemView.findViewById(R.id.card_view).setVisibility(task.getIsDone() ? View.GONE : View.VISIBLE);
-                vH.tvDescription.setText(m.getFormatDate(task.getDate(), task.getTime()));
-                vH.flPriority.setBackgroundColor(Color.parseColor(aColors[task.getPriority()]));
-                vH.ivImageRemind.setVisibility(task.getIsNotify() ? View.VISIBLE : View.GONE);
+                ((ViewHolderTask) vHolder).bindView(taskObject);
                 break;
             }
             case ADAPTER_ITEM_TYPE_DATE: {
-                DateLabel dateLabel = (DateLabel) taskObject;
-                ViewHolderDate vHolder = (ViewHolderDate) vHolderAll;
-                vHolder.tvDate.setText(dateLabel.getDate());
+                ((ViewHolderDate) vHolder).bindView(taskObject);
                 break;
             }
         }
@@ -224,6 +209,16 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             });
         }
 
+        public void bindView(AbstractTaskObject abstractTaskObject) {
+            Task task = (Task) abstractTaskObject;
+            _id = task.getID();
+            tvTitle.setText(task.getTitle());
+            //vH.itemView.findViewById(R.id.card_view).setVisibility(task.getIsDone() ? View.GONE : View.VISIBLE);
+            tvDescription.setText(m.getFormatDate(task.getDate(), task.getTime()));
+            flPriority.setBackgroundColor(Color.parseColor(aColors[task.getPriority()]));
+            ivImageRemind.setVisibility(task.getIsNotify() ? View.VISIBLE : View.GONE);
+        }
+
         @Override
         public void onItemSelected() {
             //TODO доделать тень
@@ -275,6 +270,13 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             });
         }
 
+        public void bindView(AbstractTaskObject abstractTaskObject) {
+            Task task = (Task) abstractTaskObject;
+            _id = task.getID();
+            tvTitle.setText(task.getTitle());
+            tvDescription.setText(task.getDescription());
+        }
+
         @Override
         public void onItemSelected() {
             //TODO доделать тень
@@ -296,6 +298,11 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public ViewHolderDate(final View itemView) {
             super(itemView);
             tvDate = (TextView) itemView.findViewById(R.id.text_view_date);
+        }
+
+        public void bindView(AbstractTaskObject abstractTaskObject) {
+            DateLabel dateLabel = (DateLabel) abstractTaskObject;
+            tvDate.setText(dateLabel.getDate());
         }
     }
 }
