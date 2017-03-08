@@ -37,7 +37,7 @@ public class ActivitySettings extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.linear_theme:
                 showDialog(0);
                 break;
@@ -48,7 +48,7 @@ public class ActivitySettings extends AppCompatActivity implements View.OnClickL
     protected Dialog onCreateDialog(int id) {
         switch (id) {
             case 0:
-                final String[] mThemesName ={"Purple", "Indigo", "Teal", "Presentation"};
+                final String[] mThemesName = {"Purple", "Indigo", "Teal", "Presentation"};
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -65,7 +65,7 @@ public class ActivitySettings extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    public void qChangeTheme(Integer num){
+    public void qChangeTheme(Integer num) {
         t.setNumTheme(String.valueOf(num));
         Utils.changeToTheme(this, num);
     }
@@ -82,7 +82,7 @@ public class ActivitySettings extends AppCompatActivity implements View.OnClickL
         return super.onOptionsItemSelected(item);
     }
 
-    public void onBackPressed(){
+    public void onBackPressed() {
         finish();
         overridePendingTransition(R.anim.act_slide_up_in, R.anim.act_slide_up_out);
     }
