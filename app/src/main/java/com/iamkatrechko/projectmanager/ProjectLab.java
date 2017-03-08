@@ -19,13 +19,14 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.UUID;
 
+/** Класс по работе с проектами и задачами */
 public class ProjectLab {
     private ArrayList<Project> mProjects;
     private ArrayList<Tag> mTags;
     private static ProjectLab sProjectLab;
     private Context mAppContext;
     private Methods m;
-    ProjectsJSONSerializer projectsJSONSerializer;
+    private ProjectsJSONSerializer projectsJSONSerializer;
 
     private ProjectLab(Context appContext) {
         mAppContext = appContext;

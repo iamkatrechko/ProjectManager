@@ -27,12 +27,19 @@ import static com.iamkatrechko.projectmanager.expandable_menu.ExpMenuItems.MENU_
 
 public class MainActivity extends AppCompatActivity {
 
+    /** Основной тулбра */
     private Toolbar toolbar;
+    /** Главный лэйаут */
     private DrawerLayout drawerLayout;
-    private MainMenuAdapter adapter;
+    /** Менеджер фрагментов */
     private FragmentManager fragmentManager;
-    private ExpandableListView mExpandableListView;
+    /** Класс по работе с проектами и задачами */
     private ProjectLab lab;
+    /** Двухуровневый виджет-список главного меню */
+    private ExpandableListView mExpandableListView;
+    /** Адаптер списка главного меню */
+    private MainMenuAdapter adapter;
+    /** Список элеметов главного меню */
     private List<AbstractExpMenuItem> menuItems;
 
     @Override
@@ -47,9 +54,9 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         initNavigationView();
 
-        //UUID ID = listGroup.get(NAV_MENU_POS_PROJECTS).getList().get(0).getID();
         fragmentManager = getSupportFragmentManager();
-        //getProjectFragment(ID);
+        UUID ID = lab.getProjects().get(0).getID();
+        getProjectFragment(ID);
     }
 
     @Override
@@ -73,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     public void initToolBar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
