@@ -138,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (expMenuItem) {
                     case MENU_ITEM_TODAY:
                     case MENU_ITEM_WEEK:
+                    case MENU_ITEM_CALENDAR:
                     case MENU_ITEM_TAGS:
                     case MENU_ITEM_PROJECTS_EDIT:
                         getFragment(expMenuItem);
@@ -238,6 +239,11 @@ public class MainActivity extends AppCompatActivity {
             case MENU_ITEM_WEEK:
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, TasksListOfWeekFragment.newInstance())
+                        .commit();
+                break;
+            case MENU_ITEM_CALENDAR:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, CalendarFragment.newInstance())
                         .commit();
                 break;
             case MENU_ITEM_PROJECTS_EDIT:
