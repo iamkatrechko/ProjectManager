@@ -10,8 +10,8 @@ import java.util.Locale;
  */
 public class DateLabel extends AbstractTaskObject {
 
-    Calendar mCalendar;
-    String dateString;
+    private Calendar mCalendar;
+    private String dateString;
 
     public DateLabel() {
         mCalendar = Calendar.getInstance();

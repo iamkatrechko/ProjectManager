@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.iamkatrechko.projectmanager.ItemTouchHelperViewHolder;
 import com.iamkatrechko.projectmanager.Methods;
-import com.iamkatrechko.projectmanager.MyNotificationManager;
 import com.iamkatrechko.projectmanager.OnItemClickListener;
 import com.iamkatrechko.projectmanager.ProjectLab;
 import com.iamkatrechko.projectmanager.R;
@@ -297,7 +296,7 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     /** ViewHolderTask временной метки */
-    private class ViewHolderDate extends RecyclerView.ViewHolder {
+    public class ViewHolderDate extends RecyclerView.ViewHolder {
         /** Метка, отображающая дату */
         public TextView tvDate;
 
