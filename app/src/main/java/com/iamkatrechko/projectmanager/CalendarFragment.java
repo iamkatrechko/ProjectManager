@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import com.iamkatrechko.projectmanager.adapter.TasksListAdapter;
 import com.iamkatrechko.projectmanager.entity.Task;
 import com.iamkatrechko.projectmanager.new_entity.AbstractTaskObject;
-import com.iamkatrechko.projectmanager.new_entity.DateLabel;
 import com.iamkatrechko.projectmanager.utils.TasksUtils;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
@@ -58,40 +57,20 @@ public class CalendarFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mCalendarView.setTopbarVisible(false);
-        mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 int firstVisiblePos = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
                 if (firstVisiblePos != -1) {
-                    AbstractTaskObject taskObject = mTasksWithDates.get(firstVisiblePos);
-                    if (taskObject instanceof DateLabel) {
-                        DateLabel label = (DateLabel) taskObject;
-                        Log.d("firstVisibleItem", label.getDate());
+                    RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(firstVisiblePos);
+                    if (holder instanceof TasksListAdapter.ViewHolderDate) {
+                        Log.d("firstVisibleItem", ((TasksListAdapter.ViewHolderDate) holder).tvDate.getText().toString());
                     }
                 }
             }
         });
-
-        /*mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                View view1 = mRecyclerView.findChildViewUnder(dx, dy);
-                RecyclerView.ViewHolder holder;
-                if (view1 != null) {
-                    holder = mRecyclerView.getChildViewHolder(view1);
-                    if (holder instanceof TasksListAdapter.ViewHolderDate) {
-                        Log.d("onScrolled", ((TasksListAdapter.ViewHolderDate) holder).tvDate.getText().toString());
-                    }
-                }
-                *//*AbstractTaskObject taskObject = mTasksWithDates.get(mMyLayoutManager.findFirst());
-                if (taskObject instanceof DateLabel) {
-                    DateLabel label = (DateLabel) taskObject;
-                    Log.d("onScrolled", label.getDate());
-                }*//*
-            }
-        });*/
 
         List<Task> tasks = mLab.getAllTasks();
         mTasksWithDates = TasksUtils.addDateLabels(tasks);
