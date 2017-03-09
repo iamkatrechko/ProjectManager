@@ -2,6 +2,7 @@ package com.iamkatrechko.projectmanager;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,7 +36,7 @@ public class CalendarFragment extends Fragment {
     /** Виджет календаря */
     private MaterialCalendarView mCalendarView;
     /** Кастомный лэйаут-менеджер, для получения позиции первого выделенного элемента */
-    private MyLayoutManager mMyLayoutManager;
+    private LinearLayoutManager linearLayoutManager;
 
     public static CalendarFragment newInstance() {
         return new CalendarFragment();
@@ -54,17 +55,20 @@ public class CalendarFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.section_list);
         mCalendarView = (MaterialCalendarView) view.findViewById(R.id.calendarView);
 
-        mMyLayoutManager = new MyLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mMyLayoutManager);
+        linearLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(linearLayoutManager);
         mCalendarView.setTopbarVisible(false);
         mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                AbstractTaskObject taskObject = mTasksWithDates.get(mMyLayoutManager.findFirst());
-                if (taskObject instanceof DateLabel) {
-                    DateLabel label = (DateLabel) taskObject;
-                    Log.d("onScrolled", label.getDate());
+                int firstVisiblePos = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                if (firstVisiblePos != -1) {
+                    AbstractTaskObject taskObject = mTasksWithDates.get(firstVisiblePos);
+                    if (taskObject instanceof DateLabel) {
+                        DateLabel label = (DateLabel) taskObject;
+                        Log.d("firstVisibleItem", label.getDate());
+                    }
                 }
             }
         });
