@@ -9,7 +9,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.UUID;
 
-/** Объект подпроекта/задачи */
+/**
+ * Класс сущность подпроекта/задачи
+ * @author iamkatrechko
+ *         Date: 25.02.2016
+ */
 public class Task extends AbstractTaskObject {
     private static final String JSON_ID = "id";
     private static final String JSON_TITLE = "title";
@@ -37,7 +41,7 @@ public class Task extends AbstractTaskObject {
     private Boolean mIsDone;
     /** Тип задачи (подпроект/задача) */
     private String mType;
-    /** Дата. Формат "DD.MM.YYYY" */
+    /** Дата. Формат "dd.MM.yyyy" */
     private String mDate;
     /** Время. Формат "HH:MM" */
     private String mTime;
@@ -50,11 +54,15 @@ public class Task extends AbstractTaskObject {
     /** Список ID тегов ({@link Tag}) */
     private ArrayList<UUID> mTags = new ArrayList<>();
     /** Подзадачи */
-    private ArrayList<Task> mTasks = new ArrayList<>();;
+    private ArrayList<Task> mTasks = new ArrayList<>();
 
-    public Task() {
-        //Генерирование уникального идентификатора
+    /**
+     * Конструктор
+     * @param title заголовок подпроекта/задачи
+     */
+    public Task(String title) {
         mID = UUID.randomUUID();
+        mTitle = title;
         mTags = new ArrayList<>();
         mTasks = new ArrayList<>();
         setIsDone(false);

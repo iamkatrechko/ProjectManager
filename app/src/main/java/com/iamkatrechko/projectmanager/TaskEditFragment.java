@@ -170,8 +170,7 @@ public class TaskEditFragment extends Fragment implements View.OnClickListener{
                     myNotificationManager.addNotification(task.getID());
                 }else{
                     UUID ID = UUID.fromString(getArguments().getString("parentID"));
-                    Task task = new Task();
-                    task.setTitle(etTitle.getText().toString());
+                    Task task = new Task(etTitle.getText().toString());
                     task.setDescription(etDescription.getText().toString());
                     task.setDate(date);
                     task.setTime(time);

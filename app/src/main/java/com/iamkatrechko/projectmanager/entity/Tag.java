@@ -5,15 +5,27 @@ import org.json.JSONObject;
 
 import java.util.UUID;
 
+/**
+ * Класс сущность тега к задачам
+ * @author iamkatrechko
+ *         Date: 25.02.2016
+ */
 public class Tag {
     private static final String JSON_ID = "id";
     private static final String JSON_TITLE = "title";
 
+    /** Идентификатор тэга */
     private UUID mID;
+    /** Заголовок тега */
     private String mTitle;
 
-    public Tag() {
+    /**
+     * Конструктор
+     * @param title заголовок тега
+     */
+    public Tag(String title) {
         mID = UUID.randomUUID();
+        mTitle = title;
     }
 
     public UUID getID() {
@@ -35,8 +47,8 @@ public class Tag {
 
     public JSONObject toJSON() throws JSONException {
         JSONObject json = new JSONObject();
-        json.put(JSON_ID, mID.toString());                                                                              //Сохранение ID
-        json.put(JSON_TITLE, mTitle);                                                                                   //Сохранение названия
+        json.put(JSON_ID, mID.toString());
+        json.put(JSON_TITLE, mTitle);
         return json;
     }
 }

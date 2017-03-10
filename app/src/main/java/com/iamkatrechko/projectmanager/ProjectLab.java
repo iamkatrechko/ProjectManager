@@ -534,8 +534,7 @@ public class ProjectLab {
 
     public void generateTags() {
         for (int i = 0; i < 6; i++) {
-            Tag t = new Tag();
-            t.setTitle("Тэг #" + i);
+            Tag t = new Tag("Тэг #" + i);
             mTags.add(t);
         }
     }
@@ -547,8 +546,7 @@ public class ProjectLab {
 
     public void deleteData() {
         mProjects = new ArrayList<>();
-        Project p = new Project();
-        p.setTitle("Общий список");
+        Project p = new Project("Общий список");
         p.setColor(mContext.getResources().getColor(R.color.actionBarColor1));
         mProjects.add(p);
     }
@@ -558,26 +556,22 @@ public class ProjectLab {
         Random random = new Random();
 
         for (int i = 1; i <= projectNamesList.length; i++) {
-            Project p = new Project();
-            p.setTitle(projectNamesList[i - 1] + i);
+            Project p = new Project(projectNamesList[i - 1] + i);
             int color = -random.nextInt(16777216) + 1;
             p.setColor(color);
 
             for (int k = 1; k < 4; k++) {
-                Task task = new Task();
-                task.setTitle("Подпроект " + i + "-" + k);
+                Task task = new Task("Подпроект " + i + "-" + k);
                 task.setDescription("Описание " + i + "-" + k);
                 task.setType(Task.TASK_TYPE_SUB_PROJECT);
 
                 for (int m = 1; m < 4; m++) {
-                    Task task2 = new Task();
-                    task2.setTitle("Подподпроект " + i + "-" + m);
+                    Task task2 = new Task("Подподпроект " + i + "-" + m);
                     task2.setDescription("Описание " + i + "-" + m);
                     task2.setType(Task.TASK_TYPE_SUB_PROJECT);
 
                     for (int n = 1; n < 15; n++) {
-                        Task subTask = new Task();
-                        subTask.setTitle("Задача " + i + "-" + k + "-" + n);
+                        Task subTask = new Task("Задача " + i + "-" + k + "-" + n);
                         subTask.setDescription("Описание " + i + "-" + k + "-" + n);
                         subTask.setIsDone(n % 5 == 0);
                         subTask.setType(Task.TASK_TYPE_TASK);
@@ -593,8 +587,7 @@ public class ProjectLab {
                 }
 
                 for (int n = 1; n < 15; n++) {
-                    Task subTask = new Task();
-                    subTask.setTitle("Задача " + i + "-" + k + "-" + n);
+                    Task subTask = new Task("Задача " + i + "-" + k + "-" + n);
                     subTask.setDescription("Описание " + i + "-" + k + "-" + n);
                     subTask.setIsDone(n % 5 == 0);
                     subTask.setType(Task.TASK_TYPE_TASK);
@@ -610,8 +603,7 @@ public class ProjectLab {
             }
 
             for (int k = 1; k < 15; k++) {
-                Task t = new Task();
-                t.setTitle("Задача " + i + "-" + k);
+                Task t = new Task("Задача " + i + "-" + k);
                 t.setDescription("Описание " + i + "-" + k);
                 t.setIsDone(k % 5 == 0);
                 t.setType(Task.TASK_TYPE_TASK);

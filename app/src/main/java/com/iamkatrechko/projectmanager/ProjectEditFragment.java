@@ -85,8 +85,7 @@ public class ProjectEditFragment extends Fragment implements View.OnClickListene
                     tProject.setTitle(etTitle.getText().toString());
                     //Color color = ivColor.getColorFilter();
                 }else{
-                    Project project = new Project();
-                    project.setTitle(etTitle.getText().toString());
+                    Project project = new Project(etTitle.getText().toString());
                     project.setColor(color);
                     lab.getProjects().add(project);
                 }

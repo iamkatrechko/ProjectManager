@@ -42,8 +42,7 @@ public class MyScheduledReceiver extends BroadcastReceiver {
     private void showNotification(Context context, Intent intent){
         UUID id = UUID.fromString(intent.getStringExtra("mId"));
         //Task task = lab.getTaskOnAllLevel(id);
-        Task task = new Task();
-        task.setTitle("Задача");
+        Task task = new Task("Задача");
         task.setDescription("Описание");
         task.setIsDone(false);
         task.setType(Task.TASK_TYPE_TASK);

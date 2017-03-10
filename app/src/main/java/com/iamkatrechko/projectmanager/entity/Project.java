@@ -1,31 +1,49 @@
 package com.iamkatrechko.projectmanager.entity;
 
+import android.graphics.Color;
+import android.support.annotation.ColorInt;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.UUID;
 
 /**
- * Created by Muxa on 25.02.2016.
+ * Класс сущность проекта с задачами
+ * @author iamkatrechko
+ *         Date: 25.02.2016
  */
 public class Project {
-
     private static final String JSON_ID = "id";
     private static final String JSON_TITLE = "title";
     private static final String JSON_COLOR = "color";
     private static final String JSON_LIST = "tasks_list";
 
+    /** Идентификатор проекта */
     private UUID mID;
+    /** Заголовок проекта */
     private String mTitle;
+    /** Цвет иконки проекта */
     private int mColor;
-    private ArrayList<Task> mTasks;
+    /** Список задач */
+    private ArrayList<Task> mTasks = new ArrayList<>();
 
-    public Project() {
-        //Генерирование уникального идентификатора
+    /**
+     * Конструктор
+     * @param title заголовок проекта
+     */
+    public Project(String title) {
+        this(title, generateRandomColor());
+    }
+
+    public Project(String title, @ColorInt int color) {
         mID = UUID.randomUUID();
-        mTasks = new ArrayList<Task>();
+        mTitle = title;
+        mColor = color;
+        mTasks = new ArrayList<>();
     }
 
     public UUID getID() {
@@ -52,7 +70,6 @@ public class Project {
         return mTasks;
     }
 
-
     public Project(JSONObject json) throws JSONException {
         mID = UUID.fromString(json.getString(JSON_ID));
         mTitle = json.getString(JSON_TITLE);
@@ -67,9 +84,9 @@ public class Project {
 
     public JSONObject toJSON() throws JSONException {
         JSONObject json = new JSONObject();
-        json.put(JSON_ID, mID.toString());                                                                              //Сохранение ID
-        json.put(JSON_TITLE, mTitle);                                                                                   //Сохранение названия
-        json.put(JSON_COLOR, mColor);                                                                                   //Сохранение цвета проекта
+        json.put(JSON_ID, mID.toString());
+        json.put(JSON_TITLE, mTitle);
+        json.put(JSON_COLOR, mColor);
 
         //Сохранение списка проектов/подзадач
         JSONArray array = new JSONArray();
@@ -79,5 +96,13 @@ public class Project {
         /////////////////////////////////////
 
         return json;
+    }
+
+    private static int generateRandomColor() {
+        Random rand = new Random();
+        int r = rand.nextInt(256);
+        int g = rand.nextInt(256);
+        int b = rand.nextInt(256);
+        return Color.rgb(r, g, b);
     }
 }

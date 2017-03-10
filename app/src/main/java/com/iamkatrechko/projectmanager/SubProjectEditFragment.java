@@ -81,8 +81,7 @@ public class SubProjectEditFragment extends Fragment implements View.OnClickList
                     task.setType(Task.TASK_TYPE_SUB_PROJECT);
                 }else{
                     UUID ID = UUID.fromString(getArguments().getString("parentID"));
-                    Task task = new Task();
-                    task.setTitle(editTextTitle.getText().toString());
+                    Task task = new Task(editTextTitle.getText().toString());
                     task.setDescription(editTextDescription.getText().toString());
                     task.setType(Task.TASK_TYPE_SUB_PROJECT);
                     lab.getTasksListOnAllLevel(ID).add(lab.getLastTaskIndex(ID), task);

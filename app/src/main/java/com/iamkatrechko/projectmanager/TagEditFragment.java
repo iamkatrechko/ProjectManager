@@ -16,13 +16,13 @@ import java.util.UUID;
  * Created by Muxa on 12.04.2016.
  */
 public class TagEditFragment extends Fragment implements View.OnClickListener {
-    ProjectLab lab;
+    private ProjectLab lab;
     private UUID ID;
     private String Operation;
-    EditText etTitle;
-
+    private EditText etTitle;
     private Tag tag;
-    public static TagEditFragment newInstance(String ID, String operation){
+
+    public static TagEditFragment newInstance(String ID, String operation) {
         TagEditFragment fragment = new TagEditFragment();
 
         Bundle args = new Bundle();
@@ -51,11 +51,11 @@ public class TagEditFragment extends Fragment implements View.OnClickListener {
 
         etTitle = (EditText) v.findViewById(R.id.etTitle);
 
-        if (Operation.equals("edit")){
+        if (Operation.equals("edit")) {
             //getActivity().setTitle(R.string.activity_project_edit);
             tag = lab.getTagByID(ID);
             etTitle.setText(tag.getTitle());
-        }else{
+        } else {
             //getActivity().setTitle(R.string.activity_project_add);
         }
 
@@ -70,8 +70,7 @@ public class TagEditFragment extends Fragment implements View.OnClickListener {
                 if (Operation.equals("edit")) {
                     tag.setTitle(etTitle.getText().toString());
                 } else {
-                    Tag tag = new Tag();
-                    tag.setTitle(etTitle.getText().toString());
+                    Tag tag = new Tag(etTitle.getText().toString());
                     lab.getTags().add(tag);
                 }
                 getActivity().finish();
