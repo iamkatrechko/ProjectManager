@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                     case MENU_ITEM_TODAY:
                     case MENU_ITEM_WEEK:
                     case MENU_ITEM_CALENDAR:
-                    //case MENU_ITEM_TAGS:
+                    case MENU_ITEM_TAGS_EDIT:
                     case MENU_ITEM_PROJECTS_EDIT:
                         getFragment(expMenuItem);
                         break;
@@ -270,5 +270,10 @@ public class MainActivity extends AppCompatActivity {
         ProjectLab lab = ProjectLab.get(this);
         lab.saveProjectsIntoJSON();
         lab.saveTagsIntoJSON();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

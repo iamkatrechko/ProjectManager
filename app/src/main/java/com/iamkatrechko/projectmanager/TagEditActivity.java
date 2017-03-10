@@ -8,10 +8,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 /**
- * Created by Muxa on 12.04.2016.
+ * Активность создания/редактирования тега
+ * @author iamkatrechko
+ *         Date: 12.04.2016
  */
 public class TagEditActivity extends AppCompatActivity {
 
+    // TODO создать метод, возвращающий интент с нужными данными
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Utils.onActivityCreateSetTheme(this, Integer.valueOf(Themes.getNumTheme()));
@@ -31,6 +34,7 @@ public class TagEditActivity extends AppCompatActivity {
             fragmentManager.beginTransaction()
                     .replace(R.id.container, TagEditFragment.newInstance(ID, operation))
                     .commit();
+            // TODO на основе данных (или их отсутствия) отображать заголовок "создание/редактирование"
             //setTitle(R.string.title_section1);
         }
     }

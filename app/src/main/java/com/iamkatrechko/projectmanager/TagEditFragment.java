@@ -13,7 +13,9 @@ import com.iamkatrechko.projectmanager.entity.Tag;
 import java.util.UUID;
 
 /**
- * Created by Muxa on 12.04.2016.
+ * Фрагмент создания/редактирования тега
+ * @author iamkatrechko
+ *         Date: 12.04.2016
  */
 public class TagEditFragment extends Fragment implements View.OnClickListener {
     private ProjectLab lab;

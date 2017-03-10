@@ -1,19 +1,22 @@
 package com.iamkatrechko.projectmanager;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.iamkatrechko.projectmanager.adapter.TagListAdapter;
+import com.iamkatrechko.projectmanager.dialogs.DialogDeleteConfirm;
 import com.iamkatrechko.projectmanager.entity.Tag;
 
 import java.util.ArrayList;
@@ -44,33 +47,13 @@ public class TagsListFragment extends Fragment {
         mTagsList = lab.getTags();
         adapter = new TagListAdapter(mTagsList);
         adapter.setOnClickListener(new TagListAdapter.OnTagItemClickListener() {
+
             @Override
             public void onDeleteClick(Tag tag) {
-                //Подтверждение удаления
-                //Удаление тега
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Подтверждение")
-                        .setMessage("Вы уверены, что хотите удалить метку?")
-                        //.setIcon(R.drawable.ic_android_cat)
-                        .setCancelable(false)
-                        .setNegativeButton("Нет",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                    }
-                                })
-                        .setPositiveButton("Да",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        /*Tag tag = ProjectLab.get(getActivity()).getTagByID(id);
-                                        int pos = mTagsList.indexOf(tag);
-                                        mTagsList.remove(tag);
-                                        notifyItemRemoved(pos);*/
-                                    }
-                                });
-                AlertDialog alert = builder.create();
-                alert.show();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                DialogDeleteConfirm fragmentDialog = DialogDeleteConfirm.newInstance("Подтверждение", "Вы уверены, что хотите удалить метку?");
+                fragmentDialog.setTargetFragment(TagsListFragment.this, 125125);
+                fragmentDialog.show(fragmentManager, "DIALOG_DELETE_CONFIRM");
             }
 
             @Override
@@ -102,5 +85,19 @@ public class TagsListFragment extends Fragment {
     public void onResume() {
         super.onResume();
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK && requestCode == 125125) {
+            boolean delete = data.getBooleanExtra("delete", false);
+            if (delete) {
+                Toast.makeText(getActivity(), "Удаление отключено", Toast.LENGTH_SHORT).show();
+                /*Tag tag = ProjectLab.get(getActivity()).getTagByID(id);
+                                        int pos = mTagsList.indexOf(tag);
+                                        mTagsList.remove(tag);
+                                        notifyItemRemoved(pos);*/
+            }
+        }
     }
 }
