@@ -58,7 +58,7 @@ public class Project {
         mTitle = json.getString(JSON_TITLE);
         mColor = json.getInt(JSON_COLOR);
 
-        mTasks = new ArrayList<Task>();
+        mTasks = new ArrayList<>();
         JSONArray array = json.getJSONArray(JSON_LIST);
         for (int i = 0; i < array.length(); i++) {
             mTasks.add(new Task(array.getJSONObject(i)));

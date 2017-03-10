@@ -146,7 +146,7 @@ public class TasksListFragment extends Fragment {
             @Override
             public void onItemRightSwipe(int position) {
                 //myNotificationManager.deleteNotification(mTasks.get(position).getID());
-                mTasksList.remove(position);
+                lab.removeTaskByID(((Task) mTasksList.get(position)).getID());
                 adapter.notifyItemRemoved(position);
                 //notifyItemRangeChanged(position, mTasks.size());
             }

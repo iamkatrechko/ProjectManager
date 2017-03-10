@@ -21,24 +21,23 @@ import java.util.UUID;
 
 /** Класс по работе с проектами и задачами */
 public class ProjectLab {
-    private ArrayList<Project> mProjects;
-    private ArrayList<Tag> mTags;
+    private ArrayList<Project> mProjects = new ArrayList<>();
+    private ArrayList<Tag> mTags = new ArrayList<>();
     private static ProjectLab sProjectLab;
     private Context mAppContext;
-    private Methods m;
-    private ProjectsJSONSerializer projectsJSONSerializer;
+    private JSONSerializer mJSONSerializer;
 
     private ProjectLab(Context appContext) {
         mAppContext = appContext;
-        m = new Methods(appContext);
-        mProjects = new ArrayList<>();
-        mTags = new ArrayList<>();
-        generateTags();
-        projectsJSONSerializer = ProjectsJSONSerializer.get(appContext);
+        mJSONSerializer = JSONSerializer.get(appContext);
 
-        //loadProjectsFromJSON();
-        //if (mProjects.size() == 0){
-        generateTestData();
+        //generateTags();
+        loadTagsFromJSON();
+        loadProjectsFromJSON();
+        //if (mProjects.size() == 0)
+        //generateTags();
+        //generateTestData();
+        //saveTagsIntoJSON();
         //}
         //generateTestData();
     }
@@ -50,9 +49,9 @@ public class ProjectLab {
         return sProjectLab;
     }
 
-    public void loadProjectsFromJSON() {
+    private void loadProjectsFromJSON() {
         try {
-            mProjects = projectsJSONSerializer.loadProjects();
+            mProjects = mJSONSerializer.loadProjects();
         } catch (IOException | JSONException e) {
             Log.d("ProjectLab", "Ошибка загрузки");
             e.printStackTrace();
@@ -61,7 +60,25 @@ public class ProjectLab {
 
     public void saveProjectsIntoJSON() {
         try {
-            projectsJSONSerializer.saveProjects(mProjects);
+            mJSONSerializer.saveProjects(mProjects);
+        } catch (JSONException | IOException e) {
+            Log.d("ProjectLab", "Ошибка сохранения");
+            e.printStackTrace();
+        }
+    }
+
+    private void loadTagsFromJSON() {
+        try {
+            mTags = mJSONSerializer.loadTags();
+        } catch (IOException | JSONException e) {
+            Log.d("ProjectLab", "Ошибка загрузки");
+            e.printStackTrace();
+        }
+    }
+
+    public void saveTagsIntoJSON() {
+        try {
+            mJSONSerializer.saveTags(mTags);
         } catch (JSONException | IOException e) {
             Log.d("ProjectLab", "Ошибка сохранения");
             e.printStackTrace();

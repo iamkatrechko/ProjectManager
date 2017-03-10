@@ -53,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
         initNavigationView();
 
         fragmentManager = getSupportFragmentManager();
-        UUID ID = lab.getProjects().get(0).getID();
-        getProjectFragment(ID);
+        //UUID ID = lab.getProjects().get(0).getID();
+        //getProjectFragment(ID);
     }
 
     @Override
@@ -269,5 +269,6 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         ProjectLab lab = ProjectLab.get(this);
         lab.saveProjectsIntoJSON();
+        lab.saveTagsIntoJSON();
     }
 }

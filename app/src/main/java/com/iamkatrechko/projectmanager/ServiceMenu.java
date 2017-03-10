@@ -38,7 +38,7 @@ public class ServiceMenu extends ActionBarActivity implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
-        ProjectsJSONSerializer serializer = ProjectsJSONSerializer.get(this);
+        JSONSerializer serializer = JSONSerializer.get(this);
         switch (view.getId()) {
             case R.id.button:
                 ArrayList<Project> list = ProjectLab.get(this).getProjects();

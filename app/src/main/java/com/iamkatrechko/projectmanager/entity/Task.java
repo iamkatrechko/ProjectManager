@@ -22,6 +22,7 @@ public class Task extends AbstractTaskObject {
     private static final String JSON_PRIORITY = "priority";
     private static final String JSON_IS_REPEAT = "is_repeat";
     private static final String JSON_LIST = "tasks_list";
+    private static final String JSON_LIST_TAGS = "tags_list";
 
     public final static String TASK_TYPE_SUB_PROJECT = "sub_project";
     public final static String TASK_TYPE_TASK = "task";
@@ -47,9 +48,9 @@ public class Task extends AbstractTaskObject {
     /** Повторяется? */
     private boolean mIsRepeat;
     /** Список ID тегов ({@link Tag}) */
-    private ArrayList<UUID> mTags;
+    private ArrayList<UUID> mTags = new ArrayList<>();
     /** Подзадачи */
-    private ArrayList<Task> mTasks;
+    private ArrayList<Task> mTasks = new ArrayList<>();;
 
     public Task() {
         //Генерирование уникального идентификатора
@@ -165,7 +166,6 @@ public class Task extends AbstractTaskObject {
         mType = json.getString(JSON_TYPE);
 
         if (mType.equals(TASK_TYPE_SUB_PROJECT)) {
-            mTasks = new ArrayList<Task>();
             JSONArray array = json.getJSONArray(JSON_LIST);
             for (int i = 0; i < array.length(); i++) {
                 mTasks.add(new Task(array.getJSONObject(i)));
@@ -178,7 +178,10 @@ public class Task extends AbstractTaskObject {
             mPriority = json.getInt(JSON_PRIORITY);
             mIsRepeat = json.getBoolean(JSON_IS_REPEAT);
             //
-            mTasks = new ArrayList<Task>();
+            JSONArray array = json.getJSONArray(JSON_LIST_TAGS);
+            for (int i = 0; i < array.length(); i++) {
+                mTags.add(UUID.fromString(array.getString(i)));
+            }
         }
     }
 
@@ -209,6 +212,11 @@ public class Task extends AbstractTaskObject {
             json.put(JSON_IS_NOTIFY, mIsNotify);
             json.put(JSON_PRIORITY, mPriority);
             json.put(JSON_IS_REPEAT, mIsRepeat);
+
+            JSONArray array = new JSONArray();
+            for (UUID t : mTags)
+                array.put(t.toString());
+            json.put(JSON_LIST_TAGS, array);
         }
 
         return json;
