@@ -21,24 +21,25 @@ import java.util.UUID;
 
 /** Класс по работе с проектами и задачами */
 public class ProjectLab {
+    /** Список проектов и задач */
     private ArrayList<Project> mProjects = new ArrayList<>();
+    /** Список тэгов */
     private ArrayList<Tag> mTags = new ArrayList<>();
+    /** Статический экземпляр синглтона */
     private static ProjectLab sProjectLab;
-    private Context mAppContext;
+    /** Контекст */
+    private Context mContext;
+    /** Класс для сериализации данных в JSON формате */
     private JSONSerializer mJSONSerializer;
 
-    private ProjectLab(Context appContext) {
-        mAppContext = appContext;
-        mJSONSerializer = JSONSerializer.get(appContext);
+    private ProjectLab(Context context) {
+        mContext = context;
+        mJSONSerializer = JSONSerializer.get(context);
 
         //generateTags();
         loadTagsFromJSON();
         loadProjectsFromJSON();
-        //if (mProjects.size() == 0)
         //generateTags();
-        //generateTestData();
-        //saveTagsIntoJSON();
-        //}
         //generateTestData();
     }
 
@@ -548,7 +549,7 @@ public class ProjectLab {
         mProjects = new ArrayList<>();
         Project p = new Project();
         p.setTitle("Общий список");
-        p.setColor(mAppContext.getResources().getColor(R.color.actionBarColor1));
+        p.setColor(mContext.getResources().getColor(R.color.actionBarColor1));
         mProjects.add(p);
     }
 
