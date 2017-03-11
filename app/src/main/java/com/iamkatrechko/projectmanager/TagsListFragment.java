@@ -65,7 +65,7 @@ public class TagsListFragment extends Fragment {
             }
         });
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplication()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         AddFloatingActionButton button = (AddFloatingActionButton) v.findViewById(R.id.action_add);
         button.setOnClickListener(new View.OnClickListener() {

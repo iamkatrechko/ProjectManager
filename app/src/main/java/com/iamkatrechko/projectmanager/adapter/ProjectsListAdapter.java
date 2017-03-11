@@ -19,12 +19,10 @@ import java.util.UUID;
  * author: iamkatrechko
  */
 public class ProjectsListAdapter extends RecyclerView.Adapter<ProjectsListAdapter.ViewHolder> {
-
+    /** Список проектов */
     private List<Project> mProjects = new ArrayList<>();
+    /** Слушатель нажатия на проект */
     private OnItemClickListener mOnItemClickListener;
-
-    public ProjectsListAdapter() {
-    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -32,17 +30,9 @@ public class ProjectsListAdapter extends RecyclerView.Adapter<ProjectsListAdapte
         return new ViewHolder(inflater.inflate(R.layout.recycler_project_item, parent, false));
     }
 
-    // Involves populating data into the item through holder
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        Project project = mProjects.get(position);
-        viewHolder._id = project.getID();
-
-        TextView textView = viewHolder.nameTextView;
-        textView.setText(project.getTitle());
-
-        ImageView button = viewHolder.projectColor;
-        button.setColorFilter(project.getColor());
+        viewHolder.bindView(mProjects.get(position));
     }
 
     @Override
@@ -50,23 +40,32 @@ public class ProjectsListAdapter extends RecyclerView.Adapter<ProjectsListAdapte
         return mProjects.size();
     }
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         mOnItemClickListener = onItemClickListener;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public void setData(List<Project> projects) {
+        mProjects = projects;
+        notifyDataSetChanged();
 
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        /** Идентификатор проекта */
         public UUID _id;
-        public TextView nameTextView;
-        public ImageView projectColor;
-        public ImageView projectEdit;
+        /** Название проекта */
+        public TextView tvTitle;
+        /** Кружок рядом с названием проекта */
+        public ImageView icCircle;
+        /** Кнопка редактирования проекта */
+        public ImageView ivEdit;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            nameTextView = (TextView) itemView.findViewById(R.id.contact_name);
-            projectColor = (ImageView) itemView.findViewById(R.id.image_view_label);
-            projectEdit = (ImageView) itemView.findViewById(R.id.imageViewEdit);
+            tvTitle = (TextView) itemView.findViewById(R.id.text_view_title);
+            icCircle = (ImageView) itemView.findViewById(R.id.image_view_label);
+            ivEdit = (ImageView) itemView.findViewById(R.id.image_view_delete);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -76,10 +75,25 @@ public class ProjectsListAdapter extends RecyclerView.Adapter<ProjectsListAdapte
                     }
                 }
             });
+            ivEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mOnItemClickListener != null) {
+                        mOnItemClickListener.onDeleteClick(mProjects.get(getAdapterPosition()));
+                    }
+                }
+            });
+        }
+
+        private void bindView(Project project) {
+            _id = project.getID();
+            tvTitle.setText(project.getTitle());
+            icCircle.setColorFilter(project.getColor());
         }
     }
 
     public interface OnItemClickListener {
         void onItemClick(Project project);
+        void onDeleteClick(Project project);
     }
 }

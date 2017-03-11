@@ -20,7 +20,7 @@
             android:layout_marginRight="8dp"
             android:padding="6dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_krug"/>
+            android:src="@drawable/ic_circle"/>
 
         <TextView
             android:id="@+id/text_view_title"

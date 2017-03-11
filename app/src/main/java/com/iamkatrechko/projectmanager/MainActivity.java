@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.iamkatrechko.projectmanager.expandable_menu.ExpMenuItems.MENU_ITEM_PROJECTS;
+import static com.iamkatrechko.projectmanager.expandable_menu.ExpMenuItems.MENU_ITEM_PROJECTS_EDIT;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -108,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
                     for (Project project : projects) {
                         item.addChildItem(new ExpMenuItem.ChildItem(project.getTitle(), project.getColor()));
                     }
+                    item.addChildItem(new ExpMenuItem.ChildItem("Управление проектами", Color.BLACK));
                     break;
                 case MENU_ITEM_FILTERS:
                     String[] list = getResources().getStringArray(R.array.filters);
@@ -141,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
                     case MENU_ITEM_CALENDAR:
                     case MENU_ITEM_TAGS_EDIT:
                     case MENU_ITEM_PROJECTS_EDIT:
-                        getFragment(expMenuItem);
+                        startFragment(expMenuItem);
                         break;
                     case MENU_ITEM_SETTINGS:
                         Intent intent = new Intent(getApplicationContext(), ActivitySettings.class);
@@ -158,11 +160,16 @@ public class MainActivity extends AppCompatActivity {
         mExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long l) {
-                ExpMenuItems expMenuItem = menuItems.get(groupPosition).getExpMenuItem();
+                ExpMenuItem menuItem = menuItems.get(groupPosition);
+                ExpMenuItems expMenuItem = menuItem.getExpMenuItem();
                 int index = expandableListView.getFlatListPosition(ExpandableListView.getPackedPositionForChild(groupPosition, childPosition));
                 expandableListView.setItemChecked(index, true);
                 switch (expMenuItem) {
                     case MENU_ITEM_PROJECTS:
+                        if (childPosition == menuItem.getChildItemCount() - 1) {
+                            startFragment(MENU_ITEM_PROJECTS_EDIT);
+                            return true;
+                        }
                         List<Project> projects = lab.getProjects();
                         final UUID _id = projects.get(childPosition).getID();
                         getProjectFragment(_id);
@@ -228,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
         //setTitle(R.string.title_section1);
     }
 
-    public void getFragment(ExpMenuItems expMenuItem) {
+    public void startFragment(ExpMenuItems expMenuItem) {
         drawerLayout.closeDrawers();
         switch (expMenuItem) {
             case MENU_ITEM_TODAY:

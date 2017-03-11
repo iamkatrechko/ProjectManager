@@ -274,7 +274,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_margin="16dp"
-                    android:src="@drawable/ic_krug"
+                    android:src="@drawable/ic_circle"
                     android:tint="#737373"
                     android:padding="4dp" />
 

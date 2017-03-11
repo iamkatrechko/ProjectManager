@@ -74,7 +74,7 @@
                         android:layout_width="10dp"
                         android:layout_height="10dp"
                         android:id="@+id/imageViewProjectColor"
-                        android:src="@drawable/ic_krug"
+                        android:src="@drawable/ic_circle"
                         android:layout_marginRight="4dp" />
 
                     <TextView
