@@ -1,11 +1,17 @@
 package com.iamkatrechko.projectmanager;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+
+import com.iamkatrechko.projectmanager.entity.Tag;
+
+import java.util.UUID;
 
 /**
  * Активность создания/редактирования тега
@@ -14,7 +20,15 @@ import android.view.MenuItem;
  */
 public class TagEditActivity extends AppCompatActivity {
 
-    // TODO создать метод, возвращающий интент с нужными данными
+    /** Экземпляр фрагмента редактирования тега */
+    private TagEditFragment mTagEditFragment;
+
+    public static Intent getIntent(Context context, Tag tag) {
+        Intent intent = new Intent(context, TagEditActivity.class);
+        intent.putExtra("tag", tag);
+        return intent;
+    }
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Utils.onActivityCreateSetTheme(this, Integer.valueOf(Themes.getNumTheme()));
@@ -25,17 +39,14 @@ public class TagEditActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        String ID = getIntent().getStringExtra("mId");
-        String operation = getIntent().getStringExtra("Operation");
-        //String parentID = getIntent().getStringExtra("parent_ID");
-
+        Tag tag = getIntent().getParcelableExtra("tag");
+        mTagEditFragment = TagEditFragment.newInstance(tag);
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (fragmentManager.getFragments() == null) {
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, TagEditFragment.newInstance(ID, operation))
+                    .replace(R.id.container, mTagEditFragment)
                     .commit();
             // TODO на основе данных (или их отсутствия) отображать заголовок "создание/редактирование"
-            //setTitle(R.string.title_section1);
         }
     }
 
@@ -48,5 +59,10 @@ public class TagEditActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        mTagEditFragment.onBackPressed();
     }
 }

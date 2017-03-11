@@ -1,6 +1,6 @@
 package com.iamkatrechko.projectmanager.entity;
 
-import com.iamkatrechko.projectmanager.new_entity.AbstractTaskObject;
+import com.iamkatrechko.projectmanager.new_entity.TaskListItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,7 +14,7 @@ import java.util.UUID;
  * @author iamkatrechko
  *         Date: 25.02.2016
  */
-public class Task extends AbstractTaskObject {
+public class Task implements TaskListItem {
     private static final String JSON_ID = "id";
     private static final String JSON_TITLE = "title";
     private static final String JSON_DESCRIPTION = "description";

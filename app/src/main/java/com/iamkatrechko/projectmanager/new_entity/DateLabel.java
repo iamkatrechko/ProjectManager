@@ -8,7 +8,7 @@ import java.util.Locale;
  * Created on 05.03.2017
  * author: ivanov_m
  */
-public class DateLabel extends AbstractTaskObject {
+public class DateLabel implements TaskListItem {
 
     private Calendar mCalendar;
     private String dateString;

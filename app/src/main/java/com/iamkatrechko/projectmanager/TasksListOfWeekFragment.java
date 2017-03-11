@@ -12,8 +12,7 @@ import android.view.ViewGroup;
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.iamkatrechko.projectmanager.adapter.TasksListAdapter;
 import com.iamkatrechko.projectmanager.entity.Task;
-import com.iamkatrechko.projectmanager.new_entity.AbstractTaskObject;
-import com.iamkatrechko.projectmanager.new_entity.DateLabel;
+import com.iamkatrechko.projectmanager.new_entity.TaskListItem;
 import com.iamkatrechko.projectmanager.utils.TasksUtils;
 
 import java.util.ArrayList;
@@ -33,7 +32,7 @@ public class TasksListOfWeekFragment extends Fragment {
     /** Адаптер списка задач */
     private TasksListAdapter adapter;
     /** Список задач с временными метками */
-    private List<AbstractTaskObject> mTasksWithDates = new ArrayList<>();
+    private List<TaskListItem> mTasksWithDates = new ArrayList<>();
 
     public static TasksListOfWeekFragment newInstance() {
         return new TasksListOfWeekFragment();
@@ -85,7 +84,7 @@ public class TasksListOfWeekFragment extends Fragment {
 
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(int type, AbstractTaskObject item) {
+            public void onItemClick(int type, TaskListItem item) {
                 if (type == TasksListAdapter.ADAPTER_ITEM_TYPE_TASK) {
                     Task task = (Task) item;
                     Intent intent = new Intent(getActivity(), TaskEditActivity.class);

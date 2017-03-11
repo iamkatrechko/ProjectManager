@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,8 +18,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.iamkatrechko.projectmanager.adapter.TasksListAdapter;
 import com.iamkatrechko.projectmanager.entity.Task;
-import com.iamkatrechko.projectmanager.new_entity.AbstractTaskObject;
-import com.iamkatrechko.projectmanager.new_entity.DateLabel;
+import com.iamkatrechko.projectmanager.new_entity.TaskListItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +30,7 @@ import java.util.UUID;
 public class TasksListFragment extends Fragment {
     Methods m;
 
-    List<AbstractTaskObject> mTasksList = new ArrayList<>();
+    List<TaskListItem> mTasksList = new ArrayList<>();
     private TasksListAdapter adapter;
     public ProjectLab lab;
     private RecyclerView mTasksListRecyclerView;
@@ -111,7 +109,7 @@ public class TasksListFragment extends Fragment {
 
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(int type, AbstractTaskObject item) {
+            public void onItemClick(int type, TaskListItem item) {
                 if (type == TasksListAdapter.ADAPTER_ITEM_TYPE_SUB_PROJECT) {
                     //Если нажата "Задача" -> переходим дальше
                     Task subProject = (Task) item;

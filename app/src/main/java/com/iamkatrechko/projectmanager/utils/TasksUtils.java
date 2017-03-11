@@ -2,7 +2,7 @@ package com.iamkatrechko.projectmanager.utils;
 
 import com.iamkatrechko.projectmanager.adapter.TasksListAdapter;
 import com.iamkatrechko.projectmanager.entity.Task;
-import com.iamkatrechko.projectmanager.new_entity.AbstractTaskObject;
+import com.iamkatrechko.projectmanager.new_entity.TaskListItem;
 import com.iamkatrechko.projectmanager.new_entity.DateLabel;
 
 import java.util.ArrayList;
@@ -20,8 +20,8 @@ public class TasksUtils {
      * @param tasks список задач
      * @return список объектов для {@link TasksListAdapter} с метками дат
      */
-    public static List<AbstractTaskObject> addDateLabels(List<Task> tasks) {
-        List<AbstractTaskObject> result = new ArrayList<>();
+    public static List<TaskListItem> addDateLabels(List<Task> tasks) {
+        List<TaskListItem> result = new ArrayList<>();
 
         String date = "";
         for (Task task : tasks) {

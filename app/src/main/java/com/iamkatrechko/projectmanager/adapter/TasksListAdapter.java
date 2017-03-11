@@ -22,7 +22,7 @@ import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.SimpleItemTouchHelperCallback;
 import com.iamkatrechko.projectmanager.SimpleItemTouchHelperCallback.*;
 import com.iamkatrechko.projectmanager.SubProjectEditActivity;
-import com.iamkatrechko.projectmanager.new_entity.AbstractTaskObject;
+import com.iamkatrechko.projectmanager.new_entity.TaskListItem;
 import com.iamkatrechko.projectmanager.entity.Task;
 import com.iamkatrechko.projectmanager.new_entity.DateLabel;
 
@@ -39,7 +39,7 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     final public static int ADAPTER_ITEM_TYPE_TASK = 1;
     final public static int ADAPTER_ITEM_TYPE_DATE = 3;
     private Context mContext;
-    private List<? extends AbstractTaskObject> mTasks = new ArrayList<>();
+    private List<? extends TaskListItem> mTasks = new ArrayList<>();
     /** Цвета для обозначения приоритетов */
     private String[] aColors;
     /** Слушатель нажатия на подпроект/задачу */
@@ -65,7 +65,7 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 swipeToLeftIcon, swipeToRightIcon, dragItem);
     }
 
-    public void setData(List<? extends AbstractTaskObject> tasks) {
+    public void setData(List<? extends TaskListItem> tasks) {
         mTasks = tasks;
         notifyDataSetChanged();
     }
@@ -104,7 +104,7 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             return;
         }
 
-        AbstractTaskObject taskObject = mTasks.get(fromPosition);
+        TaskListItem taskObject = mTasks.get(fromPosition);
         if (taskObject instanceof Task) {
             Task task = (Task) taskObject;
 
@@ -144,7 +144,7 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder vHolder, final int position) {
-        AbstractTaskObject taskObject = mTasks.get(position);
+        TaskListItem taskObject = mTasks.get(position);
 
         // TODO Добавить ViewHolder с меткой проекта для списка в календаре из разметки recycler_task_item_calendar
         switch (getItemViewType(position)) {
@@ -214,8 +214,8 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             });
         }
 
-        public void bindView(AbstractTaskObject abstractTaskObject) {
-            Task task = (Task) abstractTaskObject;
+        public void bindView(TaskListItem taskListItem) {
+            Task task = (Task) taskListItem;
             _id = task.getID();
             tvTitle.setText(task.getTitle());
             //vH.itemView.findViewById(R.id.card_view).setVisibility(task.getIsDone() ? View.GONE : View.VISIBLE);
@@ -275,8 +275,8 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             });
         }
 
-        public void bindView(AbstractTaskObject abstractTaskObject) {
-            Task task = (Task) abstractTaskObject;
+        public void bindView(TaskListItem taskListItem) {
+            Task task = (Task) taskListItem;
             _id = task.getID();
             tvTitle.setText(task.getTitle());
             tvDescription.setText(task.getDescription());
@@ -305,8 +305,8 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             tvDate = (TextView) itemView.findViewById(R.id.text_view_date);
         }
 
-        public void bindView(AbstractTaskObject abstractTaskObject) {
-            DateLabel dateLabel = (DateLabel) abstractTaskObject;
+        public void bindView(TaskListItem taskListItem) {
+            DateLabel dateLabel = (DateLabel) taskListItem;
             tvDate.setText(dateLabel.getDate());
         }
     }

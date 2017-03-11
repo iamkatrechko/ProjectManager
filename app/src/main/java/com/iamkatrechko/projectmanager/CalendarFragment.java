@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import com.iamkatrechko.projectmanager.adapter.TasksListAdapter;
 import com.iamkatrechko.projectmanager.entity.Task;
-import com.iamkatrechko.projectmanager.new_entity.AbstractTaskObject;
+import com.iamkatrechko.projectmanager.new_entity.TaskListItem;
 import com.iamkatrechko.projectmanager.utils.TasksUtils;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
@@ -31,7 +31,7 @@ public class CalendarFragment extends Fragment {
     /** Адаптер списка задач */
     private TasksListAdapter mAdapter;
     /** Список задач с временными метками */
-    private List<AbstractTaskObject> mTasksWithDates = new ArrayList<>();
+    private List<TaskListItem> mTasksWithDates = new ArrayList<>();
     /** Виджет календаря */
     private MaterialCalendarView mCalendarView;
     /** Кастомный лэйаут-менеджер, для получения позиции первого выделенного элемента */
@@ -85,7 +85,7 @@ public class CalendarFragment extends Fragment {
 
         mAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(int type, AbstractTaskObject item) {
+            public void onItemClick(int type, TaskListItem item) {
                 mCalendarView.setTop(mCalendarView.getTop() - mCalendarView.getTouchables().get(0).getHeight());
                 mRecyclerView.setTop(mRecyclerView.getTop() - mCalendarView.getTouchables().get(0).getHeight());
             }

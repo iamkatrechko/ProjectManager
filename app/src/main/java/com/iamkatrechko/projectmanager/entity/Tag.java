@@ -1,5 +1,8 @@
 package com.iamkatrechko.projectmanager.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -10,7 +13,7 @@ import java.util.UUID;
  * @author iamkatrechko
  *         Date: 25.02.2016
  */
-public class Tag {
+public class Tag implements Parcelable {
     private static final String JSON_ID = "id";
     private static final String JSON_TITLE = "title";
 
@@ -26,6 +29,11 @@ public class Tag {
     public Tag(String title) {
         mID = UUID.randomUUID();
         mTitle = title;
+    }
+
+    public static Tag copyFromAnotherTag(Tag tag) {
+        Tag newTag = new Tag(tag.getTitle());
+        return newTag;
     }
 
     public UUID getID() {
@@ -51,4 +59,36 @@ public class Tag {
         json.put(JSON_TITLE, mTitle);
         return json;
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Parcelable //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private Tag(Parcel in) {
+        mID = UUID.fromString(in.readString());
+        mTitle = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mID.toString());
+        dest.writeString(mTitle);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Tag> CREATOR = new Creator<Tag>() {
+        @Override
+        public Tag createFromParcel(Parcel in) {
+            return new Tag(in);
+        }
+
+        @Override
+        public Tag[] newArray(int size) {
+            return new Tag[size];
+        }
+    };
 }

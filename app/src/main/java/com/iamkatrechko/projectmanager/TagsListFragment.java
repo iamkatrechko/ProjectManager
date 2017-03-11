@@ -58,9 +58,7 @@ public class TagsListFragment extends Fragment {
 
             @Override
             public void onEditClick(Tag tag) {
-                Intent intent = new Intent(getActivity(), TagEditActivity.class);
-                intent.putExtra("mId", tag.getID().toString());
-                intent.putExtra("Operation", "edit");
+                Intent intent = TagEditActivity.getIntent(getActivity(), tag);
                 getActivity().startActivity(intent);
             }
         });
@@ -71,9 +69,7 @@ public class TagsListFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), TagEditActivity.class);
-                intent.putExtra("mId", "0");
-                intent.putExtra("Operation", "add");
+                Intent intent = TagEditActivity.getIntent(getActivity(), null);
                 startActivity(intent);
             }
         });
