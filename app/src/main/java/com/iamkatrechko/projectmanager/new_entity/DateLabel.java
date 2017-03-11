@@ -14,6 +14,7 @@ public class DateLabel implements TaskListItem {
     private String dateString;
 
     public DateLabel() {
+        // TODO добавить календарь в конструктор и вставлять реальные данные
         mCalendar = Calendar.getInstance();
     }
 
@@ -28,6 +29,10 @@ public class DateLabel implements TaskListItem {
         } else {
             return dateString;
         }
+    }
+
+    public Calendar getCalendar() {
+        return mCalendar;
     }
 
     public void setCalendar(Calendar calendar) {

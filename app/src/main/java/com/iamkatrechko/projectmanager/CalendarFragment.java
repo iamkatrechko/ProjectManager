@@ -16,6 +16,7 @@ import com.iamkatrechko.projectmanager.utils.TasksUtils;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -66,7 +67,7 @@ public class CalendarFragment extends Fragment {
                 if (firstVisiblePos != -1) {
                     RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(firstVisiblePos);
                     if (holder instanceof TasksListAdapter.ViewHolderDate) {
-                        Log.d("firstVisibleItem", ((TasksListAdapter.ViewHolderDate) holder).tvDate.getText().toString());
+                        mCalendarView.setDateSelected(((TasksListAdapter.ViewHolderDate) holder).mCalendar, false);
                     }
                 }
             }

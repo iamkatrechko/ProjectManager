@@ -27,6 +27,7 @@ import com.iamkatrechko.projectmanager.entity.Task;
 import com.iamkatrechko.projectmanager.new_entity.DateLabel;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -299,6 +300,8 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public class ViewHolderDate extends RecyclerView.ViewHolder {
         /** Метка, отображающая дату */
         public TextView tvDate;
+        /** Календарь с датой разделителя */
+        public Calendar mCalendar;
 
         public ViewHolderDate(final View itemView) {
             super(itemView);
@@ -308,6 +311,7 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public void bindView(TaskListItem taskListItem) {
             DateLabel dateLabel = (DateLabel) taskListItem;
             tvDate.setText(dateLabel.getDate());
+            mCalendar = dateLabel.getCalendar();
         }
     }
 }
