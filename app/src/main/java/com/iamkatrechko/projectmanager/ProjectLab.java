@@ -562,15 +562,19 @@ public class ProjectLab {
         saveTagsIntoJSON();
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Работа с демо-данными ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    private static final String[] demoProjects = new String[]{"Общий список", "Личные цели", "Рабочий список", "Покупки", "Фильмы к просмотру"};
+    private static final String[] demoTags = new String[]{"Дома", "На работе", "В интернете", "В свободное время", "За компьютером"};
+
+    /** Сгенерировать демо-метки */
     public void generateTags() {
-        for (int i = 0; i < 6; i++) {
-            Tag t = new Tag("Тэг #" + i);
-            mTags.add(t);
+        for (String tagName : demoTags) {
+            mTags.add(new Tag(tagName));
         }
+        saveTagsIntoJSON();
     }
 
     public void reloadData() {
@@ -578,19 +582,20 @@ public class ProjectLab {
         generateTestData();
     }
 
-    public void deleteData() {
-        mProjects = new ArrayList<>();
-        Project p = new Project("Общий список");
-        p.setColor(mContext.getResources().getColor(R.color.actionBarColor1));
-        mProjects.add(p);
+    /** Удалить все данные */
+    public void deleteAllData() {
+        mProjects.clear();
+        mTags.clear();
+        saveProjectsIntoJSON();
+        saveTagsIntoJSON();
     }
 
     public void generateTestData() {
-        String[] projectNamesList = {"Общий список - ", "Личные цели - ", "Рабочий список - ", "Покупки - ", "Фильмы к просмотру", "Проект #"};
+
         Random random = new Random();
 
-        for (int i = 1; i <= projectNamesList.length; i++) {
-            Project p = new Project(projectNamesList[i - 1] + i);
+        for (int i = 1; i <= demoProjects.length; i++) {
+            Project p = new Project(demoProjects[i - 1] + i);
             int color = -random.nextInt(16777216) + 1;
             p.setColor(color);
 
@@ -653,6 +658,10 @@ public class ProjectLab {
         }
     }
 
+    /**
+     * Получить список всех тегов
+     * @return список всех тегов
+     */
     public ArrayList<Tag> getTags() {
         return mTags;
     }

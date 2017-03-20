@@ -53,5 +53,15 @@
         <receiver
                 android:name="MyScheduledReceiver"
                 android:process=":remote"/>
+
+        <receiver android:name=".SecretReceiver" >
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SECRET_CODE" />
+
+                <data
+                    android:host="51262"
+                    android:scheme="android_secret_code" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

@@ -33,7 +33,8 @@ public class ServiceMenu extends ActionBarActivity implements View.OnClickListen
         findViewById(R.id.button3).setOnClickListener(this);
         findViewById(R.id.button4).setOnClickListener(this);
         findViewById(R.id.button5).setOnClickListener(this);
-        list = new ArrayList<Project>();
+        findViewById(R.id.button6).setOnClickListener(this);
+        list = new ArrayList<>();
     }
 
     @Override
@@ -67,7 +68,10 @@ public class ServiceMenu extends ActionBarActivity implements View.OnClickListen
                 ProjectLab.get(this).reloadData();
                 return;
             case R.id.button5:
-                ProjectLab.get(this).deleteData();
+                ProjectLab.get(this).deleteAllData();
+                return;
+            case R.id.button6:
+                ProjectLab.get(this).generateTags();
                 return;
         }
     }
