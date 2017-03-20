@@ -40,11 +40,11 @@ public class ExpMenuItem {
     }
 
     /**
-     * Возвращает имя элемента меню
+     * Возвращает идентификатор заголовка
      * @return имя элемента меню
      */
-    public String getTitle() {
-        return mExpMenuItem.getTitle();
+    public int getTitleId() {
+        return mExpMenuItem.getTitleId();
     }
 
     /**

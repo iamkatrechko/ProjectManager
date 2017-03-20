@@ -17,6 +17,18 @@
     <string name="activity_subtask_add">Новая задача</string>
     <string name="activity_subtask_edit">Редактирование задачи</string>
 
+
+    <string name="nav_menu_today">Сегодня</string>
+    <string name="nav_menu_week">7+ дней</string>
+    <string name="nav_menu_calendar">Календарь</string>
+    <string name="nav_menu_projects">Проекты</string>
+    <string name="nav_menu_projects_edit">Управление проектами</string>
+    <string name="nav_menu_tags">Метки</string>
+    <string name="nav_menu_tags_edit">Управление метками</string>
+    <string name="nav_menu_filters">Фильтры</string>
+    <string name="nav_menu_settings">Настройки</string>
+    <string name="nav_menu_info">О программе</string>
+
     <string-array name="priorities">
         <item>Без приоритета</item>
         <item>Низкий приоритет</item>
@@ -44,20 +56,6 @@
         <item>ноября</item>
         <item>декабря</item>
     </string-array>
-    
-    <string-array name="nav_draw_names">
-        <item>Шапка</item>
-        <item>Сегодня</item>
-        <item>7+ дней</item>
-        <item>Календарь</item>
-        <item>Проекты</item>
-        <item>Управление проектами</item>
-        <item>Метки</item>
-        <item>Фильтры</item>
-        <item>Настройки</item>
-        <item>О программе</item>
-        <item>Настройка тегов</item>
-    </string-array>
 
     <string-array name="filters">
         <item>Все задачи</item>
@@ -65,19 +63,5 @@
         <item>Низкий приоритет</item>
         <item>Средний приоритет</item>
         <item>Высокий приоритет</item>
-    </string-array>
-
-    <string-array name="nav_draw_icons">
-        <item>ic_launcher</item>
-        <item>ic_today</item>
-        <item>ic_event_note</item>
-        <item>ic_date_range</item>
-        <item>ic_assignment</item>
-        <item>ic_projects_edit</item>
-        <item>ic_label_outline</item>
-        <item>ic_label</item>
-        <item>ic_settings</item>
-        <item>ic_info</item>
-        <item>ic_info</item>
     </string-array>
 </resources>

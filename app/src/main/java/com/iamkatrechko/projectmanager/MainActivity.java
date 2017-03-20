@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                     for (Project project : projects) {
                         item.addChildItem(new ExpMenuItem.ChildItem(project.getTitle(), project.getColor()));
                     }
-                    item.addChildItem(new ExpMenuItem.ChildItem(MENU_ITEM_PROJECTS_EDIT.getTitle(), Color.BLACK));
+                    item.addChildItem(new ExpMenuItem.ChildItem(getString(R.string.nav_menu_projects_edit), Color.BLACK));
                     break;
                 case MENU_ITEM_FILTERS:
                     String[] list = getResources().getStringArray(R.array.filters);
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                     for (Tag tag : tags) {
                         item.addChildItem(new ExpMenuItem.ChildItem(tag.getTitle(), Color.BLACK));
                     }
-                    item.addChildItem(new ExpMenuItem.ChildItem(MENU_ITEM_TAGS_EDIT.getTitle(), Color.BLACK));
+                    item.addChildItem(new ExpMenuItem.ChildItem(getString(R.string.nav_menu_tags_edit), Color.BLACK));
                     break;
                 case MENU_ITEM_PROJECTS_EDIT:
                 case MENU_ITEM_TAGS_EDIT:

@@ -138,7 +138,7 @@ public class TasksListFragment extends Fragment {
         adapter.setOnSwipedListener(new SimpleItemTouchHelperCallback.OnItemSwipeListener() {
             @Override
             public void onItemLeftSwipe(int position) {
-                //Log.d("setIsDone", String.valueOf(position) + " - " + mTasks.get(position).getTitle());
+                //Log.d("setIsDone", String.valueOf(position) + " - " + mTasks.get(position).getTitleId());
                 //myNotificationManager.deleteNotification(mTasks.get(position).getID());
                 ((Task) mTasksList.get(position)).setIsDone(true);
                 adapter.notifyItemRemoved(position);

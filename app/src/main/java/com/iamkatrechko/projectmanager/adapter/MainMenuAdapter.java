@@ -89,7 +89,7 @@ public class MainMenuAdapter extends BaseExpandableListAdapter {
             ImageView imageViewIndicator = (ImageView) convertView.findViewById(R.id.image_view_indicator);
 
             iconGroup.setImageResource(menuItem.getIconId());
-            textGroup.setText(menuItem.getTitle());
+            textGroup.setText(menuItem.getTitleId());
             imageViewIndicator.setVisibility(menuItem.existChildren() ? View.VISIBLE : View.GONE);
 
             if (isExpanded) {
