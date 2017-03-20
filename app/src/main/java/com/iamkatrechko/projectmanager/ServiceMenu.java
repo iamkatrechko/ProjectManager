@@ -21,46 +21,20 @@ import java.util.ArrayList;
  */
 public class ServiceMenu extends ActionBarActivity implements View.OnClickListener{
 
-    public ArrayList<Project> list;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.service_menu);
 
-        findViewById(R.id.button).setOnClickListener(this);
-        findViewById(R.id.button2).setOnClickListener(this);
         findViewById(R.id.button3).setOnClickListener(this);
         findViewById(R.id.button4).setOnClickListener(this);
         findViewById(R.id.button5).setOnClickListener(this);
         findViewById(R.id.button6).setOnClickListener(this);
-        list = new ArrayList<>();
     }
 
     @Override
     public void onClick(View view) {
-        JSONSerializer serializer = JSONSerializer.get(this);
         switch (view.getId()) {
-            case R.id.button:
-                ArrayList<Project> list = ProjectLab.get(this).getProjects();
-                try {
-                    serializer.saveProjects(list);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return;
-            case R.id.button2:
-                list = new ArrayList<Project>();
-                try {
-                    list = serializer.loadProjects();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                return;
             case R.id.button3:
                 showNotification();
                 return;

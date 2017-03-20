@@ -53,7 +53,7 @@ public class TasksListByTagFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
 
-        mTasksList = lab.getTasksListByTagID(tagID);
+        mTasksList = lab.getTasksListByTag(tagID);
 
         adapter = new TasksListAdapter(getActivity(), true, true,
                 getResources().getColor(R.color.swipe_to_set_done_color),
@@ -73,7 +73,7 @@ public class TasksListByTagFragment extends Fragment {
     }
 
     /*private void resetAdapter(){
-        mTasksList = lab.getTasksListByTagID(tagID);
+        mTasksList = lab.getTasksListByTag(tagID);
         adapter = new TasksAdapter(mTasksList, getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

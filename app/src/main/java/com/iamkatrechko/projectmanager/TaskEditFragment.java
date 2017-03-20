@@ -263,9 +263,9 @@ public class TaskEditFragment extends Fragment implements View.OnClickListener{
         String tagsString = "";
         for (int i = 0; i < tTagsList.size(); i++) {
             if (i == 0) {
-                tagsString += lab.getTagByID(tTagsList.get(i)).getTitle();
+                tagsString += lab.getTag(tTagsList.get(i)).getTitle();
             } else {
-                tagsString += ", " + lab.getTagByID(tTagsList.get(i)).getTitle();
+                tagsString += ", " + lab.getTag(tTagsList.get(i)).getTitle();
             }
         }
         if (tagsString.length() == 0){

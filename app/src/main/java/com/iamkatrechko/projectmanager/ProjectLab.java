@@ -36,11 +36,8 @@ public class ProjectLab {
         mContext = context;
         mJSONSerializer = JSONSerializer.get(context);
 
-        //generateTags();
         loadTagsFromJSON();
         loadProjectsFromJSON();
-        //generateTags();
-        //generateTestData();
     }
 
     public static ProjectLab get(Context c) {
@@ -86,15 +83,18 @@ public class ProjectLab {
         }
     }
 
+    /**
+     * Возвращает список всех проектов
+     * @return список всех проектов
+     */
     public ArrayList<Project> getProjects() {
         return mProjects;
     }
 
     /**
-     * Возвращает {@link Project}
-     * из списка всех проектов
-     * @param id mId искомого проекта
-     * @return Проект
+     * Возвращает {@link Project} из списка всех проектов
+     * @param id id искомого проекта
+     * @return проект
      */
     public Project getProject(UUID id) {
         for (Project p : mProjects) {
@@ -105,10 +105,9 @@ public class ProjectLab {
     }
 
     /**
-     * Возвращает {@link Task}, находящийся
-     * на любой глубине проекта
-     * @param id mId искомого подпроекта/задачи
-     * @return Подпроект/задача
+     * Возвращает {@link Task}, находящегося на любой глубине проекта
+     * @param id id искомого подпроекта/задачи
+     * @return подпроект/задача
      */
     public Task getTaskOnAllLevel(UUID id) {
         for (Project p : mProjects) {
@@ -270,9 +269,9 @@ public class ProjectLab {
     }
 
     /**
-     * Возвращает {@link Project}, в котором находится входная задача
-     * @param id mId задачи
-     * @return Проект
+     * Возвращает {@link Project}, в котором находится заданная задача
+     * @param id id задачи для нахождения его проекта
+     * @return проект заданной задачи
      */
     public Project getProjectOfTask(UUID id) {
         for (Project p : mProjects) {
@@ -302,8 +301,8 @@ public class ProjectLab {
     }
 
     /**
-     * Полностью удаляет {@link Task} по его mId
-     * @param id mId задачи для удаления
+     * Полностью удаляет {@link Task} по его id
+     * @param id id задачи для удаления
      */
     public void removeTaskByID(UUID id) {
         for (Project p : mProjects) {
@@ -334,9 +333,8 @@ public class ProjectLab {
     }
 
     /**
-     * Перемещает {@link Task} на выбранную позицию,
-     * сдвигая остальные вверх/вниз
-     * @param parentID mId проекта/подпроекта перемещаемой задачи
+     * Перемещает {@link Task} на выбранную позицию, сдвигая остальные вверх/вниз
+     * @param parentID id родителя перемещаемой задачи
      */
     public void moveItem(UUID parentID, int fromPosition, int toPosition) {
         List<Task> list = getTasksListOnAllLevel(parentID);
@@ -356,26 +354,25 @@ public class ProjectLab {
     }
 
     /**
-     * Возвращает mId родительского элемента
-     * @param id mId подпроекта/задачи, родителя которого
-     *           требуется найти
-     * @return mId родителя
+     * Возвращает id родительского элемента заданной задачи
+     * @param taskId id задачи, для которой необходимо найти родителя
+     * @return id родительского элемента заданной задачи
      */
-    public UUID getParentIdOfTask(UUID id) {
+    public UUID getParentIdOfTask(UUID taskId) {
         for (Project p : mProjects) {
 
             for (Task t1 : p.getTasks()) {
-                if (t1.getID().equals(id)) {
+                if (t1.getID().equals(taskId)) {
                     return p.getID();
                 } else {
 
                     for (Task t2 : t1.getTasks()) {
-                        if (t2.getID().equals(id)) {
+                        if (t2.getID().equals(taskId)) {
                             return t1.getID();
                         } else {
 
                             for (Task t3 : t2.getTasks()) {
-                                if (t3.getID().equals(id)) {
+                                if (t3.getID().equals(taskId)) {
                                     return t2.getID();
                                 }
                             }
@@ -422,10 +419,10 @@ public class ProjectLab {
 
     /**
      * Возвращает список всез задач {@link Task} всех проектов
-     * @return Список задач {@link Task}
+     * @return список всех задач {@link Task}
      */
     public ArrayList<Task> getAllTasks() {
-        ArrayList<Task> tasksList = new ArrayList<Task>();
+        ArrayList<Task> tasksList = new ArrayList<>();
 
         for (Project p : mProjects) {
 
@@ -452,12 +449,12 @@ public class ProjectLab {
     }
 
     /**
-     * Возвращает задачи определенного приоритета
-     * @param priority Искомый приоритет
-     * @return Список задач
+     * Возвращает список задач с заданным приоритето
+     * @param priority приоритет для поиска
+     * @return задач с заданным приоритето
      */
     public ArrayList<Task> getTasksPriority(int priority) {
-        ArrayList<Task> tasksList = new ArrayList<Task>();
+        ArrayList<Task> tasksList = new ArrayList<>();
 
         for (Project p : mProjects) {
 
@@ -489,25 +486,30 @@ public class ProjectLab {
         return tasksList;
     }
 
-    public ArrayList<Task> getTasksListByTagID(UUID tagID) {
+    /**
+     * Возвращает список задач с заданной меткой
+     * @param tagId id метки
+     * @return список задач с заданной меткой
+     */
+    public ArrayList<Task> getTasksListByTag(UUID tagId) {
         ArrayList<Task> tasksList = new ArrayList<>();
 
         for (Project p : mProjects) {
 
             for (Task t1 : p.getTasks()) {
                 if (t1.getType().equals(Task.TASK_TYPE_TASK)) {
-                    if (t1.existTag(tagID)) tasksList.add(t1);
+                    if (t1.existTag(tagId)) tasksList.add(t1);
 
                 } else {
 
                     for (Task t2 : t1.getTasks()) {
                         if (t2.getType().equals(Task.TASK_TYPE_TASK)) {
-                            if (t2.existTag(tagID)) tasksList.add(t2);
+                            if (t2.existTag(tagId)) tasksList.add(t2);
 
                         } else {
 
                             for (Task t3 : t2.getTasks()) {
-                                if (t3.existTag(tagID)) tasksList.add(t3);
+                                if (t3.existTag(tagId)) tasksList.add(t3);
                             }
                         }
                     }
@@ -518,23 +520,36 @@ public class ProjectLab {
         return tasksList;
     }
 
-    public Tag getTagByID(UUID tagID) {
+    /**
+     * Возвращает метку
+     * @param tagId id метки
+     * @return метка
+     */
+    public Tag getTag(UUID tagId) {
         for (Tag t : mTags) {
-            if (t.getID().equals(tagID)) {
+            if (t.getID().equals(tagId)) {
                 return t;
             }
         }
-        // Доделать удаление метки из задач, если ее нету
         return null;
     }
 
+    /**
+     * Добавляет новый тег в список всех тегов
+     * @param tag новый тег
+     */
     public void addNewTag(Tag tag) {
         mTags.add(tag);
         saveTagsIntoJSON();
     }
 
+    /**
+     * Сохраняет изменения тега
+     * @param id  id тега
+     * @param tag измененный тег
+     */
     public void saveTag(UUID id, Tag tag) {
-        Tag tagToSave = getTagByID(id);
+        Tag tagToSave = getTag(id);
         tagToSave.setTitle(tag.getTitle());
         saveTagsIntoJSON();
     }
@@ -562,11 +577,19 @@ public class ProjectLab {
         saveTagsIntoJSON();
     }
 
+    /**
+     * Получить список всех тегов
+     * @return список всех тегов
+     */
+    public ArrayList<Tag> getTags() {
+        return mTags;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Работа с демо-данными ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private static final String[] demoProjects = new String[]{"Общий список", "Личные цели", "Рабочий список", "Покупки", "Фильмы к просмотру"};
+    private static final String[] demoProjects = new String[]{"Общий список", "Личные цели", "Работа", "Покупки", "Фильмы к просмотру"};
     private static final String[] demoTags = new String[]{"Дома", "На работе", "В интернете", "В свободное время", "За компьютером"};
 
     /** Сгенерировать демо-метки */
@@ -590,14 +613,13 @@ public class ProjectLab {
         saveTagsIntoJSON();
     }
 
+    /** Сгенерировать демоданные */
     public void generateTestData() {
+        generateTags();
 
         Random random = new Random();
-
         for (int i = 1; i <= demoProjects.length; i++) {
             Project p = new Project(demoProjects[i - 1] + i);
-            int color = -random.nextInt(16777216) + 1;
-            p.setColor(color);
 
             for (int k = 1; k < 4; k++) {
                 Task task = new Task("Подпроект " + i + "-" + k);
@@ -618,8 +640,8 @@ public class ProjectLab {
                         subTask.setTime("11:11");
                         subTask.setPriority(random.nextInt(4));
                         subTask.setIsRepeat(false);
-                        subTask.getTags().add(mTags.get(0).getID());
-                        subTask.getTags().add(mTags.get(2).getID());
+                        subTask.addTag(mTags.get(0));
+                        subTask.addTag(mTags.get(2));
                         task2.getTasks().add(subTask);
                     }
                     task.getTasks().add(task2);
@@ -634,8 +656,8 @@ public class ProjectLab {
                     subTask.setTime("11:11");
                     subTask.setPriority(random.nextInt(4));
                     subTask.setIsRepeat(false);
-                    subTask.getTags().add(mTags.get(1).getID());
-                    subTask.getTags().add(mTags.get(3).getID());
+                    subTask.addTag(mTags.get(1));
+                    subTask.addTag(mTags.get(3));
                     task.getTasks().add(subTask);
                 }
                 p.getTasks().add(task);
@@ -650,19 +672,11 @@ public class ProjectLab {
                 t.setTime("11:11");
                 t.setPriority(random.nextInt(4));
                 t.setIsRepeat(false);
-                t.getTags().add(mTags.get(3).getID());
-                t.getTags().add(mTags.get(4).getID());
+                t.addTag(mTags.get(3));
+                t.addTag(mTags.get(4));
                 p.getTasks().add(t);
             }
             mProjects.add(p);
         }
-    }
-
-    /**
-     * Получить список всех тегов
-     * @return список всех тегов
-     */
-    public ArrayList<Tag> getTags() {
-        return mTags;
     }
 }

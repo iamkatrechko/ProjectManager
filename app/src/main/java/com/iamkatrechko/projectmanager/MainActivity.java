@@ -68,10 +68,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
         switch (item.getItemId()) {
-            case R.id.service_menu:
-                intent = new Intent(this, ServiceMenu.class);
-                startActivity(intent);
-                return true;
             case R.id.scroll:
                 intent = new Intent(this, ScrollActivity.class);
                 startActivity(intent);
