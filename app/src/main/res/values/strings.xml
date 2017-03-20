@@ -4,7 +4,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="hint_title">Название</string>
+    <string name="hint_title">Заголовок</string>
     <string name="hint_description">Описание</string>
 
     <string name="fab_title_1">Подпроект</string>
@@ -17,6 +17,9 @@
     <string name="activity_subtask_add">Новая задача</string>
     <string name="activity_subtask_edit">Редактирование задачи</string>
 
+    <string name="choose_color">Выберите цвет</string>
+    <string name="result_ok">Сохранить</string>
+    <string name="result_cancel">Отмена</string>
 
     <string name="nav_menu_today">Сегодня</string>
     <string name="nav_menu_week">7+ дней</string>
