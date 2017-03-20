@@ -30,17 +30,26 @@ import java.util.UUID;
  *         Date: 25.02.2016
  */
 public class TasksListFragment extends Fragment {
-    private Methods m;
 
+    /** Список задач и подпроектов */
     private List<TaskListItem> mTasksList = new ArrayList<>();
+    /** Адаптер списка задач и подпроектов */
     private TasksListAdapter adapter;
-    private ProjectLab lab;
+    /** Класс по работе с проектами и задачами */
+    private ProjectLab mProjectLab;
+    /** Виджет списка подпроектов и задач */
     private RecyclerView mTasksListRecyclerView;
-
+    /** Кнопка создания подпроектов и задач */
     private FloatingActionsMenu fMenu;
-
+    /** Id текущего подпроекта или задачи */
     private UUID ID;
 
+    /**
+     * Возвращает новый инстанс фрагмента
+     * @param ID   id открываемого подпроекта
+     * @param Type тип
+     * @return новый инстанс фрагмента
+     */
     public static TasksListFragment newInstance(UUID ID, String Type) {
         TasksListFragment fragment = new TasksListFragment();
         Bundle args = new Bundle();
@@ -56,11 +65,9 @@ public class TasksListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         setRetainInstance(true);
-        m = new Methods(getActivity());
 
         ID = UUID.fromString(getArguments().getString("mId"));
-
-        lab = ProjectLab.get(getActivity());
+        mProjectLab = ProjectLab.get(getActivity());
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
@@ -95,11 +102,11 @@ public class TasksListFragment extends Fragment {
                 getActivity().overridePendingTransition(R.anim.act_slide_down_in, R.anim.act_slide_down_out);
             }
         });
-        ((TextView) v.findViewById(R.id.textViewHistory)).setText(lab.getHistory(ID));
-        if (lab.getLevelOfParent(ID) == 2) {                                                         //Скрытие кнопки добавление подпроекта
+        ((TextView) v.findViewById(R.id.textViewHistory)).setText(mProjectLab.getHistory(ID));
+        if (mProjectLab.getLevelOfParent(ID) == 2) {                                                         //Скрытие кнопки добавление подпроекта
             fMenu.removeButton(actionA);
         }
-        mTasksList.addAll(lab.getTasksListOnAllLevel(ID));
+        mTasksList.addAll(mProjectLab.getTasksListOnAllLevel(ID));
 
         adapter = new TasksListAdapter(getActivity(), true, true,
                 getResources().getColor(R.color.swipe_to_set_done_color),
@@ -143,7 +150,7 @@ public class TasksListFragment extends Fragment {
             @Override
             public void onItemRightSwipe(int position) {
                 //myNotificationManager.deleteNotification(mTasks.get(position).getID());
-                lab.removeTaskByID(((Task) mTasksList.get(position)).getID());
+                mProjectLab.removeTaskByID(((Task) mTasksList.get(position)).getID());
                 adapter.notifyItemRemoved(position);
                 //notifyItemRangeChanged(position, mTasks.size());
             }
@@ -153,17 +160,13 @@ public class TasksListFragment extends Fragment {
         mTasksListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter.setData(mTasksList);
 
-        Log.d("TasksListFragment", "Уровень вхождения - " + lab.getLevelOfParent(ID));
+        Log.d("TasksListFragment", "Уровень вхождения - " + mProjectLab.getLevelOfParent(ID));
         return v;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        /*mTasksList = lab.getTasksListOnAllLevel(mId);
-        adapter = new TasksAdapter(mTasksList, getActivity());
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));*/
         adapter.notifyDataSetChanged();
     }
 
@@ -171,6 +174,7 @@ public class TasksListFragment extends Fragment {
     public void onPause() {
         super.onPause();
         fMenu.collapseImmediately();
+        mProjectLab.saveProjectsIntoJSON();
     }
 
     @Override
@@ -189,7 +193,6 @@ public class TasksListFragment extends Fragment {
                 startActivity(intent);
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }
