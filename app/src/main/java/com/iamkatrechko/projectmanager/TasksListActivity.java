@@ -37,7 +37,7 @@ public class TasksListActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (fragmentManager.getFragments() == null) {
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, TasksListFragment.newInstance(ID, Type))
+                    .replace(R.id.container, TasksListFragment.newInstance(ID))
                     .commit();
             //setTitle(R.string.title_section1);
         }

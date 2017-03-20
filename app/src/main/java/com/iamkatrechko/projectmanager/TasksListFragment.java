@@ -46,11 +46,10 @@ public class TasksListFragment extends Fragment {
 
     /**
      * Возвращает новый инстанс фрагмента
-     * @param ID   id открываемого подпроекта
-     * @param Type тип
+     * @param ID id открываемого подпроекта
      * @return новый инстанс фрагмента
      */
-    public static TasksListFragment newInstance(UUID ID, String Type) {
+    public static TasksListFragment newInstance(UUID ID) {
         TasksListFragment fragment = new TasksListFragment();
         Bundle args = new Bundle();
 

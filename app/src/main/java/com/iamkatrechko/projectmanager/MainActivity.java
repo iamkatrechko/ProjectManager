@@ -23,7 +23,13 @@ import java.util.UUID;
 
 import static com.iamkatrechko.projectmanager.expandable_menu.ExpMenuItems.MENU_ITEM_PROJECTS;
 import static com.iamkatrechko.projectmanager.expandable_menu.ExpMenuItems.MENU_ITEM_PROJECTS_EDIT;
+import static com.iamkatrechko.projectmanager.expandable_menu.ExpMenuItems.MENU_ITEM_TAGS_EDIT;
 
+/**
+ * Главная активность с боковым меню (точка входа в приложение)
+ * @author iamkatrechko
+ *         Date: 20.02.2016
+ */
 public class MainActivity extends AppCompatActivity {
 
     /** Основной тулбра */
@@ -39,23 +45,25 @@ public class MainActivity extends AppCompatActivity {
     /** Адаптер списка главного меню */
     private MainMenuAdapter adapter;
     /** Список элеметов главного меню */
-    private List<ExpMenuItem> menuItems;
+    private List<ExpMenuItem> menuItems = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         new Themes(this);
-        lab = ProjectLab.get(this);
         Utils.onActivityCreateSetTheme(this, Integer.valueOf(Themes.getNumTheme()));
         setContentView(R.layout.activity_main);
+        lab = ProjectLab.get(this);
+        fragmentManager = getSupportFragmentManager();
 
         initToolBar();
         setSupportActionBar(toolbar);
         initNavigationView();
 
-        fragmentManager = getSupportFragmentManager();
-        //UUID ID = lab.getProjects().get(0).getID();
-        //getProjectFragment(ID);
+        if (!lab.getProjects().isEmpty()) {
+            UUID ID = lab.getProjects().get(0).getID();
+            getProjectFragment(ID);
+        }
     }
 
     @Override
@@ -96,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
 
         mExpandableListView = (ExpandableListView) findViewById(R.id.exListView);
 
-        menuItems = new ArrayList<>();
         for (ExpMenuItems expMenuItems : ExpMenuItems.values()) {
             ExpMenuItem item = new ExpMenuItem(expMenuItems);
             switch (expMenuItems) {
@@ -105,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                     for (Project project : projects) {
                         item.addChildItem(new ExpMenuItem.ChildItem(project.getTitle(), project.getColor()));
                     }
-                    item.addChildItem(new ExpMenuItem.ChildItem("Управление проектами", Color.BLACK));
+                    item.addChildItem(new ExpMenuItem.ChildItem(MENU_ITEM_PROJECTS_EDIT.getTitle(), Color.BLACK));
                     break;
                 case MENU_ITEM_FILTERS:
                     String[] list = getResources().getStringArray(R.array.filters);
@@ -118,7 +125,11 @@ public class MainActivity extends AppCompatActivity {
                     for (Tag tag : tags) {
                         item.addChildItem(new ExpMenuItem.ChildItem(tag.getTitle(), Color.BLACK));
                     }
+                    item.addChildItem(new ExpMenuItem.ChildItem(MENU_ITEM_TAGS_EDIT.getTitle(), Color.BLACK));
                     break;
+                case MENU_ITEM_PROJECTS_EDIT:
+                case MENU_ITEM_TAGS_EDIT:
+                    continue;
             }
 
             menuItems.add(item);
@@ -137,8 +148,6 @@ public class MainActivity extends AppCompatActivity {
                     case MENU_ITEM_TODAY:
                     case MENU_ITEM_WEEK:
                     case MENU_ITEM_CALENDAR:
-                    case MENU_ITEM_TAGS_EDIT:
-                    case MENU_ITEM_PROJECTS_EDIT:
                         startFragment(expMenuItem);
                         break;
                     case MENU_ITEM_SETTINGS:
@@ -174,6 +183,10 @@ public class MainActivity extends AppCompatActivity {
                         getFilterFragment(childPosition);
                         return true;
                     case MENU_ITEM_TAGS:
+                        if (childPosition == menuItem.getChildItemCount() - 1) {
+                            startFragment(MENU_ITEM_TAGS_EDIT);
+                            return true;
+                        }
                         UUID id = lab.getTags().get(childPosition).getID();
                         getTagFragment(id);
                         return true;
@@ -186,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
     public void getProjectFragment(UUID _id) {
         drawerLayout.closeDrawers();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, TasksListFragment.newInstance(_id, "Project"))
+                .replace(R.id.container, TasksListFragment.newInstance(_id))
                 .commit();
         //setTitle(R.string.title_section1);
     }
