@@ -38,14 +38,12 @@ public class TasksListFragment extends Fragment {
     FloatingActionsMenu fMenu;
 
     UUID ID;
-    String Type;
 
     public static TasksListFragment newInstance(UUID ID, String Type) {
         TasksListFragment fragment = new TasksListFragment();
         Bundle args = new Bundle();
 
         args.putString("mId", ID.toString());
-        args.putString("Type", Type);
 
         fragment.setArguments(args);
         return fragment;
@@ -59,7 +57,6 @@ public class TasksListFragment extends Fragment {
         m = new Methods(getActivity());
 
         ID = UUID.fromString(getArguments().getString("mId"));
-        Type = getArguments().getString("Type");
 
         lab = ProjectLab.get(getActivity());
     }

@@ -490,7 +490,7 @@ public class ProjectLab {
     }
 
     public ArrayList<Task> getTasksListByTagID(UUID tagID) {
-        ArrayList<Task> tasksList = new ArrayList<Task>();
+        ArrayList<Task> tasksList = new ArrayList<>();
 
         for (Project p : mProjects) {
 
@@ -536,6 +536,29 @@ public class ProjectLab {
     public void saveTag(UUID id, Tag tag) {
         Tag tagToSave = getTagByID(id);
         tagToSave.setTitle(tag.getTitle());
+        saveTagsIntoJSON();
+    }
+
+    /**
+     * Удаляет заданный тег
+     * @param tag удаляемый тег
+     */
+    public void deleteTag(Tag tag) {
+        mTags.remove(tag);
+        for (Project p : mProjects) {
+
+            for (Task t1 : p.getTasks()) {
+                t1.deleteTag(tag);
+
+                for (Task t2 : t1.getTasks()) {
+                    t2.deleteTag(tag);
+
+                    for (Task t3 : t2.getTasks()) {
+                        t3.deleteTag(tag);
+                    }
+                }
+            }
+        }
         saveTagsIntoJSON();
     }
 

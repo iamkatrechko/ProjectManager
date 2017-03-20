@@ -9,6 +9,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
+import com.iamkatrechko.projectmanager.entity.Tag;
+
 /**
  * Диалог запроса на удаление
  * @author iamkatrechko
@@ -22,11 +24,12 @@ public class DialogDeleteConfirm extends DialogFragment {
      * @param text  текст диалога
      * @return новый инстанс фрагмента
      */
-    public static DialogDeleteConfirm newInstance(String title, String text) {
+    public static DialogDeleteConfirm newInstance(String title, String text, Tag tag) {
         DialogDeleteConfirm fragment = new DialogDeleteConfirm();
         Bundle args = new Bundle();
         args.putString("title", title);
         args.putString("text", text);
+        args.putParcelable("tag", tag);
 
         fragment.setArguments(args);
         return fragment;
@@ -38,6 +41,7 @@ public class DialogDeleteConfirm extends DialogFragment {
         }
         Intent a = new Intent();
         a.putExtra("delete", delete);
+        a.putExtra("tag", getArguments().getParcelable("tag"));
         getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, a);
     }
 

@@ -51,7 +51,7 @@ public class TagsListFragment extends Fragment {
             @Override
             public void onDeleteClick(Tag tag) {
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                DialogDeleteConfirm fragmentDialog = DialogDeleteConfirm.newInstance("Подтверждение", "Вы уверены, что хотите удалить метку?");
+                DialogDeleteConfirm fragmentDialog = DialogDeleteConfirm.newInstance("Подтверждение", "Вы уверены, что хотите удалить метку?", tag);
                 fragmentDialog.setTargetFragment(TagsListFragment.this, 125125);
                 fragmentDialog.show(fragmentManager, "DIALOG_DELETE_CONFIRM");
             }
@@ -77,6 +77,10 @@ public class TagsListFragment extends Fragment {
         return v;
     }
 
+    public int getTagPosition(Tag tag) {
+        return mTagsList.indexOf(tag);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -88,11 +92,9 @@ public class TagsListFragment extends Fragment {
         if (resultCode == Activity.RESULT_OK && requestCode == 125125) {
             boolean delete = data.getBooleanExtra("delete", false);
             if (delete) {
-                Toast.makeText(getActivity(), "Удаление отключено", Toast.LENGTH_SHORT).show();
-                /*Tag tag = ProjectLab.get(getActivity()).getTagByID(id);
-                                        int pos = mTagsList.indexOf(tag);
-                                        mTagsList.remove(tag);
-                                        notifyItemRemoved(pos);*/
+                Tag tag = data.getParcelableExtra("tag");
+                adapter.notifyItemRemoved(getTagPosition(tag));
+                lab.deleteTag(tag);
             }
         }
     }
