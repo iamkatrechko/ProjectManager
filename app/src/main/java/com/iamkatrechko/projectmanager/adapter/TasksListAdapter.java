@@ -238,26 +238,27 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
-    /** ViewHolderTask списка подпроектов */
+    /** ViewHolderTask подпроекта */
     private class ViewHolderSubProject extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
 
-        public UUID _id;
+        private UUID _id;
         /** Название подпроекта */
-        public TextView tvTitle;
+        private TextView tvTitle;
         /** Описание подпроекта */
-        public TextView tvDescription;
-        public ImageView ivImage;
+        private TextView tvDescription;
+        /** Кнопка редактирования подпроекта */
+        private ImageView ivEdit;
 
         public ViewHolderSubProject(final View itemView) {
             super(itemView);
 
             tvTitle = (TextView) itemView.findViewById(R.id.title);
             tvDescription = (TextView) itemView.findViewById(R.id.description);
-            ivImage = (ImageView) itemView.findViewById(R.id.imageView2);
-            ivImage.setOnClickListener(new View.OnClickListener() {
+            ivEdit = (ImageView) itemView.findViewById(R.id.ivEdit);
+
+            ivEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //Не отрабатывается нажатие
                     Intent intent = new Intent(mContext, SubProjectEditActivity.class);
                     intent.putExtra("mId", _id.toString());
                     intent.putExtra("Operation", "edit");

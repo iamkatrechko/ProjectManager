@@ -25,19 +25,21 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Created by Muxa on 25.02.2016.
+ * Фрагмент со списком всех подпроектов и задач в ее иерархии
+ * @author iamkatrechko
+ *         Date: 25.02.2016
  */
 public class TasksListFragment extends Fragment {
-    Methods m;
+    private Methods m;
 
-    List<TaskListItem> mTasksList = new ArrayList<>();
+    private List<TaskListItem> mTasksList = new ArrayList<>();
     private TasksListAdapter adapter;
-    public ProjectLab lab;
+    private ProjectLab lab;
     private RecyclerView mTasksListRecyclerView;
 
-    FloatingActionsMenu fMenu;
+    private FloatingActionsMenu fMenu;
 
-    UUID ID;
+    private UUID ID;
 
     public static TasksListFragment newInstance(UUID ID, String Type) {
         TasksListFragment fragment = new TasksListFragment();
@@ -180,13 +182,12 @@ public class TasksListFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.done) {
-            Intent intent = new Intent(getActivity(), TasksDoneListActivity.class);
-            intent.putExtra("mId", ID.toString());
-            startActivity(intent);
-            return true;
+        switch (item.getItemId()) {
+            case R.id.done:
+                Intent intent = new Intent(getActivity(), TasksDoneListActivity.class);
+                intent.putExtra("mId", ID.toString());
+                startActivity(intent);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

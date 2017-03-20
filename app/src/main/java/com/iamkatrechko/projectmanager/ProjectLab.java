@@ -330,6 +330,7 @@ public class ProjectLab {
                 }
             }
         }
+        saveProjectsIntoJSON();
     }
 
     /**
