@@ -1,4 +1,4 @@
-package com.iamkatrechko.projectmanager;
+package com.iamkatrechko.projectmanager.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.iamkatrechko.projectmanager.ProjectLab;
+import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.adapter.TasksListAdapter;
 import com.iamkatrechko.projectmanager.entity.Task;
 
@@ -15,20 +17,23 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Created by Muxa on 10.04.2016.
+ * Created by Muxa on 25.02.2016.
  */
-public class TasksListByTagFragment extends Fragment {
-    private ProjectLab lab;
-    private UUID tagID;
-    private RecyclerView recyclerView;
+public class TasksDoneListFragment extends Fragment {
+
     private List<Task> mTasksList;
     private TasksListAdapter adapter;
+    private ProjectLab lab;
+    private RecyclerView recyclerView;
 
-    public static TasksListByTagFragment newInstance(UUID tagID) {
-        TasksListByTagFragment fragment = new TasksListByTagFragment();
+    private UUID ID;
 
+    public static TasksDoneListFragment newInstance(UUID ID) {
+        TasksDoneListFragment fragment = new TasksDoneListFragment();
         Bundle args = new Bundle();
-        args.putString("tagID", tagID.toString());
+
+        args.putString("mId", ID.toString());
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -38,11 +43,9 @@ public class TasksListByTagFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         setRetainInstance(true);
-
-        tagID = UUID.fromString(getArguments().getString("tagID"));
-        //Type = getArguments().getString("Type");
-
         lab = ProjectLab.get(getActivity());
+
+        ID = UUID.fromString(getArguments().getString("mId"));
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
@@ -50,10 +53,10 @@ public class TasksListByTagFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_tasks_list, parent, false);
 
         recyclerView = (RecyclerView) v.findViewById(R.id.section_list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
 
-        mTasksList = lab.getTasksListByTag(tagID);
+        //TODO считать все выполненные задачи
+        mTasksList = lab.getTasksListOnAllLevel(ID);
 
         adapter = new TasksListAdapter(getActivity(), true, true,
                 getResources().getColor(R.color.swipe_to_set_done_color),
@@ -62,6 +65,7 @@ public class TasksListByTagFragment extends Fragment {
         adapter.setData(mTasksList);
 
         recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         return v;
     }
@@ -69,13 +73,16 @@ public class TasksListByTagFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //resetAdapter();
-    }
-
-    /*private void resetAdapter(){
-        mTasksList = lab.getTasksListByTag(tagID);
+        /*mTasksList = lab.getTasksListOnAllLevel(mId);
         adapter = new TasksAdapter(mTasksList, getActivity());
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    }*/
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));*/
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.iamkatrechko.projectmanager;
+package com.iamkatrechko.projectmanager.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.iamkatrechko.projectmanager.ProjectLab;
+import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.entity.Task;
 
 import java.util.UUID;

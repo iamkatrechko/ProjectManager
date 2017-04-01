@@ -1,10 +1,15 @@
-package com.iamkatrechko.projectmanager;
+package com.iamkatrechko.projectmanager.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+
+import com.iamkatrechko.projectmanager.R;
+import com.iamkatrechko.projectmanager.Themes;
+import com.iamkatrechko.projectmanager.utils.Utils;
+import com.iamkatrechko.projectmanager.fragment.ProjectsListFragment;
 
 /**
  * Created by Muxa on 26.02.2016.

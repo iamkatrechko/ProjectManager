@@ -1,4 +1,4 @@
-package com.iamkatrechko.projectmanager;
+package com.iamkatrechko.projectmanager.utils;
 
 import android.app.Activity;
 import android.content.Intent;

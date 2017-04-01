@@ -1,20 +1,20 @@
-package com.iamkatrechko.projectmanager;
+package com.iamkatrechko.projectmanager.fragment;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
+import com.iamkatrechko.projectmanager.ProjectLab;
+import com.iamkatrechko.projectmanager.R;
+import com.iamkatrechko.projectmanager.activity.TagEditActivity;
 import com.iamkatrechko.projectmanager.adapter.TagListAdapter;
 import com.iamkatrechko.projectmanager.dialogs.DialogDeleteConfirm;
 import com.iamkatrechko.projectmanager.entity.Tag;

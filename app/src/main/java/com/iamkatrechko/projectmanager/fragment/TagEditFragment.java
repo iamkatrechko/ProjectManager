@@ -1,4 +1,4 @@
-package com.iamkatrechko.projectmanager;
+package com.iamkatrechko.projectmanager.fragment;
 
 
 import android.app.Activity;
@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.iamkatrechko.projectmanager.ProjectLab;
+import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.dialogs.DialogSaveChanges;
 import com.iamkatrechko.projectmanager.entity.Tag;
 

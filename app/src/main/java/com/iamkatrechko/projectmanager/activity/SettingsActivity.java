@@ -1,4 +1,4 @@
-package com.iamkatrechko.projectmanager;
+package com.iamkatrechko.projectmanager.activity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -9,12 +9,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+
+import com.iamkatrechko.projectmanager.R;
+import com.iamkatrechko.projectmanager.Themes;
+import com.iamkatrechko.projectmanager.utils.Utils;
 
 /**
  * Created by Muxa on 24.03.2016.
  */
-public class ActivitySettings extends AppCompatActivity implements View.OnClickListener {
+public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
     Themes t;
 
     @Override

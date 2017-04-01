@@ -1,4 +1,4 @@
-package com.iamkatrechko.projectmanager;
+package com.iamkatrechko.projectmanager.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,6 +18,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.iamkatrechko.projectmanager.DialogChoiceDatesFragment;
+import com.iamkatrechko.projectmanager.DialogSetTagsFragment;
+import com.iamkatrechko.projectmanager.Methods;
+import com.iamkatrechko.projectmanager.MyNotificationManager;
+import com.iamkatrechko.projectmanager.ProjectLab;
+import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.entity.Task;
 
 import java.util.ArrayList;

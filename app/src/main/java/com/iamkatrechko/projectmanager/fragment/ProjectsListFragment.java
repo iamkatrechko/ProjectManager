@@ -1,4 +1,4 @@
-package com.iamkatrechko.projectmanager;
+package com.iamkatrechko.projectmanager.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,11 +11,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
+import com.iamkatrechko.projectmanager.activity.ProjectEditActivity;
+import com.iamkatrechko.projectmanager.ProjectLab;
+import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.adapter.ProjectsListAdapter;
 import com.iamkatrechko.projectmanager.entity.Project;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 /**
  * Фрагмент со списком проектов для их редактирования

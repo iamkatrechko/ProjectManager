@@ -21,7 +21,7 @@ import com.iamkatrechko.projectmanager.ProjectLab;
 import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.SimpleItemTouchHelperCallback;
 import com.iamkatrechko.projectmanager.SimpleItemTouchHelperCallback.*;
-import com.iamkatrechko.projectmanager.SubProjectEditActivity;
+import com.iamkatrechko.projectmanager.activity.SubProjectEditActivity;
 import com.iamkatrechko.projectmanager.new_entity.TaskListItem;
 import com.iamkatrechko.projectmanager.entity.Task;
 import com.iamkatrechko.projectmanager.new_entity.DateLabel;

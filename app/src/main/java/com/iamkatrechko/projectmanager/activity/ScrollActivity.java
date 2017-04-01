@@ -1,13 +1,15 @@
-package com.iamkatrechko.projectmanager;
+package com.iamkatrechko.projectmanager.activity;
 
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+
+import com.iamkatrechko.projectmanager.R;
+import com.iamkatrechko.projectmanager.Themes;
+import com.iamkatrechko.projectmanager.utils.Utils;
 
 /**
  * Created by Muxa on 29.02.2016.

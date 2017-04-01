@@ -1,4 +1,4 @@
-package com.iamkatrechko.projectmanager;
+package com.iamkatrechko.projectmanager.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +16,14 @@ import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.iamkatrechko.projectmanager.OnItemClickListener;
+import com.iamkatrechko.projectmanager.ProjectLab;
+import com.iamkatrechko.projectmanager.R;
+import com.iamkatrechko.projectmanager.SimpleItemTouchHelperCallback;
+import com.iamkatrechko.projectmanager.activity.SubProjectEditActivity;
+import com.iamkatrechko.projectmanager.activity.TaskEditActivity;
+import com.iamkatrechko.projectmanager.activity.TasksDoneListActivity;
+import com.iamkatrechko.projectmanager.activity.TasksListActivity;
 import com.iamkatrechko.projectmanager.adapter.TasksListAdapter;
 import com.iamkatrechko.projectmanager.entity.Task;
 import com.iamkatrechko.projectmanager.new_entity.TaskListItem;

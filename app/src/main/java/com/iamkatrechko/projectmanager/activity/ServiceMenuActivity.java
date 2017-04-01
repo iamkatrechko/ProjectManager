@@ -1,4 +1,4 @@
-package com.iamkatrechko.projectmanager;
+package com.iamkatrechko.projectmanager.activity;
 
 import android.app.*;
 import android.content.Context;
@@ -9,17 +9,13 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 
-import com.iamkatrechko.projectmanager.entity.Project;
-
-import org.json.JSONException;
-
-import java.io.IOException;
-import java.util.ArrayList;
+import com.iamkatrechko.projectmanager.ProjectLab;
+import com.iamkatrechko.projectmanager.R;
 
 /**
  * Created by Muxa on 21.02.2016.
  */
-public class ServiceMenu extends ActionBarActivity implements View.OnClickListener{
+public class ServiceMenuActivity extends ActionBarActivity implements View.OnClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

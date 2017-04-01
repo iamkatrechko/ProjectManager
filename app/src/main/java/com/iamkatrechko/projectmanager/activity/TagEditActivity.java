@@ -1,4 +1,4 @@
-package com.iamkatrechko.projectmanager;
+package com.iamkatrechko.projectmanager.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,9 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.iamkatrechko.projectmanager.R;
+import com.iamkatrechko.projectmanager.Themes;
+import com.iamkatrechko.projectmanager.utils.Utils;
 import com.iamkatrechko.projectmanager.entity.Tag;
-
-import java.util.UUID;
+import com.iamkatrechko.projectmanager.fragment.TagEditFragment;
 
 /**
  * Активность создания/редактирования тега

@@ -1,4 +1,4 @@
-package com.iamkatrechko.projectmanager;
+package com.iamkatrechko.projectmanager.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,11 +11,23 @@ import android.support.v7.widget.Toolbar;
 import android.view.*;
 import android.widget.*;
 
+import com.iamkatrechko.projectmanager.ProjectLab;
+import com.iamkatrechko.projectmanager.R;
+import com.iamkatrechko.projectmanager.Themes;
+import com.iamkatrechko.projectmanager.utils.Utils;
 import com.iamkatrechko.projectmanager.adapter.MainMenuAdapter;
 import com.iamkatrechko.projectmanager.entity.Project;
 import com.iamkatrechko.projectmanager.entity.Tag;
 import com.iamkatrechko.projectmanager.expandable_menu.ExpMenuItem;
 import com.iamkatrechko.projectmanager.expandable_menu.ExpMenuItems;
+import com.iamkatrechko.projectmanager.fragment.CalendarFragment;
+import com.iamkatrechko.projectmanager.fragment.FilterTasksListFragment;
+import com.iamkatrechko.projectmanager.fragment.ProjectsListFragment;
+import com.iamkatrechko.projectmanager.fragment.TagsListFragment;
+import com.iamkatrechko.projectmanager.fragment.TasksListByTagFragment;
+import com.iamkatrechko.projectmanager.fragment.TasksListFragment;
+import com.iamkatrechko.projectmanager.fragment.TasksListOfWeekFragment;
+import com.iamkatrechko.projectmanager.fragment.TasksListTodayFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -151,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                         startFragment(expMenuItem);
                         break;
                     case MENU_ITEM_SETTINGS:
-                        Intent intent = new Intent(getApplicationContext(), ActivitySettings.class);
+                        Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                         startActivity(intent);
                         break;
                     default:
