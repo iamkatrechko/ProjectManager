@@ -16,7 +16,7 @@ import com.iamkatrechko.projectmanager.ProjectLab;
 import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.activity.TagEditActivity;
 import com.iamkatrechko.projectmanager.adapter.TagListAdapter;
-import com.iamkatrechko.projectmanager.dialogs.DialogDeleteConfirm;
+import com.iamkatrechko.projectmanager.dialog.DialogDeleteConfirm;
 import com.iamkatrechko.projectmanager.entity.Tag;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.iamkatrechko.projectmanager;
+package com.iamkatrechko.projectmanager.contract;
 
 import android.graphics.Canvas;
 import android.support.v7.widget.RecyclerView;

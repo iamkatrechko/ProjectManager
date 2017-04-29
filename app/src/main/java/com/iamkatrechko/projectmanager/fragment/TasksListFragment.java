@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
-import com.iamkatrechko.projectmanager.OnItemClickListener;
+import com.iamkatrechko.projectmanager.contract.OnItemClickListener;
 import com.iamkatrechko.projectmanager.ProjectLab;
 import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.SimpleItemTouchHelperCallback;

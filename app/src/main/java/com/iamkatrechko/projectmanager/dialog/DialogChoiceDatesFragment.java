@@ -31,7 +31,7 @@
  *  java.lang.String
  *  java.util.ArrayList
  */
-package com.iamkatrechko.projectmanager;
+package com.iamkatrechko.projectmanager.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -45,10 +45,16 @@ import android.support.v4.app.FragmentManager;
 import com.iamkatrechko.projectmanager.utils.DateUtils;
 
 public class DialogChoiceDatesFragment extends DialogFragment {
-    Methods m;
-    String date;
-    String time;
 
+    private String date;
+    private String time;
+
+    /**
+     * Возвращает новый экземпляр фрагмента
+     * @param date начальная дата
+     * @param time начальное время
+     * @return новый экземпляр фрагмента
+     */
     public static DialogChoiceDatesFragment newInstance(String date, String time) {
         DialogChoiceDatesFragment fragment = new DialogChoiceDatesFragment();
         Bundle args = new Bundle();
@@ -72,7 +78,6 @@ public class DialogChoiceDatesFragment extends DialogFragment {
 
     @NonNull
     public Dialog onCreateDialog(Bundle bundle) {
-        m = new Methods(getActivity());
         date = getArguments().getString("date");
         time = getArguments().getString("time");
 

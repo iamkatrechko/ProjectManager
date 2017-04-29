@@ -1,4 +1,4 @@
-package com.iamkatrechko.projectmanager;
+package com.iamkatrechko.projectmanager.contract;
 
 /**
  * Created by Muxa on 14.03.2016.

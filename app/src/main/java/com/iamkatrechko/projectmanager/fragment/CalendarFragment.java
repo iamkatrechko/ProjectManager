@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.iamkatrechko.projectmanager.OnItemClickListener;
+import com.iamkatrechko.projectmanager.contract.OnItemClickListener;
 import com.iamkatrechko.projectmanager.ProjectLab;
 import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.adapter.TasksListAdapter;

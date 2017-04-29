@@ -1,4 +1,4 @@
-package com.iamkatrechko.projectmanager;
+package com.iamkatrechko.projectmanager.contract;
 
 import com.iamkatrechko.projectmanager.new_entity.TaskListItem;
 

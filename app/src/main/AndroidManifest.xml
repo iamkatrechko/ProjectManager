@@ -45,21 +45,17 @@
         <activity
                 android:name=".activity.SettingsActivity"
                 android:label="Настройки"/>
-        <activity
-                android:name=".activity.ScrollActivity"
-                android:label="Тест"/>
-
 
         <receiver
-                android:name="MyScheduledReceiver"
+                android:name=".receiver.MyScheduledReceiver"
                 android:process=":remote"/>
 
-        <receiver android:name=".SecretReceiver" >
+        <receiver android:name=".receiver.SecretReceiver" >
             <intent-filter>
                 <action android:name="android.provider.Telephony.SECRET_CODE" />
 
                 <data
-                    android:host="51262"
+                    android:host="66666"
                     android:scheme="android_secret_code" />
             </intent-filter>
         </receiver>

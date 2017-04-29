@@ -61,7 +61,7 @@
                 android:layout_height="24dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:src="@drawable/ic_launcher"
+                android:src="@drawable/ic_notification_icon"
                 android:tint="#ff3f3f3f"/>
 
             <LinearLayout

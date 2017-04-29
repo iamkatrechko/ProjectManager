@@ -18,8 +18,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.iamkatrechko.projectmanager.DialogChoiceDatesFragment;
-import com.iamkatrechko.projectmanager.DialogSetTagsFragment;
+import com.iamkatrechko.projectmanager.dialog.DialogChoiceDatesFragment;
+import com.iamkatrechko.projectmanager.dialog.DialogSetTagsFragment;
 import com.iamkatrechko.projectmanager.Methods;
 import com.iamkatrechko.projectmanager.MyNotificationManager;
 import com.iamkatrechko.projectmanager.ProjectLab;

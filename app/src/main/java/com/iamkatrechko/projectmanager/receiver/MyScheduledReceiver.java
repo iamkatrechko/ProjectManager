@@ -1,4 +1,4 @@
-package com.iamkatrechko.projectmanager;
+package com.iamkatrechko.projectmanager.receiver;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import com.iamkatrechko.projectmanager.ProjectLab;
+import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.entity.Task;
 
 import java.util.UUID;
@@ -17,18 +19,23 @@ import java.util.UUID;
  * Created by Muxa on 29.02.2016.
  */
 public class MyScheduledReceiver extends BroadcastReceiver {
-    final public static String ACTION_RECEIVER_SET_DONE = "actionSetDone";
-    final public static String ACTION_RECEIVER_SHOW_MESSAGE = "showMessage";
 
-    ProjectLab lab;
+    /** Действие выполнения задачи */
+    public static final String ACTION_RECEIVER_SET_DONE = "ACTION_RECEIVER_SET_DONE";
+    /** Действие отображение уведомления о выполнении задачи */
+    public static final String ACTION_RECEIVER_SHOW_MESSAGE = "ACTION_RECEIVER_SHOW_MESSAGE";
+
+    /** Класс по работе с проектами и задачами */
+    private ProjectLab lab;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        String action = String.valueOf(intent.getAction());                                         //Обернул, чтобы null превращался в строку
+        //Обернул, чтобы null превращался в строку
+        String action = String.valueOf(intent.getAction());
         Log.d("onReceive", "Action: " + action);
         lab = ProjectLab.get(context);
 
-        switch (action){
+        switch (action) {
             case ACTION_RECEIVER_SET_DONE:
                 setDone(context, intent);
                 break;
@@ -36,10 +43,9 @@ public class MyScheduledReceiver extends BroadcastReceiver {
                 showNotification(context, intent);
                 break;
         }
-
     }
 
-    private void showNotification(Context context, Intent intent){
+    private void showNotification(Context context, Intent intent) {
         UUID id = UUID.fromString(intent.getStringExtra("mId"));
         //Task task = lab.getTaskOnAllLevel(id);
         Task task = new Task("Задача");
@@ -50,7 +56,7 @@ public class MyScheduledReceiver extends BroadcastReceiver {
         task.setTime("11:11");
         task.setPriority(3);
         task.setIsRepeat(false);
-        if (task == null){
+        if (task == null) {
             return;
         }
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -60,8 +66,6 @@ public class MyScheduledReceiver extends BroadcastReceiver {
         scheduledIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0, scheduledIntent, 0);
 
-
-
         Intent intentSetDone = new Intent(context, MyScheduledReceiver.class);
         intentSetDone.putExtra("mId", String.valueOf(id));
         intentSetDone.setAction(ACTION_RECEIVER_SET_DONE);
@@ -70,10 +74,10 @@ public class MyScheduledReceiver extends BroadcastReceiver {
         Notification.Builder builder = new Notification.Builder(context);
         builder.setContentIntent(contentIntent)
                 .setSmallIcon(R.drawable.ic_done)
-                        //.setSmallIcon(R.drawable.anim_status_bar)                                         //Анимированное оповещение
+                //.setSmallIcon(R.drawable.anim_status_bar)                                         //Анимированное оповещение
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_icon))
                 .setTicker("Название оповещения")// текст в строке состояния
-                        //.setWhen(System.currentTimeMillis()).setAutoCancel(true)
+                //.setWhen(System.currentTimeMillis()).setAutoCancel(true)
                 .setContentTitle(task.getTitle()) // Заголовок уведомления
                 .addAction(0, "Выполнить", pIntentSetDone)
                 .addAction(0, "Кнопка 2", contentIntent)
@@ -91,12 +95,12 @@ public class MyScheduledReceiver extends BroadcastReceiver {
         nm.notify(id.hashCode(), n);
     }
 
-    private void setDone(Context context, Intent intent){
+    private void setDone(Context context, Intent intent) {
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         UUID id = UUID.fromString(intent.getStringExtra("mId"));
         nm.cancel(id.hashCode());
         Task task = lab.getTaskOnAllLevel(id);
-        if (task != null){
+        if (task != null) {
             Log.d("MyScheduledReceiver", "setIsDone: задача найдена");
             task.setIsDone(true);
         }

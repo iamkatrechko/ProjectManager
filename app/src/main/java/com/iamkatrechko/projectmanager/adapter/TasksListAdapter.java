@@ -14,9 +14,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.iamkatrechko.projectmanager.ItemTouchHelperViewHolder;
+import com.iamkatrechko.projectmanager.contract.ItemTouchHelperViewHolder;
 import com.iamkatrechko.projectmanager.Methods;
-import com.iamkatrechko.projectmanager.OnItemClickListener;
+import com.iamkatrechko.projectmanager.contract.OnItemClickListener;
 import com.iamkatrechko.projectmanager.ProjectLab;
 import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.SimpleItemTouchHelperCallback;

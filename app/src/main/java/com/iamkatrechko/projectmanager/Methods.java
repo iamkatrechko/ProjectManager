@@ -12,16 +12,6 @@ public class Methods {
     }
 
     /**
-     * Возвращает полученные дату и время в формате "DD.MM.YYYY - HH.MM"
-     * @param date Дата
-     * @param time Время
-     * @return Строка в формате "DD.MM.YYYY - HH.MM"
-     */
-    public String getFormatDate(String date, String time) {
-        return getFormatDate2(date, time);
-    }
-
-    /**
      * Возвращает полученные дату и время в формате "DD.MM.YYYY - HH.MM".
      * Если дата и время не заданы, вовзращает строку - "Не задано"
      * @param date Дата
@@ -40,7 +30,13 @@ public class Methods {
         return formatDate;
     }
 
-    public String getFormatDate2(String date, String time) {
+    /**
+     * Возвращает полученные дату и время в формате "DD.MM.YYYY - HH.MM"
+     * @param date Дата
+     * @param time Время
+     * @return Строка в формате "DD.MM.YYYY - HH.MM"
+     */
+    public String getFormatDate(String date, String time) {
         String formatDate;
 
         if (date.equals(DateUtils.getTodayDate())) {                                                          //Если дата = сегодня

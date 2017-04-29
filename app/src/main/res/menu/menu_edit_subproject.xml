@@ -7,7 +7,8 @@
         android:id="@+id/delete"
         android:icon="@drawable/ic_delete"
         android:orderInCategory="100"
-        android:title="Удалить"
-        app:showAsAction="withText|ifRoom"/>
+        android:title="@string/action_delete"
+        app:showAsAction="withText|ifRoom"
+        />
 
 </menu>

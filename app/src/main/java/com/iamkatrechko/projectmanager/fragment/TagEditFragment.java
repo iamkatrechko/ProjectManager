@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.iamkatrechko.projectmanager.ProjectLab;
 import com.iamkatrechko.projectmanager.R;
-import com.iamkatrechko.projectmanager.dialogs.DialogSaveChanges;
+import com.iamkatrechko.projectmanager.dialog.DialogSaveChanges;
 import com.iamkatrechko.projectmanager.entity.Tag;
 
 import java.util.UUID;

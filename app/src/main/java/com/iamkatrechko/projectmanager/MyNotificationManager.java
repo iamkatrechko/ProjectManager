@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.iamkatrechko.projectmanager.entity.Task;
+import com.iamkatrechko.projectmanager.receiver.MyScheduledReceiver;
 
 import java.util.Calendar;
 import java.util.UUID;

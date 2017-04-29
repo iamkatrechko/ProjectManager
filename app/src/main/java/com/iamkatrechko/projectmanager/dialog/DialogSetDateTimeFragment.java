@@ -31,7 +31,7 @@
  *  java.lang.String
  *  java.util.ArrayList
  */
-package com.iamkatrechko.projectmanager;
+package com.iamkatrechko.projectmanager.dialog;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -49,22 +49,20 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.utils.DateUtils;
 
-import java.util.ArrayList;
-import java.util.UUID;
-
 public class DialogSetDateTimeFragment extends DialogFragment {
-    Methods m;
-    String date;
-    String time;
 
-    int year;
-    int month;
-    int day;
+    private String date;
+    private String time;
 
-    int hour;
-    int minute;
+    private int year;
+    private int month;
+    private int day;
+
+    private int hour;
+    private int minute;
 
     public static DialogSetDateTimeFragment newInstance(String date, String time) {
         DialogSetDateTimeFragment fragment = new DialogSetDateTimeFragment();
@@ -89,7 +87,6 @@ public class DialogSetDateTimeFragment extends DialogFragment {
 
     @NonNull
     public Dialog onCreateDialog(Bundle bundle) {
-        m = new Methods(getActivity());
         date = getArguments().getString("date");
         time = getArguments().getString("time");
 
@@ -98,7 +95,7 @@ public class DialogSetDateTimeFragment extends DialogFragment {
         final EditText editTextTime = (EditText) view.findViewById(R.id.editTextTime);
         final CheckBox checkBoxTime = (CheckBox) view.findViewById(R.id.checkBoxTime);
 
-        if (date.equals("null")){
+        if (date.equals("null")) {
             editTextDate.setText(DateUtils.getTodayDate());
             setBufDate(DateUtils.getTodayDate());
         } else {
@@ -125,10 +122,10 @@ public class DialogSetDateTimeFragment extends DialogFragment {
             }
         });
 
-        if (time.equals("null")){
+        if (time.equals("null")) {
             editTextTime.setText("12:00");
             setBufTime("12:00");
-        }else {
+        } else {
             checkBoxTime.setChecked(true);
             editTextTime.setEnabled(true);
             editTextTime.setText(time);
@@ -197,15 +194,15 @@ public class DialogSetDateTimeFragment extends DialogFragment {
                 }).create();
     }
 
-    private void setBufDate(String date){
+    private void setBufDate(String date) {
         year = Integer.valueOf(date.split("\\.")[2]);
         month = Integer.valueOf(date.split("\\.")[1]) - 1;
         day = Integer.valueOf(date.split("\\.")[0]);
     }
 
-    private void setBufTime(String time){
+    private void setBufTime(String time) {
         hour = Integer.valueOf(time.split("\\:")[0]);
-        minute =  Integer.valueOf(time.split("\\:")[1]);
+        minute = Integer.valueOf(time.split("\\:")[1]);
     }
 }
 

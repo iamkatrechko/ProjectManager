@@ -12,7 +12,7 @@ import com.iamkatrechko.projectmanager.R;
 public enum ExpMenuItems {
 
     /** Шапка меню */
-    EXP_ITEM_HEADER(R.string.app_name, R.drawable.ic_launcher),
+    EXP_ITEM_HEADER(R.string.app_name, R.drawable.ic_notification_icon),
     /** Список задач на сегодня */
     MENU_ITEM_TODAY(R.string.nav_menu_today, R.drawable.ic_today),
     /** Список задач на неделю */

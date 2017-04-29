@@ -1,4 +1,4 @@
-package com.iamkatrechko.projectmanager.dialogs;
+package com.iamkatrechko.projectmanager.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;

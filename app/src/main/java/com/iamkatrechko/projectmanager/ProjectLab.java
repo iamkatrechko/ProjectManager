@@ -21,6 +21,7 @@ import java.util.UUID;
 
 /** Класс по работе с проектами и задачами */
 public class ProjectLab {
+
     /** Список проектов и задач */
     private ArrayList<Project> mProjects = new ArrayList<>();
     /** Список тэгов */

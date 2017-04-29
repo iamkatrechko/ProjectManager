@@ -6,16 +6,17 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.iamkatrechko.projectmanager.ProjectLab;
 import com.iamkatrechko.projectmanager.R;
 
 /**
+ * Меню разработчика
  * Created by Muxa on 21.02.2016.
  */
-public class ServiceMenuActivity extends ActionBarActivity implements View.OnClickListener{
+public class ServiceMenuActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,20 +34,20 @@ public class ServiceMenuActivity extends ActionBarActivity implements View.OnCli
         switch (view.getId()) {
             case R.id.button3:
                 showNotification();
-                return;
+                break;
             case R.id.button4:
                 ProjectLab.get(this).reloadData();
-                return;
+                break;
             case R.id.button5:
                 ProjectLab.get(this).deleteAllData();
-                return;
+                break;
             case R.id.button6:
                 ProjectLab.get(this).generateTags();
-                return;
+                break;
         }
     }
 
-    public void showNotification(){
+    public void showNotification() {
         NotificationManager nm;
         nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         Intent scheduledIntent = new Intent(this, MainActivity.class);
@@ -59,8 +60,8 @@ public class ServiceMenuActivity extends ActionBarActivity implements View.OnCli
         Notification.Builder builder = new Notification.Builder(this);
 
         builder.setContentIntent(contentIntent)
-                .setSmallIcon(R.drawable.ic_launcher)
-                .setLargeIcon(BitmapFactory.decodeResource(res, R.drawable.ic_launcher))
+                .setSmallIcon(R.drawable.ic_notification_icon)
+                .setLargeIcon(BitmapFactory.decodeResource(res, R.drawable.ic_notification_icon))
                 .setTicker("Название оповещения")// текст в строке состояния
                 .setWhen(System.currentTimeMillis()).setAutoCancel(true)
                 .setContentTitle("Название контента") // Заголовок уведомления
