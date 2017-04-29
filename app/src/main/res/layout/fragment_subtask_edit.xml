@@ -2,56 +2,57 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/appBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:theme="@style/toolBarTheme"
-            android:background="?attr/colorPrimary"/>
+            android:background="?attr/colorPrimary"
+            android:theme="@style/toolBarTheme"/>
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:background="?attr/colorPrimary">
+            android:background="?attr/colorPrimary"
+            android:orientation="vertical"
+            android:paddingBottom="8dp">
 
             <EditText
+                android:id="@+id/editTextTitle"
+                style="@style/editTextStyle2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editTextTitle"
-                android:hint="@string/hint_title"
-                android:textColor="#ffffff"
-                android:textColorHint="#ffffff"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                style="@style/editTextStyle2"
-                android:textSize="20sp"
+                android:layout_marginTop="4dp"
+                android:hint="@string/hint_title"
                 android:singleLine="true"
-                android:layout_marginTop="4dp" />
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:textSize="20sp"/>
 
             <EditText
+                android:id="@+id/editTextDescription"
+                style="@style/editTextStyle2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editTextDescription"
-                android:hint="@string/hint_description"
-                android:textColorHint="#ffffff"
-                android:textColor="#ffffff"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="84dp"
-                style="@style/editTextStyle2"
-                android:textSize="15sp" />
+                android:hint="@string/hint_description"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:textSize="15sp"/>
         </LinearLayout>
 
-        </android.support.design.widget.AppBarLayout>
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -59,260 +60,272 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="1">
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:id="@+id/linear_date_time"
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
-                android:id="@+id/linear_date_time"
+                android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
-                android:background="?android:attr/selectableItemBackground" >
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_margin="16dp"
                     android:src="@drawable/ic_today"
-                    android:tint="#737373" />
+                    android:tint="#737373"/>
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="16dp" >
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Срок выполнения"
-                        android:textSize="18sp"
-                        android:textColor="#212121" />
+                        android:textColor="#212121"
+                        android:textSize="18sp"/>
 
                     <TextView
+                        android:id="@+id/textView_date_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Дата и время"
-                        android:id="@+id/textView_date_time"
+                        android:textColor="#757575"
                         android:textSize="15sp"
-                        android:textColor="#757575" />
+                        tools:text="Дата и время"/>
                 </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:id="@+id/linear_priority"
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
-                android:id="@+id/linear_priority"
+                android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
-                android:background="?android:attr/selectableItemBackground">
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_margin="16dp"
                     android:src="@drawable/ic_equalizer"
-                    android:tint="#737373" />
+                    android:tint="#737373"/>
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="16dp">
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Приоритет"
-                        android:textSize="18sp"
-                        android:textColor="#212121" />
+                        android:textColor="#212121"
+                        android:textSize="18sp"/>
 
                     <TextView
+                        android:id="@+id/textView_priority"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Название"
-                        android:id="@+id/textView_priority"
+                        android:textColor="#757575"
                         android:textSize="15sp"
-                        android:textColor="#757575" />
+                        tools:text="Наименование приоритета"/>
 
                 </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:id="@+id/linear_reminder"
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
-                android:id="@+id/linear_reminder"
+                android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
-                android:background="?android:attr/selectableItemBackground" >
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_margin="16dp"
                     android:src="@drawable/ic_alarm"
-                    android:tint="#737373" />
+                    android:tint="#737373"/>
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="16dp" >
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Напоминание"
-                        android:textSize="18sp"
-                        android:textColor="#212121" />
+                        android:textColor="#212121"
+                        android:textSize="18sp"/>
 
                     <TextView
+                        android:id="@+id/textViewReminder"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Выключено"
-                        android:id="@+id/textViewReminder"
+                        android:textColor="#757575"
                         android:textSize="15sp"
-                        android:textColor="#757575" />
+                        tools:text="Выключено"/>
                 </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:id="@+id/linear_repeat"
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
-                android:id="@+id/linear_repeat"
+                android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
-                android:background="?android:attr/selectableItemBackground" >
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_margin="16dp"
                     android:src="@drawable/ic_replay"
-                    android:tint="#737373" />
+                    android:tint="#737373"/>
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="16dp" >
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Повторение"
-                        android:textSize="18sp"
-                        android:textColor="#212121" />
+                        android:textColor="#212121"
+                        android:textSize="18sp"/>
 
                     <TextView
+                        android:id="@+id/textViewRepeat"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Без повтора"
-                        android:id="@+id/textViewRepeat"
+                        android:textColor="#757575"
                         android:textSize="15sp"
-                        android:textColor="#757575" />
+                        tools:text="Наименование повтора"
+                        />
+
                 </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:id="@+id/linear_tag"
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
-                android:id="@+id/linear_tag"
+                android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
-                android:background="?android:attr/selectableItemBackground" >
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_margin="16dp"
                     android:src="@drawable/ic_label_outline"
-                    android:tint="#737373" />
+                    android:tint="#737373"/>
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="16dp" >
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Метка"
-                        android:textSize="18sp"
-                        android:textColor="#212121" />
+                        android:textColor="#212121"
+                        android:textSize="18sp"/>
 
                     <TextView
+                        android:id="@+id/textViewTag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="\@На работе"
-                        android:id="@+id/textViewTag"
-                        android:textSize="15sp"
                         android:textColor="#757575"
+                        android:textSize="15sp"
+                        tools:text="Наименование метки"
                         />
                 </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:id="@+id/linear_project"
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
-                android:id="@+id/linear_project"
+                android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
-                android:background="?android:attr/selectableItemBackground" >
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_margin="16dp"
+                    android:padding="4dp"
                     android:src="@drawable/ic_circle"
-                    android:tint="#737373"
-                    android:padding="4dp" />
+                    android:tint="#737373"/>
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="16dp" >
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Проект"
-                        android:textSize="18sp"
-                        android:textColor="#212121" />
+                        android:textColor="#212121"
+                        android:textSize="18sp"/>
 
                     <TextView
+                        android:id="@+id/textViewProject"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Разработка приложения"
-                        android:id="@+id/textViewProject"
+                        android:textColor="#757575"
                         android:textSize="15sp"
-                        android:textColor="#757575" />
+                        tools:text="Наименование проекта"
+                        />
+
                 </LinearLayout>
+
             </LinearLayout>
+
         </LinearLayout>
+
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/buttonSave"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:src="@drawable/ic_done"
         android:tint="?attr/colorPrimary"
         app:backgroundTint="#ffebebeb"
         app:layout_anchor="@id/appBar"
-        app:layout_anchorGravity="bottom|right|end" />
+        app:layout_anchorGravity="bottom|right|end"
+        />
 
 </android.support.design.widget.CoordinatorLayout>
