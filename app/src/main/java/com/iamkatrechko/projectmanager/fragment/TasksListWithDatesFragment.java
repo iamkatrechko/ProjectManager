@@ -22,18 +22,49 @@ import com.iamkatrechko.projectmanager.utils.TasksUtils;
 import java.util.List;
 
 /**
- * Created by Muxa on 25.02.2016.
+ * Фрагмент со списком задач с датированными метками
+ * @author iamkatrechko
+ *         Date: 25.02.2016
  */
-public class TasksListTodayFragment extends Fragment {
+public class TasksListWithDatesFragment extends Fragment {
 
-    private List<TaskListItem> mTaskListItems;
+    /** Ключ параметра. Режим отображения задач */
+    private static final String EXTRA_MODE = "MODE";
+
+    /** Режимы отображения задач во фрагменте */
+    public enum LIST_WITH_DATES_MODE {
+        /** Список задач на сегодня */
+        LIST_TODAY,
+        /** Список задач на неделю */
+        LIST_OF_WEEK
+    }
+
+    /** Текущий режим отображения задач */
+    private LIST_WITH_DATES_MODE currentMode;
+    /** Список задач с датированными метками */
+    private List<TaskListItem> mTasksWithDates;
+    /** Адаптер списка задач */
     private TasksListAdapter adapter;
+    /** Класс по работе с проектами и задачами */
     private ProjectLab lab;
+    /** Виджет списка задач */
     private RecyclerView recyclerView;
+    /** Кнопка добавления новой задачи */
     private AddFloatingActionButton actionAdd;
 
-    public static TasksListTodayFragment newInstance() {
-        return new TasksListTodayFragment();
+    /**
+     * Возвращает новый экземпляр фрагмента
+     * @param mode режим отображения задач
+     * @return новый экземпляр фрагмента
+     */
+    public static TasksListWithDatesFragment newInstance(LIST_WITH_DATES_MODE mode) {
+        TasksListWithDatesFragment fragment = new TasksListWithDatesFragment();
+
+        Bundle args = new Bundle();
+        args.putInt(EXTRA_MODE, mode.ordinal());
+        fragment.setArguments(args);
+
+        return fragment;
     }
 
     @Override
@@ -43,7 +74,7 @@ public class TasksListTodayFragment extends Fragment {
         setRetainInstance(true);
 
         lab = ProjectLab.get(getActivity());
-        mTaskListItems = TasksUtils.addDateLabels(lab.getTodayTasks());
+        currentMode = LIST_WITH_DATES_MODE.values()[getArguments().getInt(EXTRA_MODE)];
     }
 
     @Override
@@ -61,8 +92,9 @@ public class TasksListTodayFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
         adapter.setEmptyView(view.findViewById(R.id.emptyView));
-        adapter.setData(mTaskListItems);
+        adapter.setData(mTasksWithDates);
         adapter.setOnSwipedListener(new SimpleItemTouchHelperCallback.OnItemSwipeListener() {
+
             @Override
             public void onItemLeftSwipe(int position) {
 
@@ -70,9 +102,8 @@ public class TasksListTodayFragment extends Fragment {
 
             @Override
             public void onItemRightSwipe(int position) {
-                lab.removeTaskByID(((Task) mTaskListItems.get(position)).getID());
-                mTaskListItems = TasksUtils.addDateLabels(lab.getTodayTasks());
-                adapter.setData(mTaskListItems);
+                lab.removeTaskByID(((Task) mTasksWithDates.get(position)).getID());
+                updateTasksList();
             }
         });
 
@@ -93,7 +124,19 @@ public class TasksListTodayFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mTaskListItems = TasksUtils.addDateLabels(lab.getTodayTasks());
-        adapter.setData(mTaskListItems);
+        updateTasksList();
+    }
+
+    /** Обновлят список задач */
+    private void updateTasksList() {
+        switch (currentMode) {
+            case LIST_TODAY:
+                mTasksWithDates = TasksUtils.addDateLabels(lab.getTodayTasks());
+                break;
+            case LIST_OF_WEEK:
+                mTasksWithDates = TasksUtils.addDateLabels(lab.getAllTasks());
+                break;
+        }
+        adapter.setData(mTasksWithDates);
     }
 }

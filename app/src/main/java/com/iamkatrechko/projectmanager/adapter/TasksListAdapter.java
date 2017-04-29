@@ -80,7 +80,7 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             @Override
             public void onChanged() {
                 super.onChanged();
-                if (mEmptyView != null && mRecyclerView != null) {
+                if (mEmptyView != null && mRecyclerView != null && mTasks != null) {
                     mEmptyView.setVisibility(mTasks.isEmpty() ? View.VISIBLE : View.GONE);
                     mRecyclerView.setVisibility(mTasks.isEmpty() ? View.GONE : View.VISIBLE);
                 }

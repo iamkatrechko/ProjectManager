@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/empty_tasks_list_today"
+            android:text="@string/empty_tasks_list_soon"
             android:textSize="16sp"/>
 
     </LinearLayout>
@@ -45,6 +45,7 @@
         fab:fab_colorNormal="?attr/colorPrimary"
         fab:fab_colorPressed="?attr/colorAccent"
         fab:fab_plusIconColor="#ffffff"
-        fab:fab_stroke_visible="false"/>
+        fab:fab_stroke_visible="false"
+        />
 
 </RelativeLayout>
