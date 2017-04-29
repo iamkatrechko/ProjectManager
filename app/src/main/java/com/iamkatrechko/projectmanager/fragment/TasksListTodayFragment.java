@@ -12,9 +12,11 @@ import android.view.ViewGroup;
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.iamkatrechko.projectmanager.ProjectLab;
 import com.iamkatrechko.projectmanager.R;
+import com.iamkatrechko.projectmanager.SimpleItemTouchHelperCallback;
 import com.iamkatrechko.projectmanager.activity.TaskEditActivity;
 import com.iamkatrechko.projectmanager.adapter.TasksListAdapter;
 import com.iamkatrechko.projectmanager.entity.Task;
+import com.iamkatrechko.projectmanager.new_entity.TaskListItem;
 import com.iamkatrechko.projectmanager.utils.TasksUtils;
 
 import java.util.List;
@@ -23,10 +25,12 @@ import java.util.List;
  * Created by Muxa on 25.02.2016.
  */
 public class TasksListTodayFragment extends Fragment {
-    private List<Task> mTasksList;
+
+    private List<TaskListItem> mTaskListItems;
     private TasksListAdapter adapter;
     private ProjectLab lab;
     private RecyclerView recyclerView;
+    private AddFloatingActionButton actionAdd;
 
     public static TasksListTodayFragment newInstance() {
         return new TasksListTodayFragment();
@@ -39,27 +43,38 @@ public class TasksListTodayFragment extends Fragment {
         setRetainInstance(true);
 
         lab = ProjectLab.get(getActivity());
+        mTaskListItems = TasksUtils.addDateLabels(lab.getTodayTasks());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_recycler_calendar, parent, false);
+        View view = inflater.inflate(R.layout.fragment_tasks_list_today, parent, false);
 
+        actionAdd = (AddFloatingActionButton) view.findViewById(R.id.action_add);
         recyclerView = (RecyclerView) view.findViewById(R.id.section_list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        AddFloatingActionButton actionAdd = (AddFloatingActionButton) view.findViewById(R.id.action_add);
-
-        mTasksList = lab.getTodayTasks();
-
-        adapter = new TasksListAdapter(getActivity(), true, false,
+        adapter = new TasksListAdapter(getActivity(), false, true,
                 getResources().getColor(R.color.swipe_to_set_done_color),
                 getResources().getColor(R.color.swipe_to_delete_color),
                 R.drawable.ic_done, R.drawable.ic_delete, false);
-        adapter.setEmptyView(view.findViewById(R.id.emptyView));
-        adapter.setData(TasksUtils.addDateLabels(mTasksList));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
+        adapter.setEmptyView(view.findViewById(R.id.emptyView));
+        adapter.setData(mTaskListItems);
+        adapter.setOnSwipedListener(new SimpleItemTouchHelperCallback.OnItemSwipeListener() {
+            @Override
+            public void onItemLeftSwipe(int position) {
+
+            }
+
+            @Override
+            public void onItemRightSwipe(int position) {
+                lab.removeTaskByID(((Task) mTaskListItems.get(position)).getID());
+                mTaskListItems = TasksUtils.addDateLabels(lab.getTodayTasks());
+                adapter.setData(mTaskListItems);
+            }
+        });
 
         // Создание задачи
         actionAdd.setOnClickListener(new View.OnClickListener() {
@@ -75,23 +90,10 @@ public class TasksListTodayFragment extends Fragment {
         return view;
     }
 
-    /*
     @Override
     public void onResume() {
         super.onResume();
-        fullUpdateList();
+        mTaskListItems = TasksUtils.addDateLabels(lab.getTodayTasks());
+        adapter.setData(mTaskListItems);
     }
-
-    //Полная перезагрузка списка задач со сменой дат и прочее
-    private void fullUpdateList() {
-        if (needUpdate) {
-            mTasksList = lab.getTodayTasksList(DateUtils.getTodayDate());
-            adapter = new a(mTasksList, getActivity());
-
-            recyclerView.setAdapter(adapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        }
-
-        needUpdate = true;
-    }*/
 }

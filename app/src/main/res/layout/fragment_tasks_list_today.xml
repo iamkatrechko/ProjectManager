@@ -14,18 +14,20 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="gone"
+        >
 
         <ImageView
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:src="@drawable/ic_info"
-            android:tint="#808080"/>
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:src="@drawable/ic_info_outline"
+            android:tint="#c7c7c7"
+            />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Список пуст"
+            android:text="@string/empty_tasks_list_today"
             android:textSize="16sp"/>
 
     </LinearLayout>

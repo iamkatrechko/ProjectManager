@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              xmlns:tools="http://schemas.android.com/tools"
+              android:background="#efefef"
               android:orientation="horizontal"
-              android:background="#e2e2e2"
-              >
+    >
 
     <TextView
         android:id="@+id/text_view_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="Дата"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:textSize="17sp"/>
+        android:layout_marginTop="4dp"
+        android:textColor="#878787"
+        android:textSize="17sp"
+        tools:text="Дата"/>
 
 </LinearLayout>

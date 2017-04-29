@@ -250,6 +250,7 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     /** ViewHolderTask подпроекта */
     private class ViewHolderSubProject extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
 
+        /** Идентификатор подпроекта */
         private UUID _id;
         /** Название подпроекта */
         private TextView tvTitle;
@@ -258,6 +259,10 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         /** Кнопка меню подпроекта */
         private ImageView imageViewMenu;
 
+        /**
+         * Конструктор
+         * @param itemView виджет элемента списка
+         */
         public ViewHolderSubProject(final View itemView) {
             super(itemView);
 
@@ -326,12 +331,17 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     /** ViewHolderTask временной метки */
-    public class ViewHolderDate extends RecyclerView.ViewHolder {
+    public class ViewHolderDate extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
+
         /** Метка, отображающая дату */
         public TextView tvDate;
         /** Календарь с датой разделителя */
         public Calendar mCalendar;
 
+        /**
+         * Конструктор
+         * @param itemView виджет элемента списка
+         */
         public ViewHolderDate(final View itemView) {
             super(itemView);
             tvDate = (TextView) itemView.findViewById(R.id.text_view_date);
@@ -341,6 +351,16 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             DateLabel dateLabel = (DateLabel) taskListItem;
             tvDate.setText(dateLabel.getDate());
             mCalendar = dateLabel.getCalendar();
+        }
+
+        @Override
+        public void onItemSelected() {
+
+        }
+
+        @Override
+        public void onItemClear() {
+
         }
     }
 }

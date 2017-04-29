@@ -54,7 +54,7 @@ public class TasksListOfWeekFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_recycler_calendar, parent, false);
+        View v = inflater.inflate(R.layout.fragment_tasks_list_today, parent, false);
 
         recyclerView = (RecyclerView) v.findViewById(R.id.section_list);
         AddFloatingActionButton actionAdd = (AddFloatingActionButton) v.findViewById(R.id.action_add);

@@ -63,7 +63,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-        if (mAdapter.getItemViewType(viewHolder.getAdapterPosition()) == 0) {
+        if (mAdapter.getItemViewType(viewHolder.getAdapterPosition()) != 1) {
             return 0;
         }
         final int dragFlags = mDragItem ? (ItemTouchHelper.UP | ItemTouchHelper.DOWN) : 0;

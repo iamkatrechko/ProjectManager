@@ -40,6 +40,7 @@
     <string name="not_specified">Не задано</string>
     <string name="remind_on">Включено</string>
     <string name="remind_off">Выключено</string>
+    <string name="empty_tasks_list_today">Список задач на сегодня пуст</string>
 
     <string-array name="priorities">
         <item>Без приоритета</item>
