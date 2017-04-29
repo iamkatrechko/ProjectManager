@@ -35,6 +35,11 @@
     <string name="nav_menu_settings">Настройки</string>
     <string name="nav_menu_info">О программе</string>
 
+    <!-- Окно редактирования задачи -->
+    <string name="not_specified">Не задано</string>
+    <string name="remind_on">Включено</string>
+    <string name="remind_off">Выключено</string>
+
     <string-array name="priorities">
         <item>Без приоритета</item>
         <item>Низкий приоритет</item>
@@ -48,7 +53,7 @@
         <item>#eb5a46</item>
     </string-array>
 
-    <string-array name="months">
+    <string-array name="months_names">
         <item>января</item>
         <item>февраля</item>
         <item>марта</item>

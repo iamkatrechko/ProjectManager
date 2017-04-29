@@ -7,8 +7,8 @@ import android.view.MenuItem;
 
 import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.Themes;
-import com.iamkatrechko.projectmanager.utils.Utils;
 import com.iamkatrechko.projectmanager.fragment.TaskEditFragment;
+import com.iamkatrechko.projectmanager.utils.Utils;
 
 /**
  * Created by Muxa on 26.02.2016.
@@ -54,7 +54,7 @@ public class TaskEditActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onBackPressed(){
+    public void onBackPressed() {
         finish();
         overridePendingTransition(R.anim.act_slide_up_in, R.anim.act_slide_up_out);
     }

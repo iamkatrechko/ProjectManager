@@ -221,6 +221,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#757575"
                         android:textSize="15sp"
+                        android:text="Каждую среду"
                         tools:text="Наименование повтора"
                         />
 
@@ -261,6 +262,8 @@
                         android:id="@+id/textViewTag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
                         android:textColor="#757575"
                         android:textSize="15sp"
                         tools:text="Наименование метки"
@@ -300,7 +303,7 @@
                         android:textSize="18sp"/>
 
                     <TextView
-                        android:id="@+id/textViewProject"
+                        android:id="@+id/text_view_project"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#757575"

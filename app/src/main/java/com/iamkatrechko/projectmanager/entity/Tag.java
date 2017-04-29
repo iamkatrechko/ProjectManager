@@ -14,6 +14,7 @@ import java.util.UUID;
  *         Date: 25.02.2016
  */
 public class Tag implements Parcelable {
+
     private static final String JSON_ID = "id";
     private static final String JSON_TITLE = "title";
 
@@ -91,4 +92,9 @@ public class Tag implements Parcelable {
             return new Tag[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return getTitle();
+    }
 }

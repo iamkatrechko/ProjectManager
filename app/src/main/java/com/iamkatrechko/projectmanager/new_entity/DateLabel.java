@@ -5,8 +5,8 @@ import java.util.Calendar;
 import java.util.Locale;
 
 /**
- * Created on 05.03.2017
- * author: ivanov_m
+ * @author iamkatrechko
+ *         Date: 05.03.2017
  */
 public class DateLabel implements TaskListItem {
 

@@ -18,37 +18,44 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.iamkatrechko.projectmanager.dialog.DialogChoiceDatesFragment;
-import com.iamkatrechko.projectmanager.dialog.DialogSetTagsFragment;
 import com.iamkatrechko.projectmanager.Methods;
 import com.iamkatrechko.projectmanager.MyNotificationManager;
 import com.iamkatrechko.projectmanager.ProjectLab;
 import com.iamkatrechko.projectmanager.R;
+import com.iamkatrechko.projectmanager.dialog.DialogChoiceDatesFragment;
+import com.iamkatrechko.projectmanager.dialog.DialogSetTagsFragment;
+import com.iamkatrechko.projectmanager.entity.Tag;
 import com.iamkatrechko.projectmanager.entity.Task;
+import com.iamkatrechko.projectmanager.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
 /**
- * Created by Muxa on 25.02.2016.
+ * Фрагмент редактирования задачи
+ * @author iamkatrechko
+ *         Date: 25.02.2016
  */
-public class TaskEditFragment extends Fragment implements View.OnClickListener{
-    Methods m;
-    ProjectLab lab;
-    MyNotificationManager myNotificationManager;
+public class TaskEditFragment extends Fragment implements View.OnClickListener {
+
+    private Methods m;
+    /** Класс по работе с проектами и задачами */
+    private ProjectLab lab;
+    private MyNotificationManager myNotificationManager;
 
     private static int DIALOG_DATE_TIME_FRAGMENT = 175255;
     private static int DIALOG_SET_TAGS_FRAGMENT = 112521;
 
-    EditText etTitle;
-    EditText etDescription;
-    TextView tvDateTime;
-    TextView tvPriority;
-    TextView tvRemind;
-    TextView tvTag;
+    private EditText etTitle;
+    private EditText etDescription;
+    private TextView tvDateTime;
+    private TextView tvPriority;
+    private TextView tvRemind;
+    private TextView tvTag;
+    /** Текстовое поле с наименованием проекта задачи */
+    private TextView textViewProject;
 
     private String[] priorities;
-    private String[] notifys = {"Выключено", "Включено"};
 
     private UUID ID;
     private String Operation;
@@ -56,15 +63,8 @@ public class TaskEditFragment extends Fragment implements View.OnClickListener{
     private boolean tIsNotify = false;
     private ArrayList<UUID> tTagsList = new ArrayList<>();
 
-    String date = "null";
-    String time = "null";
-
-    int year;
-    int month;
-    int day;
-
-    int hour;
-    int minute;
+    private String date = "null";
+    private String time = "null";
 
     private Task task;
 
@@ -76,25 +76,8 @@ public class TaskEditFragment extends Fragment implements View.OnClickListener{
         args.putString("Operation", operation);
         args.putString("parentID", parentID);
         fragment.setArguments(args);
-        return fragment;
-    }
 
-    public void onActivityResult(int n, int n2, Intent intent) {
-        if (n2 == 0 && n == DIALOG_DATE_TIME_FRAGMENT) {
-            date = intent.getStringExtra("date");
-            time = intent.getStringExtra("time");
-            setDateTime();
-        }
-        if (n2 == 0 && n == DIALOG_SET_TAGS_FRAGMENT){
-            //Конвертируем айди меток к задаче в список с UUID
-            ArrayList<UUID> newList = new ArrayList<>();
-            String[] list = intent.getStringArrayExtra("TagsID");
-            for (String s : list){
-                newList.add(UUID.fromString(s));
-            }
-            tTagsList = newList;
-            tvTag.setText(getTagsInString());
-        }
+        return fragment;
     }
 
     @Override
@@ -129,21 +112,21 @@ public class TaskEditFragment extends Fragment implements View.OnClickListener{
         tvPriority = (TextView) v.findViewById(R.id.textView_priority);
         tvRemind = (TextView) v.findViewById(R.id.textViewReminder);
         tvTag = (TextView) v.findViewById(R.id.textViewTag);
-
+        textViewProject = (TextView) v.findViewById(R.id.text_view_project);
 
         priorities = getActivity().getResources().getStringArray(R.array.priorities);
-        if (Operation.equals("edit")){
+        if (Operation.equals("edit")) {
             getActivity().setTitle(R.string.activity_subtask_edit);
             task = lab.getTaskOnAllLevel(ID);
             tPriority = task.getPriority();
             tIsNotify = task.getIsNotify();
             date = task.getDate();
             time = task.getTime();
-            for (UUID id : task.getTags()){
+            for (UUID id : task.getTags()) {
                 tTagsList.add(id);
             }
             setValues();
-        }else{
+        } else {
             getActivity().setTitle(R.string.activity_subtask_add);
             setDefaultValues();
         }
@@ -161,7 +144,7 @@ public class TaskEditFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.buttonSave:
                 if (Operation.equals("edit")) {
                     task.setTitle(etTitle.getText().toString());
@@ -174,7 +157,7 @@ public class TaskEditFragment extends Fragment implements View.OnClickListener{
                     task.setTags(tTagsList);
 
                     myNotificationManager.addNotification(task.getID());
-                }else{
+                } else {
                     UUID ID = UUID.fromString(getArguments().getString("parentID"));
                     Task task = new Task(etTitle.getText().toString());
                     task.setDescription(etDescription.getText().toString());
@@ -207,13 +190,14 @@ public class TaskEditFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.linear_reminder:
                 final AlertDialog.Builder builder2 = new AlertDialog.Builder(getActivity());
+                String[] remindValues = new String[]{getString(R.string.remind_off), getString(R.string.remind_on)};
                 builder2.setTitle("Напоминание...")
-                        .setSingleChoiceItems(notifys, tIsNotify ? 1 : 0,
+                        .setSingleChoiceItems(remindValues, tIsNotify ? 1 : 0,
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(final DialogInterface dialog, int item) {
                                         tIsNotify = (item != 0);
-                                        tvRemind.setText(notifys[item]);
+                                        tvRemind.setText(getString(item == 0 ? R.string.remind_off : R.string.remind_on));
                                         dialog.cancel();
                                     }
                                 });
@@ -222,15 +206,15 @@ public class TaskEditFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.linear_date_time:
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                DialogChoiceDatesFragment fragmentDialog = DialogChoiceDatesFragment.newInstance(date, time);
-                fragmentDialog.setTargetFragment(this, DIALOG_DATE_TIME_FRAGMENT);
-                fragmentDialog.show(fragmentManager, "setDateTimeDialog");
+                DialogChoiceDatesFragment dialogChoiceDatesFragment = DialogChoiceDatesFragment.newInstance(date, time);
+                dialogChoiceDatesFragment.setTargetFragment(this, DIALOG_DATE_TIME_FRAGMENT);
+                dialogChoiceDatesFragment.show(fragmentManager, "DIALOG_DATE_TIME_FRAGMENT");
                 break;
             case R.id.linear_tag:
                 FragmentManager fragmentManager2 = getActivity().getSupportFragmentManager();
-                DialogSetTagsFragment fragmentDialog2 = DialogSetTagsFragment.newInstance(tTagsList);
-                fragmentDialog2.setTargetFragment(this, DIALOG_SET_TAGS_FRAGMENT);
-                fragmentDialog2.show(fragmentManager2, "setTagsDialog");
+                DialogSetTagsFragment dialogSetTagsFragment = DialogSetTagsFragment.newInstance(tTagsList);
+                dialogSetTagsFragment.setTargetFragment(this, DIALOG_SET_TAGS_FRAGMENT);
+                dialogSetTagsFragment.show(fragmentManager2, "DIALOG_SET_TAGS_FRAGMENT");
                 break;
         }
     }
@@ -238,64 +222,83 @@ public class TaskEditFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
         inflater.inflate(R.menu.menu_edit_tasks, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        //Удаление задачи
-        if (id == R.id.delete) {
-            if (Operation.equals("edit")){
-                myNotificationManager.deleteNotification(task.getID());
-                lab.removeTaskByID(task.getID());
+        switch (item.getItemId()) {
+            case R.id.delete:
+                if (Operation.equals("edit")) {
+                    myNotificationManager.deleteNotification(task.getID());
+                    lab.removeTaskByID(task.getID());
+                    getActivity().finish();
+                }
                 getActivity().finish();
-            }else{
-                getActivity().finish();
-            }
-            return true;
+                break;
         }
-
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onActivityResult(int n, int n2, Intent intent) {
+        if (n2 == 0 && n == DIALOG_DATE_TIME_FRAGMENT) {
+            date = intent.getStringExtra("date");
+            time = intent.getStringExtra("time");
+            setDateTime();
+        }
+        if (n2 == 0 && n == DIALOG_SET_TAGS_FRAGMENT) {
+            //Конвертируем айди меток к задаче в список с UUID
+            ArrayList<UUID> newList = new ArrayList<>();
+            String[] list = intent.getStringArrayExtra("TagsID");
+            for (String s : list) {
+                newList.add(UUID.fromString(s));
+            }
+            tTagsList = newList;
+            tvTag.setText(getTagsInString());
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Методы //////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private String getTagsInString(){
-        String tagsString = "";
-        for (int i = 0; i < tTagsList.size(); i++) {
-            if (i == 0) {
-                tagsString += lab.getTag(tTagsList.get(i)).getTitle();
-            } else {
-                tagsString += ", " + lab.getTag(tTagsList.get(i)).getTitle();
-            }
+    /**
+     * Возвращает список тэгов в виде строки с перечислением
+     * @return список тэгов в виде строки с перечислением
+     */
+    private String getTagsInString() {
+        Tag[] tags = new Tag[tTagsList.size()];
+        for (int i = 0; i < tags.length; i++) {
+            tags[i] = lab.getTag(tTagsList.get(i));
         }
-        if (tagsString.length() == 0){
-            return "Не задано";
-        }else {
+        String tagsString = Utils.concatToString(tags);
+        if (tagsString.length() == 0) {
+            return getString(R.string.not_specified);
+        } else {
             return tagsString;
         }
     }
 
-    private void setDefaultValues(){
-        tvDateTime.setText("Не задано");
-        tvRemind.setText(notifys[0]);
+    /** Устанавливает значения по умолчанию для всех полей */
+    private void setDefaultValues() {
+        tvDateTime.setText(getString(R.string.not_specified));
+        tvRemind.setText(getString(R.string.remind_off));
         tvTag.setText(getTagsInString());
+        textViewProject.setText(lab.getProject(UUID.fromString(getArguments().getString("parentID"))).getTitle());
     }
 
-    private void setValues(){
+    /** Устанавливает значения для всех полей по текущей задаче */
+    private void setValues() {
         etTitle.setText(task.getTitle());
         etDescription.setText(task.getDescription());
         tvDateTime.setText(m.getFormatDateForSubTaskEdit(task.getDate(), task.getTime()));
-        tvRemind.setText(notifys[tIsNotify ? 1 : 0]);
+        tvRemind.setText(getString(!tIsNotify ? R.string.remind_off : R.string.remind_on));
         tvTag.setText(getTagsInString());
+        textViewProject.setText(lab.getProjectOfTask(task.getID()).getTitle());
     }
 
-    private void setDateTime(){
+    /** Устанавливает время в текстовое поле */
+    private void setDateTime() {
         tvDateTime.setText(m.getFormatDateForSubTaskEdit(date, time));
     }
 }

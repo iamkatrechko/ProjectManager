@@ -71,7 +71,7 @@ public class Methods {
     }
 
     private String setBufDate(String date) {
-        String[] months = mContext.getResources().getStringArray(R.array.months);
+        String[] months = mContext.getResources().getStringArray(R.array.months_names);
         int year = Integer.valueOf(date.split("\\.")[2]);
         int month = Integer.valueOf(date.split("\\.")[1]) - 1;
         int day = Integer.valueOf(date.split("\\.")[0]);
