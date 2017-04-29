@@ -26,8 +26,7 @@ import com.iamkatrechko.projectmanager.fragment.ProjectsListFragment;
 import com.iamkatrechko.projectmanager.fragment.TagsListFragment;
 import com.iamkatrechko.projectmanager.fragment.TasksListByTagFragment;
 import com.iamkatrechko.projectmanager.fragment.TasksListFragment;
-import com.iamkatrechko.projectmanager.fragment.TasksListOfWeekFragment;
-import com.iamkatrechko.projectmanager.fragment.TasksListTodayFragment;
+import com.iamkatrechko.projectmanager.fragment.TasksListWithDatesFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -243,12 +242,12 @@ public class MainActivity extends AppCompatActivity {
         switch (expMenuItem) {
             case MENU_ITEM_TODAY:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, TasksListTodayFragment.newInstance())
+                        .replace(R.id.container, TasksListWithDatesFragment.newInstance(TasksListWithDatesFragment.LIST_WITH_DATES_MODE.LIST_TODAY))
                         .commit();
                 break;
             case MENU_ITEM_WEEK:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, TasksListOfWeekFragment.newInstance())
+                        .replace(R.id.container, TasksListWithDatesFragment.newInstance(TasksListWithDatesFragment.LIST_WITH_DATES_MODE.LIST_OF_WEEK))
                         .commit();
                 break;
             case MENU_ITEM_CALENDAR:
