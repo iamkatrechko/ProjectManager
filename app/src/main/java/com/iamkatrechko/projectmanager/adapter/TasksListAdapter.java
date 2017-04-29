@@ -5,26 +5,29 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.iamkatrechko.projectmanager.contract.ItemTouchHelperViewHolder;
 import com.iamkatrechko.projectmanager.Methods;
-import com.iamkatrechko.projectmanager.contract.OnItemClickListener;
 import com.iamkatrechko.projectmanager.ProjectLab;
 import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.SimpleItemTouchHelperCallback;
-import com.iamkatrechko.projectmanager.SimpleItemTouchHelperCallback.*;
+import com.iamkatrechko.projectmanager.SimpleItemTouchHelperCallback.OnItemMoveAndSwipeListener;
+import com.iamkatrechko.projectmanager.SimpleItemTouchHelperCallback.OnItemSwipeListener;
 import com.iamkatrechko.projectmanager.activity.SubProjectEditActivity;
-import com.iamkatrechko.projectmanager.new_entity.TaskListItem;
+import com.iamkatrechko.projectmanager.contract.ItemTouchHelperViewHolder;
+import com.iamkatrechko.projectmanager.contract.OnItemClickListener;
 import com.iamkatrechko.projectmanager.entity.Task;
 import com.iamkatrechko.projectmanager.new_entity.DateLabel;
+import com.iamkatrechko.projectmanager.new_entity.TaskListItem;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -71,7 +74,7 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         notifyDataSetChanged();
     }
 
-    public void setEmptyListView(View view) {
+    public void setEmptyView(View view) {
         mEmptyView = view;
         super.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
@@ -188,15 +191,21 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     /** ViewHolderTask списка задач */
     private class ViewHolderTask extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
 
+        /** Идентификатор задачи */
         public UUID _id;
-        /** Название задачи */
+        /** Текстовая метка с названием задачи */
         public TextView tvTitle;
-        /** Описание задачи */
+        /** Текстовая метка с описанием задачи */
         public TextView tvDescription;
+        /** Иконка будильника задачи с напоминанием */
         public ImageView ivImageRemind;
         /** Полоса с цветом приоритета */
         public FrameLayout flPriority;
 
+        /**
+         * Конструктор
+         * @param itemView виджет элемента списка
+         */
         public ViewHolderTask(final View itemView) {
             super(itemView);
 
@@ -246,24 +255,43 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         private TextView tvTitle;
         /** Описание подпроекта */
         private TextView tvDescription;
-        /** Кнопка редактирования подпроекта */
-        private ImageView ivEdit;
+        /** Кнопка меню подпроекта */
+        private ImageView imageViewMenu;
 
         public ViewHolderSubProject(final View itemView) {
             super(itemView);
 
             tvTitle = (TextView) itemView.findViewById(R.id.title);
             tvDescription = (TextView) itemView.findViewById(R.id.description);
-            ivEdit = (ImageView) itemView.findViewById(R.id.ivEdit);
+            imageViewMenu = (ImageView) itemView.findViewById(R.id.image_view_menu);
 
-            ivEdit.setOnClickListener(new View.OnClickListener() {
+            imageViewMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(mContext, SubProjectEditActivity.class);
-                    intent.putExtra("mId", _id.toString());
-                    intent.putExtra("Operation", "edit");
-                    intent.putExtra("parent_ID", "0");
-                    mContext.startActivity(intent);
+                    PopupMenu popupMenu = new PopupMenu(mContext, view);
+                    popupMenu.inflate(R.menu.popup_menu_subproject);
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.action_edit:
+                                    Intent intent = new Intent(mContext, SubProjectEditActivity.class);
+                                    intent.putExtra("mId", _id.toString());
+                                    intent.putExtra("Operation", "edit");
+                                    intent.putExtra("parent_ID", "0");
+                                    mContext.startActivity(intent);
+                                    return true;
+                                case R.id.action_delete:
+                                    lab.removeTaskByID(_id);
+                                    notifyItemRemoved(getAdapterPosition());
+                                    return true;
+                                default:
+                                    return false;
+                            }
+                        }
+                    });
+                    popupMenu.show();
                 }
             });
 

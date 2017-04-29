@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
@@ -55,12 +54,13 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/ivEdit"
+            android:id="@+id/image_view_menu"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:padding="18dp"
-            android:tint="#424242"
-            app:srcCompat="@drawable/ic_edit"/>
+            android:src="@drawable/ic_more"
+            android:tint="#6c6c6c"
+            />
 
     </LinearLayout>
 

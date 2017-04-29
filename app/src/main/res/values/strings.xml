@@ -17,6 +17,7 @@
     <string name="activity_subtask_add">Новая задача</string>
     <string name="activity_subtask_edit">Редактирование задачи</string>
     <string name="action_delete">Удалить</string>
+    <string name="action_edit">Редактировать</string>
 
     <string name="choose_color">Выберите цвет</string>
     <string name="result_ok">Сохранить</string>

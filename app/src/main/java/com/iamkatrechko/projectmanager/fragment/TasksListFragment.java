@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
-import com.iamkatrechko.projectmanager.contract.OnItemClickListener;
 import com.iamkatrechko.projectmanager.ProjectLab;
 import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.SimpleItemTouchHelperCallback;
@@ -25,6 +24,7 @@ import com.iamkatrechko.projectmanager.activity.TaskEditActivity;
 import com.iamkatrechko.projectmanager.activity.TasksDoneListActivity;
 import com.iamkatrechko.projectmanager.activity.TasksListActivity;
 import com.iamkatrechko.projectmanager.adapter.TasksListAdapter;
+import com.iamkatrechko.projectmanager.contract.OnItemClickListener;
 import com.iamkatrechko.projectmanager.entity.Task;
 import com.iamkatrechko.projectmanager.new_entity.TaskListItem;
 
@@ -40,7 +40,7 @@ import java.util.UUID;
 public class TasksListFragment extends Fragment {
 
     /** Список задач и подпроектов */
-    private List<TaskListItem> mTasksList = new ArrayList<>();
+    private List<? extends TaskListItem> mTasksList = new ArrayList<>();
     /** Адаптер списка задач и подпроектов */
     private TasksListAdapter adapter;
     /** Класс по работе с проектами и задачами */
@@ -113,7 +113,7 @@ public class TasksListFragment extends Fragment {
         if (mProjectLab.getLevelOfParent(ID) == 2) {                                                         //Скрытие кнопки добавление подпроекта
             fMenu.removeButton(actionA);
         }
-        mTasksList.addAll(mProjectLab.getTasksListOnAllLevel(ID));
+        mTasksList = mProjectLab.getTasksListOnAllLevel(ID);
 
         adapter = new TasksListAdapter(getActivity(), true, true,
                 getResources().getColor(R.color.swipe_to_set_done_color),
@@ -146,11 +146,10 @@ public class TasksListFragment extends Fragment {
         adapter.setOnSwipedListener(new SimpleItemTouchHelperCallback.OnItemSwipeListener() {
             @Override
             public void onItemLeftSwipe(int position) {
-                //Log.d("setIsDone", String.valueOf(position) + " - " + mTasks.get(position).getTitleId());
+                Log.d("setIsDone", String.valueOf(position) + " - " + ((Task) mTasksList.get(position)).getTitle());
                 //myNotificationManager.deleteNotification(mTasks.get(position).getID());
                 ((Task) mTasksList.get(position)).setIsDone(true);
                 adapter.notifyItemRemoved(position);
-                adapter.notifyItemRangeInserted(position, 1);
                 //notifyDataSetChanged();
             }
 
@@ -159,9 +158,9 @@ public class TasksListFragment extends Fragment {
                 //myNotificationManager.deleteNotification(mTasks.get(position).getID());
                 mProjectLab.removeTaskByID(((Task) mTasksList.get(position)).getID());
                 adapter.notifyItemRemoved(position);
-                //notifyItemRangeChanged(position, mTasks.size());
             }
         });
+
         mTasksListRecyclerView.setHasFixedSize(true);
         mTasksListRecyclerView.setAdapter(adapter);
         mTasksListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

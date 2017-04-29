@@ -57,7 +57,7 @@ public class TasksListTodayFragment extends Fragment {
                 getResources().getColor(R.color.swipe_to_set_done_color),
                 getResources().getColor(R.color.swipe_to_delete_color),
                 R.drawable.ic_done, R.drawable.ic_delete, false);
-        adapter.setEmptyListView(view.findViewById(R.id.emptyView));
+        adapter.setEmptyView(view.findViewById(R.id.emptyView));
         adapter.setData(TasksUtils.addDateLabels(mTasksList));
         recyclerView.setAdapter(adapter);
 
