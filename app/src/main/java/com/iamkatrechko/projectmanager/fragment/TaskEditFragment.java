@@ -120,7 +120,7 @@ public class TaskEditFragment extends Fragment implements View.OnClickListener {
             task = lab.getTaskOnAllLevel(ID);
             tPriority = task.getPriority();
             tIsNotify = task.getIsNotify();
-            date = task.getDate();
+            date = task.getStringDate();
             time = task.getTime();
             for (UUID id : task.getTags()) {
                 tTagsList.add(id);
@@ -291,7 +291,7 @@ public class TaskEditFragment extends Fragment implements View.OnClickListener {
     private void setValues() {
         etTitle.setText(task.getTitle());
         etDescription.setText(task.getDescription());
-        tvDateTime.setText(m.getFormatDateForSubTaskEdit(task.getDate(), task.getTime()));
+        tvDateTime.setText(m.getFormatDateForSubTaskEdit(task.getStringDate(), task.getTime()));
         tvRemind.setText(getString(!tIsNotify ? R.string.remind_off : R.string.remind_on));
         tvTag.setText(getTagsInString());
         textViewProject.setText(lab.getProjectOfTask(task.getID()).getTitle());

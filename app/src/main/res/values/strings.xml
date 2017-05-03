@@ -49,6 +49,7 @@
     <string name="remind_on">Включено</string>
     <string name="remind_off">Выключено</string>
     <string name="empty_tasks_list_soon">Список задач на ближайшее время пуст</string>
+    <string name="empty_tasks_list_select_day">Список задач\nза выбранный день пуст</string>
 
     <string-array name="priorities">
         <item>Без приоритета</item>
@@ -61,6 +62,21 @@
         <item>#f2d600</item>
         <item>#ffab4a</item>
         <item>#eb5a46</item>
+    </string-array>
+
+    <string-array name="months_names_full">
+        <item>Январь</item>
+        <item>Февраль</item>
+        <item>Март</item>
+        <item>Апрель</item>
+        <item>Май</item>
+        <item>Июнь</item>
+        <item>Июль</item>
+        <item>Август</item>
+        <item>Сентябрь</item>
+        <item>Октябрь</item>
+        <item>Ноябрь</item>
+        <item>Декабрь</item>
     </string-array>
 
     <string-array name="months_names">

@@ -55,6 +55,10 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private SimpleItemTouchHelperCallback callback;
     private RecyclerView mRecyclerView;
 
+    public TasksListAdapter(Context context) {
+        this(context, false, false, 0, 0, 0, 0, false);
+    }
+
     public TasksListAdapter(Context context, boolean swipeToLeft, boolean swipeToRight,
                             @ColorInt int swipeToLeftColor, @ColorInt int swipeToRightColor,
                             @DrawableRes int swipeToLeftIcon, @DrawableRes int swipeToRightIcon,
@@ -227,7 +231,7 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             _id = task.getID();
             tvTitle.setText(task.getTitle());
             //vH.itemView.findViewById(R.id.card_view).setVisibility(task.getIsDone() ? View.GONE : View.VISIBLE);
-            tvDescription.setText(m.getFormatDate(task.getDate(), task.getTime()));
+            tvDescription.setText(m.getFormatDate(task.getStringDate(), task.getTime()));
             flPriority.setBackgroundColor(Color.parseColor(aColors[task.getPriority()]));
             ivImageRemind.setVisibility(task.getIsNotify() ? View.VISIBLE : View.GONE);
         }

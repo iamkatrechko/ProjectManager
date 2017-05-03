@@ -26,12 +26,12 @@ public class TasksUtils {
         String date = "";
         for (Task task : tasks) {
             if (task.getViewType() == TasksListAdapter.ADAPTER_ITEM_TYPE_TASK) {
-                if (task.getDate() != null) {
-                    if (!date.equals(task.getDate())) {
+                if (task.getStringDate() != null) {
+                    if (!date.equals(task.getStringDate())) {
                         DateLabel dateLabel = new DateLabel();
-                        dateLabel.setCalendarString(task.getDate());
+                        dateLabel.setCalendarString(task.getStringDate());
                         result.add(dateLabel);
-                        date = task.getDate();
+                        date = task.getStringDate();
                     }
 
                     result.add(task);

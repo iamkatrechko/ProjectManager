@@ -1,5 +1,9 @@
 package com.iamkatrechko.projectmanager.utils;
 
+import android.content.Context;
+
+import com.iamkatrechko.projectmanager.R;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -28,5 +32,15 @@ public class DateUtils {
         Calendar c = Calendar.getInstance();
         c.add(Calendar.DAY_OF_YEAR, 1);
         return new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(c.getTime());
+    }
+
+    /**
+     * Возвращает полное название месяца в именительном падеже
+     * @param context  контекст
+     * @param calendar дата
+     * @return полное название месяца в именительном падеже
+     */
+    public static String getMonthName(Context context, Calendar calendar) {
+        return context.getResources().getStringArray(R.array.months_names_full)[calendar.get(Calendar.MONTH)];
     }
 }

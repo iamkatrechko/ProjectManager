@@ -31,7 +31,7 @@ public class MyNotificationManager {
      */
     public void addNotification(UUID id){
         Task task = lab.getTaskOnAllLevel(id);
-        String date = task.getDate();
+        String date = task.getStringDate();
         String time = task.getTime();
 
         deleteNotification(id);

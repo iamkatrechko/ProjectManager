@@ -8,13 +8,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.*;
-import android.widget.*;
+import android.view.View;
+import android.widget.ExpandableListView;
 
 import com.iamkatrechko.projectmanager.ProjectLab;
 import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.Themes;
-import com.iamkatrechko.projectmanager.utils.Utils;
 import com.iamkatrechko.projectmanager.adapter.MainMenuAdapter;
 import com.iamkatrechko.projectmanager.entity.Project;
 import com.iamkatrechko.projectmanager.entity.Tag;
@@ -27,6 +26,7 @@ import com.iamkatrechko.projectmanager.fragment.TagsListFragment;
 import com.iamkatrechko.projectmanager.fragment.TasksListByTagFragment;
 import com.iamkatrechko.projectmanager.fragment.TasksListFragment;
 import com.iamkatrechko.projectmanager.fragment.TasksListWithDatesFragment;
+import com.iamkatrechko.projectmanager.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -283,6 +283,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        if (toolbar != null) {
+            toolbar.setTitle(title);
+        }
     }
 
     @Override

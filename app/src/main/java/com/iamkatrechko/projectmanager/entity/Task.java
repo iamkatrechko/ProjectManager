@@ -108,7 +108,7 @@ public class Task implements TaskListItem {
         mType = type;
     }
 
-    public String getDate() {
+    public String getStringDate() {
         if (mDate == null) {
             return "null";
         }

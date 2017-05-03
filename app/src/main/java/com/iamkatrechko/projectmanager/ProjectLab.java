@@ -234,35 +234,17 @@ public class ProjectLab {
      * @return список задач на сегодня
      */
     public List<Task> getTodayTasks() {
+        return getTasksForDate(Calendar.getInstance());
+    }
+
+    public List<Task> getTasksForDate(Calendar calendar) {
         List<Task> result = new ArrayList<>();
-        String date = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(Calendar.getInstance().getTimeInMillis());
+        List<Task> allTasks = getAllTasks();
 
-        for (Project p : mProjects) {
-
-            for (Task t1 : p.getTasks()) {
-                if (t1.getType().equals(Task.TASK_TYPE_TASK)) {
-                    if (t1.getDate().equals(date)) {
-                        result.add(t1);
-                    }
-                } else {
-
-                    for (Task t2 : t1.getTasks()) {
-                        if (t2.getType().equals(Task.TASK_TYPE_TASK)) {
-                            if (t2.getDate().equals(date)) {
-                                result.add(t2);
-                            }
-                        } else {
-
-                            for (Task t3 : t2.getTasks()) {
-                                if (t3.getType().equals(Task.TASK_TYPE_TASK)) {
-                                    if (t3.getDate().equals(date)) {
-                                        result.add(t3);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+        String date = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(calendar.getTimeInMillis());
+        for (Task task : allTasks) {
+            if (date.equals(task.getStringDate())) {
+                result.add(task);
             }
         }
 
@@ -334,6 +316,11 @@ public class ProjectLab {
         saveProjectsIntoJSON();
     }
 
+    /**
+     * Удаляет проект
+     * @param projectId идентификатор проекта
+     * @return позиция проекта в списке проектов
+     */
     public int deleteProject(UUID projectId) {
         for (Project p : mProjects) {
             if (p.getID() == projectId) {

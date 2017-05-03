@@ -1,28 +1,39 @@
 package com.iamkatrechko.projectmanager.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import com.iamkatrechko.projectmanager.contract.OnItemClickListener;
 import com.iamkatrechko.projectmanager.ProjectLab;
 import com.iamkatrechko.projectmanager.R;
+import com.iamkatrechko.projectmanager.activity.TaskEditActivity;
 import com.iamkatrechko.projectmanager.adapter.TasksListAdapter;
+import com.iamkatrechko.projectmanager.contract.OnItemClickListener;
 import com.iamkatrechko.projectmanager.entity.Task;
 import com.iamkatrechko.projectmanager.new_entity.TaskListItem;
-import com.iamkatrechko.projectmanager.utils.TasksUtils;
+import com.iamkatrechko.projectmanager.utils.DateUtils;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 /**
- * Created on 09.03.2017
- * author: iamkatrechko
+ * Фрагмент просмотра задач на календаре
+ * @author iamkatrechko
+ *         Date: 09.03.2017
  */
 public class CalendarFragment extends Fragment {
 
@@ -33,12 +44,18 @@ public class CalendarFragment extends Fragment {
     /** Адаптер списка задач */
     private TasksListAdapter mAdapter;
     /** Список задач с временными метками */
-    private List<TaskListItem> mTasksWithDates = new ArrayList<>();
+    private List<? extends TaskListItem> mTasks = new ArrayList<>();
     /** Виджет календаря */
     private MaterialCalendarView mCalendarView;
-    /** Кастомный лэйаут-менеджер, для получения позиции первого выделенного элемента */
-    private LinearLayoutManager linearLayoutManager;
+    /** Текстовая метка с выбранной датой */
+    private TextView textViewCurrentDate;
+    /** Выбранная дата */
+    private Calendar selectedDay = Calendar.getInstance();
 
+    /**
+     * Возвращает новый экземпляр фрагмента
+     * @return новый экземпляр фрагмента
+     */
     public static CalendarFragment newInstance() {
         return new CalendarFragment();
     }
@@ -55,44 +72,83 @@ public class CalendarFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_calendar, parent, false);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.section_list);
         mCalendarView = (MaterialCalendarView) view.findViewById(R.id.calendarView);
+        textViewCurrentDate = (TextView) view.findViewById(R.id.text_view_current_date);
 
-        linearLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mCalendarView.setTopbarVisible(false);
-
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                int firstVisiblePos = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
-                if (firstVisiblePos != -1) {
-                    RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(firstVisiblePos);
-                    if (holder instanceof TasksListAdapter.ViewHolderDate) {
-                        mCalendarView.setDateSelected(((TasksListAdapter.ViewHolderDate) holder).mCalendar, false);
-                    }
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                updateSelectedDayInfo(date.getCalendar());
+                updateListForDay(date.getCalendar());
+            }
+        });
+
+        mCalendarView.setOnMonthChangedListener(new OnMonthChangedListener() {
+            @Override
+            public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
+                updateMonthNameTitle(date.getCalendar());
+            }
+        });
+
+        mAdapter = new TasksListAdapter(getActivity());
+
+        mRecyclerView.setAdapter(mAdapter);
+
+        mAdapter.setEmptyView(view.findViewById(R.id.emptyView));
+        mAdapter.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(int type, TaskListItem item) {
+                if (type == TasksListAdapter.ADAPTER_ITEM_TYPE_TASK) {
+                    Task subProject = (Task) item;
+                    Intent intent = new Intent(getActivity(), TaskEditActivity.class);
+                    intent.putExtra("mId", subProject.getID().toString());
+                    intent.putExtra("Operation", "edit");
+                    intent.putExtra("parent_ID", "0");
+                    startActivity(intent);
+                    getActivity().overridePendingTransition(R.anim.act_slide_down_in, R.anim.act_slide_down_out);
                 }
             }
         });
 
-        List<Task> tasks = mLab.getAllTasks();
-        mTasksWithDates = TasksUtils.addDateLabels(tasks);
-
-        mAdapter = new TasksListAdapter(getActivity(), true, true,
-                getResources().getColor(R.color.swipe_to_set_done_color),
-                getResources().getColor(R.color.swipe_to_delete_color),
-                R.drawable.ic_done, R.drawable.ic_delete, false);
-
-        mAdapter.setData(mTasksWithDates);
-        mRecyclerView.setAdapter(mAdapter);
-
-        mAdapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(int type, TaskListItem item) {
-                mCalendarView.setTop(mCalendarView.getTop() - mCalendarView.getTouchables().get(0).getHeight());
-                mRecyclerView.setTop(mRecyclerView.getTop() - mCalendarView.getTouchables().get(0).getHeight());
-            }
-        });
+        mCalendarView.setCurrentDate(Calendar.getInstance().getTime());
+        mCalendarView.setSelectedDate(Calendar.getInstance());
+        updateMonthNameTitle(Calendar.getInstance());
+        updateSelectedDayInfo(Calendar.getInstance());
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateListForDay(selectedDay);
+    }
+
+    /**
+     * Обновляет список задач за выбранный день
+     * @param calendar календарный день
+     */
+    private void updateListForDay(Calendar calendar) {
+        mTasks = mLab.getTasksForDate(calendar);
+        mAdapter.setData(mTasks);
+        selectedDay = calendar;
+    }
+
+    /**
+     * Обновляет заголовок с названием месяца
+     * @param calendar календарный месяц
+     */
+    private void updateMonthNameTitle(Calendar calendar) {
+        getActivity().setTitle(DateUtils.getMonthName(getActivity(), calendar) + " " + Calendar.getInstance().get(Calendar.YEAR));
+    }
+
+    /**
+     * Обновляет информацию о выбранном дне
+     * @param calendar календарный день
+     */
+    private void updateSelectedDayInfo(Calendar calendar) {
+        textViewCurrentDate.setText(new SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(calendar.getTimeInMillis()));
     }
 }
