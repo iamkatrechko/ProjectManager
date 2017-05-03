@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.expandable_menu.ExpMenuItem;
+import com.iamkatrechko.projectmanager.expandable_menu.ExpMenuItems;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,6 +116,11 @@ public class MainMenuAdapter extends BaseExpandableListAdapter {
 
         textChild.setText(mMenuItems.get(groupPosition).getChildren().get(childPosition).getTitle());
         imageView.setColorFilter(mMenuItems.get(groupPosition).getChildren().get(childPosition).getIconColor());
+        if (mMenuItems.get(groupPosition).getExpMenuItem() == ExpMenuItems.MENU_ITEM_TAGS) {
+            imageView.setImageResource(R.drawable.ic_label_outline);
+        } else {
+            imageView.setImageResource(R.drawable.ic_circle);
+        }
 
         return convertView;
     }

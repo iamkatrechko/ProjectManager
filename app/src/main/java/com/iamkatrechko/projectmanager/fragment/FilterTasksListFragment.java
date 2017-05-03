@@ -66,7 +66,6 @@ public class FilterTasksListFragment extends Fragment {
         fMenu = (FloatingActionsMenu) v.findViewById(R.id.multiple_actions);
         fMenu.setVisibility(View.GONE);
 
-        v.findViewById(R.id.textViewHistory).setVisibility(View.GONE);
         switch (filterType) {
             case 0:
                 mTasksList = lab.getAllTasks();

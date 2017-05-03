@@ -173,13 +173,13 @@ public class MainActivity extends AppCompatActivity {
                 case MENU_ITEM_FILTERS:
                     String[] list = getResources().getStringArray(R.array.filters);
                     for (String filter : list) {
-                        item.addChildItem(new ExpMenuItem.ChildItem(filter, Color.BLACK));
+                        item.addChildItem(new ExpMenuItem.ChildItem(filter, Color.GRAY));
                     }
                     break;
                 case MENU_ITEM_TAGS:
                     ArrayList<Tag> tags = lab.getTags();
                     for (Tag tag : tags) {
-                        item.addChildItem(new ExpMenuItem.ChildItem(tag.getTitle(), Color.BLACK));
+                        item.addChildItem(new ExpMenuItem.ChildItem(tag.getTitle(), Color.GRAY));
                     }
                     item.addChildItem(new ExpMenuItem.ChildItem(getString(R.string.nav_menu_tags_edit), Color.BLACK));
                     break;
