@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.iamkatrechko.projectmanager.ProjectLab;
 import com.iamkatrechko.projectmanager.R;
+import com.iamkatrechko.projectmanager.activity.MainActivity;
 import com.iamkatrechko.projectmanager.activity.TagEditActivity;
 import com.iamkatrechko.projectmanager.adapter.TagListAdapter;
 import com.iamkatrechko.projectmanager.dialog.DialogDeleteConfirm;
@@ -95,6 +96,7 @@ public class TagsListFragment extends Fragment {
                 Tag tag = data.getParcelableExtra("tag");
                 adapter.notifyItemRemoved(getTagPosition(tag));
                 lab.deleteTag(tag);
+                ((MainActivity) getActivity()).initMenuItems();
             }
         }
     }
