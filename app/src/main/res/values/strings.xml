@@ -21,6 +21,8 @@
 
     <string name="choose_color">Выберите цвет</string>
 
+    <string name="error_enter_project_title">Введите название проекта</string>
+
     <string name="done_tasks">Выполненные</string>
 
     <string name="delete_project_title">Удаление проекта</string>

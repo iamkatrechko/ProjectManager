@@ -9,9 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.flask.colorpicker.ColorPickerView;
-import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.iamkatrechko.projectmanager.ProjectLab;
@@ -22,10 +22,13 @@ import java.util.Random;
 import java.util.UUID;
 
 /**
- * Created by Muxa on 26.02.2016.
+ * Фрагмент создания/редактирования проекта
+ * @author iamkatrechko
+ *         Date: 26.02.2016
  */
 public class ProjectEditFragment extends Fragment implements View.OnClickListener {
-    ProjectLab lab;
+
+    private ProjectLab lab;
 
     private UUID ID;
     private String Operation;
@@ -33,9 +36,9 @@ public class ProjectEditFragment extends Fragment implements View.OnClickListene
     private Project tProject;
 
     private EditText etTitle;
-    private ImageView ivColor;
+    private ImageView imageViewCurrentColor;
 
-    int color;
+    private int color;
 
     public static ProjectEditFragment newInstance(String ID, String operation) {
         ProjectEditFragment fragment = new ProjectEditFragment();
@@ -65,21 +68,22 @@ public class ProjectEditFragment extends Fragment implements View.OnClickListene
         View v = inflater.inflate(R.layout.activity_project_edit, parent, false);
 
         etTitle = (EditText) v.findViewById(R.id.editTextTitle);
-        ivColor = (ImageView) v.findViewById(R.id.imageViewColor);
+        imageViewCurrentColor = (ImageView) v.findViewById(R.id.imageViewColor);
 
         if (Operation.equals("edit")) {
             getActivity().setTitle(R.string.activity_project_edit);
             tProject = lab.getProject(ID);
             etTitle.setText(tProject.getTitle());
-            ivColor.setColorFilter(tProject.getColor());
+            color = tProject.getColor();
+            imageViewCurrentColor.setColorFilter(tProject.getColor());
         } else {
             getActivity().setTitle(R.string.activity_project_add);
             Random random = new Random();
             color = -random.nextInt(16777216) + 1;
-            ivColor.setColorFilter(color);
+            imageViewCurrentColor.setColorFilter(color);
         }
 
-        v.findViewById(R.id.buttonSave).setOnClickListener(this);
+        v.findViewById(R.id.fab).setOnClickListener(this);
         v.findViewById(R.id.linearColor).setOnClickListener(this);
 
         return v;
@@ -88,10 +92,14 @@ public class ProjectEditFragment extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.buttonSave:
+            case R.id.fab:
+                if (etTitle.getText().toString().isEmpty()) {
+                    Toast.makeText(getActivity(), R.string.error_enter_project_title, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (Operation.equals("edit")) {
                     tProject.setTitle(etTitle.getText().toString());
-                    //Color color = ivColor.getColorFilter();
+                    tProject.setColor(color);
                 } else {
                     Project project = new Project(etTitle.getText().toString());
                     project.setColor(color);
@@ -107,21 +115,11 @@ public class ProjectEditFragment extends Fragment implements View.OnClickListene
                         .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
                         .density(18)
                         .lightnessSliderOnly()
-                        .setOnColorSelectedListener(new OnColorSelectedListener() {
-                            @Override
-                            public void onColorSelected(int selectedColor) {
-                                //toast("onColorSelected: 0x" + Integer.toHexString(selectedColor));
-                            }
-                        })
                         .setPositiveButton(R.string.result_save, new ColorPickerClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
-                                //changeBackgroundColor(selectedColor);
-                            }
-                        })
-                        .setNegativeButton(R.string.result_cancel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                                imageViewCurrentColor.setColorFilter(selectedColor);
+                                color = selectedColor;
                             }
                         })
                         .build()

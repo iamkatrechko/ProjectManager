@@ -1,26 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
 
         <FrameLayout
+            android:id="@+id/appBar"
             android:layout_width="fill_parent"
             android:layout_height="148dp"
-            android:background="?attr/colorPrimary">
-        </FrameLayout>
+            android:background="?attr/colorPrimary"
+            />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="72dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            >
 
             <ImageView
                 android:id="@+id/imageView3"
@@ -30,21 +34,26 @@
                 android:layout_marginRight="16dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_assignment"
-                android:tint="#ff3f3f3f"/>
+                android:tint="#ff3f3f3f"
+                />
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/editTextTitleLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp">
+                android:layout_marginRight="16dp"
+                >
 
                 <EditText
                     android:id="@+id/editTextTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_title"/>
+                    android:hint="@string/hint_title"
+                    />
+
             </android.support.design.widget.TextInputLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -53,7 +62,8 @@
             android:layout_height="72dp"
             android:background="@drawable/linear_selector"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            >
 
             <ImageView
                 android:id="@+id/imageView4"
@@ -62,14 +72,16 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:src="@drawable/ic_notification_icon"
-                android:tint="#ff3f3f3f"/>
+                android:tint="#ff3f3f3f"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="16dp"
                 android:gravity="center_vertical"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                >
 
                 <TextView
                     android:id="@+id/textView"
@@ -77,7 +89,8 @@
                     android:layout_height="wrap_content"
                     android:text="Цвет"
                     android:textColor="#ff3f3f3f"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp"
+                    />
 
                 <ImageView
                     android:id="@+id/imageViewColor"
@@ -85,17 +98,24 @@
                     android:layout_height="20dp"
                     android:paddingBottom="4dp"
                     android:paddingTop="4dp"
-                    android:src="@drawable/color_selector_rounded"/>
+                    android:src="@drawable/color_selector_rounded"
+                    />
             </LinearLayout>
+
         </LinearLayout>
+
     </LinearLayout>
 
-    <Button
-        android:id="@+id/buttonSave"
-        android:layout_width="match_parent"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="#00000000"
-        android:text="Сохранить"
-        android:textSize="16sp"/>
-</LinearLayout>
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:src="@drawable/ic_done"
+        android:tint="?attr/colorPrimary"
+        app:backgroundTint="#ffebebeb"
+        app:layout_anchor="@id/appBar"
+        app:layout_anchorGravity="bottom|right|end"
+        />
+
+</android.support.design.widget.CoordinatorLayout>
