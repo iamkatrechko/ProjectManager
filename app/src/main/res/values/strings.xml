@@ -20,10 +20,16 @@
     <string name="action_edit">Редактировать</string>
 
     <string name="choose_color">Выберите цвет</string>
-    <string name="result_ok">Сохранить</string>
-    <string name="result_cancel">Отмена</string>
 
     <string name="done_tasks">Выполненные</string>
+
+    <string name="delete_project_title">Удаление проекта</string>
+    <string name="delete_project_confirm">Вы уверены, что хотите удалить проект вместе со всеми внутренними задачами?</string>
+
+    <string name="result_yes">Да</string>
+    <string name="result_no">Нет</string>
+    <string name="result_cancel">Отмена</string>
+    <string name="result_save">Сохранить</string>
 
     <string name="nav_menu_today">Сегодня</string>
     <string name="nav_menu_week">7+ дней</string>

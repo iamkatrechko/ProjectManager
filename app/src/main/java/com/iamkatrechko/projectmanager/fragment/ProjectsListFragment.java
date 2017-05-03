@@ -1,5 +1,6 @@
 package com.iamkatrechko.projectmanager.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,16 +9,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
-import com.iamkatrechko.projectmanager.activity.ProjectEditActivity;
 import com.iamkatrechko.projectmanager.ProjectLab;
 import com.iamkatrechko.projectmanager.R;
+import com.iamkatrechko.projectmanager.activity.MainActivity;
+import com.iamkatrechko.projectmanager.activity.ProjectEditActivity;
 import com.iamkatrechko.projectmanager.adapter.ProjectsListAdapter;
+import com.iamkatrechko.projectmanager.dialog.DialogDeleteProjectConfirm;
 import com.iamkatrechko.projectmanager.entity.Project;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * Фрагмент со списком проектов для их редактирования
@@ -26,6 +29,8 @@ import java.util.ArrayList;
  */
 public class ProjectsListFragment extends Fragment {
 
+    private final static int DIALOG_DELETE_PROJECT = 124125;
+
     /** Список проектов */
     private ArrayList<Project> projects;
     /** Адаптер списка проектов */
@@ -33,6 +38,10 @@ public class ProjectsListFragment extends Fragment {
     /** Класс по работе с проектами и задачами */
     private ProjectLab lab;
 
+    /**
+     * Возвращает новый экземпляр фрагмента
+     * @return новый экземпляр фрагмента
+     */
     public static ProjectsListFragment newInstance() {
         return new ProjectsListFragment();
     }
@@ -41,7 +50,6 @@ public class ProjectsListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        //setRetainInstance(true);
 
         lab = ProjectLab.get(getActivity());
     }
@@ -66,7 +74,9 @@ public class ProjectsListFragment extends Fragment {
 
             @Override
             public void onDeleteClick(Project project) {
-                Toast.makeText(getActivity(), "Удаление не реализовано", Toast.LENGTH_SHORT).show();
+                DialogDeleteProjectConfirm fragmentDialog = DialogDeleteProjectConfirm.newInstance(project.getID());
+                fragmentDialog.setTargetFragment(ProjectsListFragment.this, DIALOG_DELETE_PROJECT);
+                fragmentDialog.show(getActivity().getSupportFragmentManager(), "DIALOG_DELETE_PROJECT");
             }
         });
         adapter.setData(projects);
@@ -90,5 +100,17 @@ public class ProjectsListFragment extends Fragment {
     public void onResume() {
         super.onResume();
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK && requestCode == DIALOG_DELETE_PROJECT) {
+            boolean delete = data.getBooleanExtra("delete", false);
+            if (delete) {
+                UUID projectId = (UUID) data.getSerializableExtra(DialogDeleteProjectConfirm.EXTRA_PROJECT_ID);
+                adapter.notifyItemRemoved(lab.deleteProject(projectId));
+                ((MainActivity) getActivity()).initMenuItems();
+            }
+        }
     }
 }

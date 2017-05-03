@@ -29,12 +29,13 @@
         tools:text="Название проекта"/>
 
     <ImageView
-        android:id="@+id/image_view_delete"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:id="@+id/image_view_menu"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:background="?android:attr/selectableItemBackground"
-        android:padding="12dp"
-        android:src="@drawable/ic_delete"
-        android:tint="#ff7f7f7f"/>
+        android:padding="18dp"
+        android:src="@drawable/ic_more"
+        android:tint="#6c6c6c"
+        />
 
 </LinearLayout>

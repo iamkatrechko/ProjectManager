@@ -334,6 +334,17 @@ public class ProjectLab {
         saveProjectsIntoJSON();
     }
 
+    public int deleteProject(UUID projectId) {
+        for (Project p : mProjects) {
+            if (p.getID() == projectId) {
+                int pos = mProjects.indexOf(p);
+                mProjects.remove(p);
+                return pos;
+            }
+        }
+        return -1;
+    }
+
     /**
      * Перемещает {@link Task} на выбранную позицию, сдвигая остальные вверх/вниз
      * @param parentID id родителя перемещаемой задачи

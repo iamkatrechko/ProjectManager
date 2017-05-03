@@ -54,7 +54,6 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private Methods m;
     private SimpleItemTouchHelperCallback callback;
     private RecyclerView mRecyclerView;
-    private View mEmptyView;
 
     public TasksListAdapter(Context context, boolean swipeToLeft, boolean swipeToRight,
                             @ColorInt int swipeToLeftColor, @ColorInt int swipeToRightColor,
@@ -74,14 +73,13 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         notifyDataSetChanged();
     }
 
-    public void setEmptyView(View view) {
-        mEmptyView = view;
+    public void setEmptyView(final View view) {
         super.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {
                 super.onChanged();
-                if (mEmptyView != null && mRecyclerView != null && mTasks != null) {
-                    mEmptyView.setVisibility(mTasks.isEmpty() ? View.VISIBLE : View.GONE);
+                if (view != null && mRecyclerView != null && mTasks != null) {
+                    view.setVisibility(mTasks.isEmpty() ? View.VISIBLE : View.GONE);
                     mRecyclerView.setVisibility(mTasks.isEmpty() ? View.GONE : View.VISIBLE);
                 }
             }

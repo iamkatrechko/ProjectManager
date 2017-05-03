@@ -113,7 +113,7 @@ public class ProjectEditFragment extends Fragment implements View.OnClickListene
                                 //toast("onColorSelected: 0x" + Integer.toHexString(selectedColor));
                             }
                         })
-                        .setPositiveButton(R.string.result_ok, new ColorPickerClickListener() {
+                        .setPositiveButton(R.string.result_save, new ColorPickerClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
                                 //changeBackgroundColor(selectedColor);

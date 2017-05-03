@@ -97,39 +97,8 @@ public class MainActivity extends AppCompatActivity {
 
         mExpandableListView = (ExpandableListView) findViewById(R.id.exListView);
 
-        for (ExpMenuItems expMenuItems : ExpMenuItems.values()) {
-            ExpMenuItem item = new ExpMenuItem(expMenuItems);
-            switch (expMenuItems) {
-                case MENU_ITEM_PROJECTS:
-                    ArrayList<Project> projects = lab.getProjects();
-                    for (Project project : projects) {
-                        item.addChildItem(new ExpMenuItem.ChildItem(project.getTitle(), project.getColor()));
-                    }
-                    item.addChildItem(new ExpMenuItem.ChildItem(getString(R.string.nav_menu_projects_edit), Color.BLACK));
-                    break;
-                case MENU_ITEM_FILTERS:
-                    String[] list = getResources().getStringArray(R.array.filters);
-                    for (String filter : list) {
-                        item.addChildItem(new ExpMenuItem.ChildItem(filter, Color.BLACK));
-                    }
-                    break;
-                case MENU_ITEM_TAGS:
-                    ArrayList<Tag> tags = lab.getTags();
-                    for (Tag tag : tags) {
-                        item.addChildItem(new ExpMenuItem.ChildItem(tag.getTitle(), Color.BLACK));
-                    }
-                    item.addChildItem(new ExpMenuItem.ChildItem(getString(R.string.nav_menu_tags_edit), Color.BLACK));
-                    break;
-                case MENU_ITEM_PROJECTS_EDIT:
-                case MENU_ITEM_TAGS_EDIT:
-                    continue;
-            }
+        initMenuItems();
 
-            menuItems.add(item);
-        }
-        //adapter = new ExpListAdapter(getApplicationContext(), listGroup);
-        adapter = new MainMenuAdapter(this, menuItems);
-        mExpandableListView.setAdapter(adapter);
         mExpandableListView.setItemChecked(MENU_ITEM_PROJECTS.ordinal(), true);
 
         //При нажатии на пункт меню
@@ -187,6 +156,49 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    public void initMenuItems() {
+        menuItems.clear();
+        for (ExpMenuItems expMenuItems : ExpMenuItems.values()) {
+            ExpMenuItem item = new ExpMenuItem(expMenuItems);
+            switch (expMenuItems) {
+                case MENU_ITEM_PROJECTS:
+                    ArrayList<Project> projects = lab.getProjects();
+                    for (Project project : projects) {
+                        item.addChildItem(new ExpMenuItem.ChildItem(project.getTitle(), project.getColor()));
+                    }
+                    item.addChildItem(new ExpMenuItem.ChildItem(getString(R.string.nav_menu_projects_edit), Color.BLACK));
+                    break;
+                case MENU_ITEM_FILTERS:
+                    String[] list = getResources().getStringArray(R.array.filters);
+                    for (String filter : list) {
+                        item.addChildItem(new ExpMenuItem.ChildItem(filter, Color.BLACK));
+                    }
+                    break;
+                case MENU_ITEM_TAGS:
+                    ArrayList<Tag> tags = lab.getTags();
+                    for (Tag tag : tags) {
+                        item.addChildItem(new ExpMenuItem.ChildItem(tag.getTitle(), Color.BLACK));
+                    }
+                    item.addChildItem(new ExpMenuItem.ChildItem(getString(R.string.nav_menu_tags_edit), Color.BLACK));
+                    break;
+                case MENU_ITEM_PROJECTS_EDIT:
+                case MENU_ITEM_TAGS_EDIT:
+                    continue;
+            }
+
+            menuItems.add(item);
+        }
+        //adapter = new ExpListAdapter(getApplicationContext(), listGroup);
+        adapter = new MainMenuAdapter(this, menuItems);
+        mExpandableListView.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        initMenuItems();
     }
 
     public void getProjectFragment(UUID _id) {
