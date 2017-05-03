@@ -1,61 +1,95 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools" xmlns:fab="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context=".RecyclerFragment">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
 
     <TextView
+        android:id="@+id/textViewHistory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:text="История"
-        android:id="@+id/textViewHistory"
-        android:padding="4dp"
         android:background="?attr/colorPrimary"
-        android:textColor="#ffffff"
         android:lines="1"
-        android:visibility="visible"/>
+        android:padding="4dp"
+        android:textColor="#ffffff"
+        tools:text="История"
+        />
 
     <android.support.v7.widget.RecyclerView
-            android:id="@+id/section_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/textViewHistory" />
+        android:id="@+id/section_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/textViewHistory"
+        />
 
-    <com.getbase.floatingactionbutton.FloatingActionsMenu
-            android:id="@+id/multiple_actions"
+    <LinearLayout
+        android:id="@+id/emptyView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible"
+        >
+
+        <ImageView
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/ic_info_outline"
+            android:tint="#c7c7c7"
+            />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            fab:fab_addButtonColorNormal="?attr/colorPrimary"
-            fab:fab_addButtonColorPressed="?attr/colorAccent"
-            fab:fab_addButtonPlusIconColor="#ffffff"
-            android:layout_marginBottom="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp"
-            fab:fab_labelStyle="@style/menu_labels_style"
-            fab:fab_addButtonStrokeVisible="false">
+            android:gravity="center"
+            android:text="@string/empty_tasks_list_select_project"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/multiple_actions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        fab:fab_addButtonColorNormal="?attr/colorPrimary"
+        fab:fab_addButtonColorPressed="?attr/colorAccent"
+        fab:fab_addButtonPlusIconColor="#ffffff"
+        fab:fab_addButtonStrokeVisible="false"
+        fab:fab_labelStyle="@style/menu_labels_style"
+        >
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/action_a"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                fab:fab_icon="@drawable/ic_check_boxes3"
-                fab:fab_colorNormal="@color/fab_colorNormal"
-                fab:fab_colorPressed="@color/fab_colorPressed"
-                fab:fab_title="@string/fab_title_1"
-                fab:fab_stroke_visible="false"/>
+            android:id="@+id/action_a"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/fab_colorNormal"
+            fab:fab_colorPressed="@color/fab_colorPressed"
+            fab:fab_icon="@drawable/ic_check_boxes3"
+            fab:fab_stroke_visible="false"
+            fab:fab_title="@string/fab_title_1"
+            />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/action_b"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                fab:fab_icon="@drawable/ic_check_box"
-                fab:fab_colorNormal="@color/fab_colorNormal"
-                fab:fab_colorPressed="@color/fab_colorPressed"
-                fab:fab_title="@string/fab_title_2"
-                fab:fab_stroke_visible="false"/>
+            android:id="@+id/action_b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/fab_colorNormal"
+            fab:fab_colorPressed="@color/fab_colorPressed"
+            fab:fab_icon="@drawable/ic_check_box"
+            fab:fab_stroke_visible="false"
+            fab:fab_title="@string/fab_title_2"
+            />
+
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
 </RelativeLayout>

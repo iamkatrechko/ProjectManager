@@ -120,6 +120,7 @@ public class TasksListFragment extends Fragment {
                 getResources().getColor(R.color.swipe_to_delete_color),
                 R.drawable.ic_done, R.drawable.ic_delete, true);
 
+        adapter.setEmptyView(v.findViewById(R.id.emptyView));
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int type, TaskListItem item) {
