@@ -418,6 +418,39 @@ public class ProjectLab {
     }
 
     /**
+     * Возвращает путь к проекту/подпроекту, включая его имя
+     * @param id mId проекта/подпроекта
+     * @return Путь к проекту/подпроекту
+     */
+    public List<String> getHistoryList(UUID id) {
+        List<String> result = new ArrayList<>();
+
+        for (Project p : mProjects) {
+            if (p.getID().equals(id)) {
+                result.add(p.getTitle());
+            }
+
+            for (Task t1 : p.getTasks()) {
+                if (t1.getID().equals(id)) {
+                    result.add(p.getTitle());
+                    result.add(t1.getTitle());
+                } else {
+
+                    for (Task t2 : t1.getTasks()) {
+                        if (t2.getID().equals(id)) {
+                            result.add(p.getTitle());
+                            result.add(t1.getTitle());
+                            result.add(t2.getTitle());
+                        }
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+    /**
      * Возвращает список всез задач {@link Task} всех проектов
      * @return список всех задач {@link Task}
      */

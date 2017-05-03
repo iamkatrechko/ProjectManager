@@ -12,7 +12,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -23,6 +22,7 @@ import com.iamkatrechko.projectmanager.activity.SubProjectEditActivity;
 import com.iamkatrechko.projectmanager.activity.TaskEditActivity;
 import com.iamkatrechko.projectmanager.activity.TasksDoneListActivity;
 import com.iamkatrechko.projectmanager.activity.TasksListActivity;
+import com.iamkatrechko.projectmanager.adapter.HistoryListAdapter;
 import com.iamkatrechko.projectmanager.adapter.TasksListAdapter;
 import com.iamkatrechko.projectmanager.contract.OnItemClickListener;
 import com.iamkatrechko.projectmanager.entity.Task;
@@ -51,6 +51,10 @@ public class TasksListFragment extends Fragment {
     private FloatingActionsMenu fMenu;
     /** Id текущего подпроекта или задачи */
     private UUID ID;
+    /** Виджет списка узлов иерархии задачи */
+    private RecyclerView mRecyclerViewHistory;
+    /** Адаптер списка узлов иерархии задачи */
+    private HistoryListAdapter mHistoryListAdapter;
 
     /**
      * Возвращает новый инстанс фрагмента
@@ -75,6 +79,12 @@ public class TasksListFragment extends Fragment {
 
         ID = UUID.fromString(getArguments().getString("mId"));
         mProjectLab = ProjectLab.get(getActivity());
+        mTasksList = mProjectLab.getTasksListOnAllLevel(ID);
+        mHistoryListAdapter = new HistoryListAdapter();
+        adapter = new TasksListAdapter(getActivity(), true, true,
+                getResources().getColor(R.color.swipe_to_set_done_color),
+                getResources().getColor(R.color.swipe_to_delete_color),
+                R.drawable.ic_done, R.drawable.ic_delete, true);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
@@ -82,11 +92,13 @@ public class TasksListFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_tasks_list, parent, false);
 
         mTasksListRecyclerView = (RecyclerView) v.findViewById(R.id.section_list);
+        mRecyclerViewHistory = (RecyclerView) v.findViewById(R.id.recycler_view_history);
         fMenu = (FloatingActionsMenu) v.findViewById(R.id.multiple_actions);
-        FloatingActionButton actionA = (FloatingActionButton) v.findViewById(R.id.action_a);
-        FloatingActionButton actionB = (FloatingActionButton) v.findViewById(R.id.action_b);
+        FloatingActionButton fabAddSubProject = (FloatingActionButton) v.findViewById(R.id.action_a);
+        FloatingActionButton fabAddTask = (FloatingActionButton) v.findViewById(R.id.action_b);
+
         //Создание подпроекта
-        actionA.setOnClickListener(new View.OnClickListener() {
+        fabAddSubProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), SubProjectEditActivity.class);
@@ -98,7 +110,7 @@ public class TasksListFragment extends Fragment {
             }
         });
         //Создание задачи
-        actionB.setOnClickListener(new View.OnClickListener() {
+        fabAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), TaskEditActivity.class);
@@ -109,16 +121,11 @@ public class TasksListFragment extends Fragment {
                 getActivity().overridePendingTransition(R.anim.act_slide_down_in, R.anim.act_slide_down_out);
             }
         });
-        ((TextView) v.findViewById(R.id.textViewHistory)).setText(mProjectLab.getHistory(ID));
-        if (mProjectLab.getLevelOfParent(ID) == 2) {                                                         //Скрытие кнопки добавление подпроекта
-            fMenu.removeButton(actionA);
-        }
-        mTasksList = mProjectLab.getTasksListOnAllLevel(ID);
 
-        adapter = new TasksListAdapter(getActivity(), true, true,
-                getResources().getColor(R.color.swipe_to_set_done_color),
-                getResources().getColor(R.color.swipe_to_delete_color),
-                R.drawable.ic_done, R.drawable.ic_delete, true);
+        Log.d("TasksListFragment", "Уровень вхождения - " + mProjectLab.getLevelOfParent(ID));
+        if (mProjectLab.getLevelOfParent(ID) == 2) {                                                         //Скрытие кнопки добавление подпроекта
+            fMenu.removeButton(fabAddSubProject);
+        }
 
         adapter.setEmptyView(v.findViewById(R.id.emptyView));
         adapter.setOnItemClickListener(new OnItemClickListener() {
@@ -167,7 +174,11 @@ public class TasksListFragment extends Fragment {
         mTasksListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter.setData(mTasksList);
 
-        Log.d("TasksListFragment", "Уровень вхождения - " + mProjectLab.getLevelOfParent(ID));
+        mRecyclerViewHistory.setHasFixedSize(true);
+        mRecyclerViewHistory.setAdapter(mHistoryListAdapter);
+        mRecyclerViewHistory.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        mHistoryListAdapter.setData(mProjectLab.getHistoryList(ID));
+
         return v;
     }
 
@@ -187,7 +198,6 @@ public class TasksListFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
         inflater.inflate(R.menu.menu_tasks, menu);
     }
 
