@@ -134,7 +134,7 @@ public class TasksListWithDatesFragment extends Fragment {
                 mTasksWithDates = TasksUtils.addDateLabels(lab.getTodayTasks());
                 break;
             case LIST_OF_WEEK:
-                mTasksWithDates = TasksUtils.addDateLabels(lab.getAllTasks());
+                mTasksWithDates = TasksUtils.addDateLabels(lab.getTasksForWeek());
                 break;
         }
         adapter.setData(mTasksWithDates);

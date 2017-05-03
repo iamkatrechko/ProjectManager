@@ -237,6 +237,11 @@ public class ProjectLab {
         return getTasksForDate(Calendar.getInstance());
     }
 
+    /**
+     * Возвращает список событий на определенную дату
+     * @param calendar день календаря
+     * @return список событий на определенную дату
+     */
     public List<Task> getTasksForDate(Calendar calendar) {
         List<Task> result = new ArrayList<>();
         List<Task> allTasks = getAllTasks();
@@ -246,6 +251,22 @@ public class ProjectLab {
             if (date.equals(task.getStringDate())) {
                 result.add(task);
             }
+        }
+
+        return result;
+    }
+
+    /**
+     * Возвращает список событий на ближайшую неделю
+     * @return список событий на ближайшую неделю
+     */
+    public List<Task> getTasksForWeek() {
+        List<Task> result = new ArrayList<>();
+
+        Calendar day = Calendar.getInstance();
+        for (int i = 0; i < 7; i++) {
+            result.addAll(getTasksForDate(day));
+            day.add(Calendar.DAY_OF_YEAR, 1);
         }
 
         return result;
@@ -382,39 +403,6 @@ public class ProjectLab {
             }
         }
         return null;
-    }
-
-    /**
-     * Возвращает путь к проекту/подпроекту, включая его имя
-     * @param id mId проекта/подпроекта
-     * @return Путь к проекту/подпроекту
-     */
-    public String getHistory(UUID id) {
-        String history = " > ";
-
-        for (Project p : mProjects) {
-            if (p.getID().equals(id)) {
-                history += p.getTitle() + " > ";
-                return history;
-            }
-
-            for (Task t1 : p.getTasks()) {
-                if (t1.getID().equals(id)) {
-                    history += p.getTitle() + " > " + t1.getTitle() + " > ";
-                    return history;
-                } else {
-
-                    for (Task t2 : t1.getTasks()) {
-                        if (t2.getID().equals(id)) {
-                            history += p.getTitle() + " > " + t1.getTitle() + " > " + t2.getTitle() + " > ";
-                            return history;
-                        }
-                    }
-                }
-            }
-        }
-
-        return history;
     }
 
     /**
