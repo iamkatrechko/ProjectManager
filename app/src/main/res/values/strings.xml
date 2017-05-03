@@ -55,6 +55,7 @@
     <string name="empty_tasks_list_soon">Список задач на ближайшее время пуст</string>
     <string name="empty_tasks_list_select_day">Список задач\nза выбранный день пуст</string>
     <string name="empty_tasks_list_select_project">Список задач пуст\n\n\nДля созданий новой задачи\nнажмите + в правом нижнем углу</string>
+    <string name="empty_tasks_list_select_filter">Список задач\nвыбранного фильтра пуст</string>
 
     <string-array name="priorities">
         <item>Без приоритета</item>

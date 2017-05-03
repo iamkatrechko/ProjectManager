@@ -20,7 +20,7 @@ import com.iamkatrechko.projectmanager.entity.Tag;
 import com.iamkatrechko.projectmanager.expandable_menu.ExpMenuItem;
 import com.iamkatrechko.projectmanager.expandable_menu.ExpMenuItems;
 import com.iamkatrechko.projectmanager.fragment.CalendarFragment;
-import com.iamkatrechko.projectmanager.fragment.FilterTasksListFragment;
+import com.iamkatrechko.projectmanager.fragment.TasksListFilterFragment;
 import com.iamkatrechko.projectmanager.fragment.ProjectsListFragment;
 import com.iamkatrechko.projectmanager.fragment.TagsListFragment;
 import com.iamkatrechko.projectmanager.fragment.TasksListByTagFragment;
@@ -214,27 +214,27 @@ public class MainActivity extends AppCompatActivity {
         switch (filterType) {
             case 0:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, FilterTasksListFragment.newInstance(0))
+                        .replace(R.id.container, TasksListFilterFragment.newInstance(0))
                         .commit();
                 break;
             case 1:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, FilterTasksListFragment.newInstance(1))
+                        .replace(R.id.container, TasksListFilterFragment.newInstance(1))
                         .commit();
                 break;
             case 2:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, FilterTasksListFragment.newInstance(2))
+                        .replace(R.id.container, TasksListFilterFragment.newInstance(2))
                         .commit();
                 break;
             case 3:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, FilterTasksListFragment.newInstance(3))
+                        .replace(R.id.container, TasksListFilterFragment.newInstance(3))
                         .commit();
                 break;
             case 4:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, FilterTasksListFragment.newInstance(4))
+                        .replace(R.id.container, TasksListFilterFragment.newInstance(4))
                         .commit();
                 break;
         }
