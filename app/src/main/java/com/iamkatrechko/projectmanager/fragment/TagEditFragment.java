@@ -4,6 +4,7 @@ package com.iamkatrechko.projectmanager.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import java.util.UUID;
  *         Date: 12.04.2016
  */
 public class TagEditFragment extends Fragment {
+
     /** Класс по работе с проектами и задачами */
     private ProjectLab lab;
     /** Текстовое поле с заголовком тега */
@@ -38,7 +40,12 @@ public class TagEditFragment extends Fragment {
     /** Идентификатор редактируемого тега */
     private UUID tagId;
 
-    public static TagEditFragment newInstance(Tag tag) {
+    /**
+     * Возвращает новый экземпляр фрагмента
+     * @param tag тег, необходимый к редактированию, либо null - создание тега
+     * @return новый экземпляр фрагмента
+     */
+    public static TagEditFragment newInstance(@Nullable Tag tag) {
         TagEditFragment fragment = new TagEditFragment();
 
         Bundle args = new Bundle();
@@ -58,8 +65,10 @@ public class TagEditFragment extends Fragment {
         if (tag != null) {
             tagId = tag.getID();
             tag = Tag.copyFromAnotherTag(tag);
+            getActivity().setTitle(getString(R.string.activity_tag_edit));
         } else {
             tag = new Tag("");
+            getActivity().setTitle(getString(R.string.activity_tag_add));
         }
     }
 

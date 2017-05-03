@@ -16,8 +16,11 @@
     <string name="activity_task_edit">Редактирование подпроекта</string>
     <string name="activity_subtask_add">Новая задача</string>
     <string name="activity_subtask_edit">Редактирование задачи</string>
+    <string name="activity_tag_add">Создание тега</string>
+    <string name="activity_tag_edit">Редактирование тега</string>
     <string name="action_delete">Удалить</string>
     <string name="action_edit">Редактировать</string>
+
 
     <string name="choose_color">Выберите цвет</string>
 
