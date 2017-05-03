@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.iamkatrechko.projectmanager.Methods;
 import com.iamkatrechko.projectmanager.MyNotificationManager;
@@ -146,6 +147,11 @@ public class TaskEditFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.buttonSave:
+                String error = checkValues();
+                if (error != null) {
+                    Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (Operation.equals("edit")) {
                     task.setTitle(etTitle.getText().toString());
                     task.setDescription(etDescription.getText().toString());
@@ -217,6 +223,17 @@ public class TaskEditFragment extends Fragment implements View.OnClickListener {
                 dialogSetTagsFragment.show(fragmentManager2, "DIALOG_SET_TAGS_FRAGMENT");
                 break;
         }
+    }
+
+    /**
+     * Проверяет значения полей на корректность
+     * @return текст ошибки или null - если ошибок нет
+     */
+    private String checkValues() {
+        if (etTitle.getText().toString().isEmpty()) {
+            return getString(R.string.error_enter_task_title);
+        }
+        return null;
     }
 
     @Override
