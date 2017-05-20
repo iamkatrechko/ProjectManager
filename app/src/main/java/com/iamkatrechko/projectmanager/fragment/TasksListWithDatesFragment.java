@@ -15,6 +15,7 @@ import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.SimpleItemTouchHelperCallback;
 import com.iamkatrechko.projectmanager.activity.TaskEditActivity;
 import com.iamkatrechko.projectmanager.adapter.TasksListAdapter;
+import com.iamkatrechko.projectmanager.contract.OnItemClickListener;
 import com.iamkatrechko.projectmanager.entity.Task;
 import com.iamkatrechko.projectmanager.new_entity.TaskListItem;
 import com.iamkatrechko.projectmanager.utils.TasksUtils;
@@ -116,6 +117,22 @@ public class TasksListWithDatesFragment extends Fragment {
                 intent.putExtra("parent_ID", lab.getProjects().get(0).getID().toString());
                 intent.putExtra("Operation", "add");
                 startActivity(intent);
+            }
+        });
+
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(int type, TaskListItem item) {
+                if (type == TasksListAdapter.ADAPTER_ITEM_TYPE_TASK) {
+                    //Если нажата "Подзадача" -> редактируем
+                    Task subProject = (Task) item;
+                    Intent intent = new Intent(getActivity(), TaskEditActivity.class);
+                    intent.putExtra("mId", subProject.getID().toString());
+                    intent.putExtra("Operation", "edit");
+                    intent.putExtra("parent_ID", "0");
+                    startActivity(intent);
+                    getActivity().overridePendingTransition(R.anim.act_slide_down_in, R.anim.act_slide_down_out);
+                }
             }
         });
         return view;

@@ -15,6 +15,7 @@ import com.iamkatrechko.projectmanager.ProjectLab;
 import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.Themes;
 import com.iamkatrechko.projectmanager.adapter.MainMenuAdapter;
+import com.iamkatrechko.projectmanager.dialog.AboutDialogFragment;
 import com.iamkatrechko.projectmanager.entity.Project;
 import com.iamkatrechko.projectmanager.entity.Tag;
 import com.iamkatrechko.projectmanager.expandable_menu.ExpMenuItem;
@@ -115,6 +116,12 @@ public class MainActivity extends AppCompatActivity {
                     case MENU_ITEM_SETTINGS:
                         Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                         startActivity(intent);
+                        break;
+                    case MENU_ITEM_ABOUT:
+                        AboutDialogFragment aboutDialogFragment = AboutDialogFragment.newInstance();
+                        aboutDialogFragment.setTargetFragment(null, -1);
+                        aboutDialogFragment.show(getSupportFragmentManager(), null);
+                        drawerLayout.closeDrawers();
                         break;
                     default:
                         return false;

@@ -7,6 +7,8 @@
         android:id="@+id/done"
         android:orderInCategory="100"
         android:title="@string/done_tasks"
-        app:showAsAction="never"/>
+        android:visible="false"
+        app:showAsAction="never"
+        />
 
 </menu>

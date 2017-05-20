@@ -640,7 +640,7 @@ public class ProjectLab {
 
         Random random = new Random();
         for (int i = 1; i <= demoProjects.length; i++) {
-            Project p = new Project(demoProjects[i - 1] + i);
+            Project p = new Project(demoProjects[i - 1]);
 
             for (int k = 1; k < 4; k++) {
                 Task task = new Task("Подпроект " + i + "-" + k);
@@ -699,5 +699,6 @@ public class ProjectLab {
             }
             mProjects.add(p);
         }
+        saveProjectsIntoJSON();
     }
 }

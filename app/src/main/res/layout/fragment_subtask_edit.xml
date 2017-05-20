@@ -221,7 +221,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#757575"
                         android:textSize="15sp"
-                        android:text="Каждую среду"
+                        android:text="Отключено"
                         tools:text="Наименование повтора"
                         />
 

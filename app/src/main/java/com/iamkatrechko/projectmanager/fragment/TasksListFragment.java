@@ -81,10 +81,12 @@ public class TasksListFragment extends Fragment {
         mProjectLab = ProjectLab.get(getActivity());
         mTasksList = mProjectLab.getTasksListOnAllLevel(ID);
         mHistoryListAdapter = new HistoryListAdapter();
-        adapter = new TasksListAdapter(getActivity(), true, true,
-                getResources().getColor(R.color.swipe_to_set_done_color),
+        adapter = new TasksListAdapter(getActivity(), false, true,
                 getResources().getColor(R.color.swipe_to_delete_color),
-                R.drawable.ic_done, R.drawable.ic_delete, true);
+                getResources().getColor(R.color.swipe_to_set_done_color),
+                R.drawable.ic_delete,
+                R.drawable.ic_done,
+                true);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,

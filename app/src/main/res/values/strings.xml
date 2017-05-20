@@ -10,6 +10,12 @@
     <string name="fab_title_1">Подпроект</string>
     <string name="fab_title_2">Задача</string>
 
+    <string name="select_app_for_send">Выберите приложение для отправки...</string>
+    <string name="info"><b>Таск-менеджер</b>\nПочта разработчика:\n<u>iamkatrechko@gmail.com</u></string>
+    <string name="action_review">Оставить отзыв</string>
+    <string name="others_apps">Другие приложения\nразработчика</string>
+    <string name="send_mail">Написать разработчику...</string>
+
     <string name="activity_project_add">Новый проект</string>
     <string name="activity_project_edit">Редактирование проекта</string>
     <string name="activity_task_add">Новый подпроект</string>
@@ -46,7 +52,7 @@
     <string name="nav_menu_tags_edit">Управление метками</string>
     <string name="nav_menu_filters">Фильтры</string>
     <string name="nav_menu_settings">Настройки</string>
-    <string name="nav_menu_info">О программе</string>
+    <string name="nav_menu_info">О приложении</string>
 
     <!-- Окно редактирования задачи -->
     <string name="not_specified">Не задано</string>
