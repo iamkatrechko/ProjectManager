@@ -42,7 +42,8 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     final public static int ADAPTER_ITEM_TYPE_SUB_PROJECT = 0;
     final public static int ADAPTER_ITEM_TYPE_TASK = 1;
     final public static int ADAPTER_ITEM_TYPE_DATE = 3;
-    private Context mContext;
+
+    /** Элементы списка */
     private List<? extends TaskListItem> mTasks = new ArrayList<>();
     /** Цвета для обозначения приоритетов */
     private String[] aColors;
@@ -50,9 +51,13 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private OnItemClickListener mItemClickListener;
     /** Слушатель свайпа элементов списка влево/вправо */
     private OnItemSwipeListener mItemSwipeListener;
+    /** Класс по работе с проектами и задачами */
     private ProjectLab lab;
+    /** Дополнительные методы */
     private Methods m;
+    /** Коллбэк свайпов элементов списка */
     private SimpleItemTouchHelperCallback callback;
+    /** Виджет списка */
     private RecyclerView mRecyclerView;
 
     public TasksListAdapter(Context context) {
@@ -63,11 +68,10 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             @ColorInt int swipeToLeftColor, @ColorInt int swipeToRightColor,
                             @DrawableRes int swipeToLeftIcon, @DrawableRes int swipeToRightIcon,
                             boolean dragItem) {
-        mContext = context;
         lab = ProjectLab.get(context);
-        m = new Methods(mContext);
+        m = new Methods(context);
         aColors = context.getResources().getStringArray(R.array.priorities_colors);
-        callback = new SimpleItemTouchHelperCallback(mContext, this, swipeToLeft, swipeToRight,
+        callback = new SimpleItemTouchHelperCallback(context, this, swipeToLeft, swipeToRight,
                 swipeToLeftColor, swipeToRightColor,
                 swipeToLeftIcon, swipeToRightIcon, dragItem);
     }
@@ -267,6 +271,7 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
          */
         public ViewHolderSubProject(final View itemView) {
             super(itemView);
+            final Context context = itemView.getContext();
 
             tvTitle = (TextView) itemView.findViewById(R.id.title);
             tvDescription = (TextView) itemView.findViewById(R.id.description);
@@ -275,7 +280,7 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             imageViewMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    PopupMenu popupMenu = new PopupMenu(mContext, view);
+                    PopupMenu popupMenu = new PopupMenu(context, view);
                     popupMenu.inflate(R.menu.popup_menu_subproject);
                     popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
@@ -283,11 +288,11 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()) {
                                 case R.id.action_edit:
-                                    Intent intent = new Intent(mContext, SubProjectEditActivity.class);
+                                    Intent intent = new Intent(context, SubProjectEditActivity.class);
                                     intent.putExtra("mId", _id.toString());
                                     intent.putExtra("Operation", "edit");
                                     intent.putExtra("parent_ID", "0");
-                                    mContext.startActivity(intent);
+                                    context.startActivity(intent);
                                     return true;
                                 case R.id.action_delete:
                                     lab.removeTaskByID(_id);
