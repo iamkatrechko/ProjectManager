@@ -102,11 +102,8 @@ public class CalendarFragment extends Fragment {
             public void onItemClick(int type, TaskListItem item) {
                 if (type == TasksListAdapter.ADAPTER_ITEM_TYPE_TASK) {
                     Task subProject = (Task) item;
-                    Intent intent = new Intent(getActivity(), TaskEditActivity.class);
-                    intent.putExtra("mId", subProject.getID().toString());
-                    intent.putExtra("Operation", "edit");
-                    intent.putExtra("parent_ID", "0");
-                    startActivity(intent);
+                    Intent editIntent = TaskEditActivity.getEditActivityIntent(getContext(), subProject.getID());
+                    startActivity(editIntent);
                     getActivity().overridePendingTransition(R.anim.act_slide_down_in, R.anim.act_slide_down_out);
                 }
             }

@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import ru.yandex.speechkit.SpeechKit;
+
 import static com.iamkatrechko.projectmanager.expandable_menu.ExpMenuItems.MENU_ITEM_PROJECTS;
 import static com.iamkatrechko.projectmanager.expandable_menu.ExpMenuItems.MENU_ITEM_PROJECTS_EDIT;
 import static com.iamkatrechko.projectmanager.expandable_menu.ExpMenuItems.MENU_ITEM_TAGS_EDIT;
@@ -76,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
             UUID ID = lab.getProjects().get(0).getID();
             getProjectFragment(ID);
         }
+
+        String key = "79b8f85e-b240-44a0-a2ff-a2f618831303";
+        SpeechKit.getInstance().configure(getApplicationContext(), key);
     }
 
     public void initToolBar() {

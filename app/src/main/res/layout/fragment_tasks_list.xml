@@ -65,7 +65,18 @@
         >
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/action_a"
+            android:id="@+id/action_create_task_speech"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/fab_colorNormal"
+            fab:fab_colorPressed="@color/fab_colorPressed"
+            fab:fab_icon="@drawable/ic_check_box"
+            fab:fab_stroke_visible="false"
+            fab:fab_title="@string/fab_title_2"
+            />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/action_create_subproject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/fab_colorNormal"
@@ -76,7 +87,7 @@
             />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/action_b"
+            android:id="@+id/action_create_task"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/fab_colorNormal"

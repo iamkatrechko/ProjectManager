@@ -70,12 +70,17 @@ public class TaskEditFragment extends Fragment implements View.OnClickListener {
     private Task task;
 
     public static TaskEditFragment newInstance(String ID, String operation, String parentID) {
+        return newInstance(ID, operation, parentID, null);
+    }
+
+    public static TaskEditFragment newInstance(String ID, String operation, String parentID, String taskTitle) {
         TaskEditFragment fragment = new TaskEditFragment();
 
         Bundle args = new Bundle();
         args.putString("mId", ID);
         args.putString("Operation", operation);
         args.putString("parentID", parentID);
+        args.putString("TASK_TITLE", taskTitle);
         fragment.setArguments(args);
 
         return fragment;
@@ -298,6 +303,9 @@ public class TaskEditFragment extends Fragment implements View.OnClickListener {
 
     /** Устанавливает значения по умолчанию для всех полей */
     private void setDefaultValues() {
+        if (getArguments().getString("TASK_TITLE", null) != null) {
+            etTitle.setText(getArguments().getString("TASK_TITLE", null));
+        }
         tvDateTime.setText(getString(R.string.not_specified));
         tvRemind.setText(getString(R.string.remind_off));
         tvTag.setText(getTagsInString());

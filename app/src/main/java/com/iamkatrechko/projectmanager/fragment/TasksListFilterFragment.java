@@ -85,11 +85,8 @@ public class TasksListFilterFragment extends Fragment {
                 if (type == TasksListAdapter.ADAPTER_ITEM_TYPE_TASK) {
                     //Если нажата "Подзадача" -> редактируем
                     Task subProject = (Task) item;
-                    Intent intent = new Intent(getActivity(), TaskEditActivity.class);
-                    intent.putExtra("mId", subProject.getID().toString());
-                    intent.putExtra("Operation", "edit");
-                    intent.putExtra("parent_ID", "0");
-                    startActivity(intent);
+                    Intent editIntent = TaskEditActivity.getEditActivityIntent(getContext(), subProject.getID());
+                    startActivity(editIntent);
                     getActivity().overridePendingTransition(R.anim.act_slide_down_in, R.anim.act_slide_down_out);
                 }
             }

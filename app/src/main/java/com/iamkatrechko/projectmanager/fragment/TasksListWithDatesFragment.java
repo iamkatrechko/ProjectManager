@@ -112,11 +112,8 @@ public class TasksListWithDatesFragment extends Fragment {
         actionAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), TaskEditActivity.class);
-                intent.putExtra("mId", "0");
-                intent.putExtra("parent_ID", lab.getProjects().get(0).getID().toString());
-                intent.putExtra("Operation", "add");
-                startActivity(intent);
+                Intent addIntent = TaskEditActivity.getAddActivityIntent(getContext(), lab.getProjects().get(0).getID());
+                startActivity(addIntent);
             }
         });
 
@@ -126,11 +123,8 @@ public class TasksListWithDatesFragment extends Fragment {
                 if (type == TasksListAdapter.ADAPTER_ITEM_TYPE_TASK) {
                     //Если нажата "Подзадача" -> редактируем
                     Task subProject = (Task) item;
-                    Intent intent = new Intent(getActivity(), TaskEditActivity.class);
-                    intent.putExtra("mId", subProject.getID().toString());
-                    intent.putExtra("Operation", "edit");
-                    intent.putExtra("parent_ID", "0");
-                    startActivity(intent);
+                    Intent editIntent = TaskEditActivity.getEditActivityIntent(getContext(), subProject.getID());
+                    startActivity(editIntent);
                     getActivity().overridePendingTransition(R.anim.act_slide_down_in, R.anim.act_slide_down_out);
                 }
             }

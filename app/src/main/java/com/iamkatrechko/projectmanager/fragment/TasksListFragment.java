@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -32,12 +33,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import ru.yandex.speechkit.gui.RecognizerActivity;
+
 /**
  * Фрагмент со списком всех подпроектов и задач в ее иерархии
  * @author iamkatrechko
  *         Date: 25.02.2016
  */
 public class TasksListFragment extends Fragment {
+
+    /** Идентификатор окна голосового ввода */
+    private static final int ACTIVITY_RESULT_SPEECH = 1;
 
     /** Список задач и подпроектов */
     private List<? extends TaskListItem> mTasksList = new ArrayList<>();
@@ -96,8 +102,9 @@ public class TasksListFragment extends Fragment {
         mTasksListRecyclerView = (RecyclerView) v.findViewById(R.id.section_list);
         mRecyclerViewHistory = (RecyclerView) v.findViewById(R.id.recycler_view_history);
         fMenu = (FloatingActionsMenu) v.findViewById(R.id.multiple_actions);
-        FloatingActionButton fabAddSubProject = (FloatingActionButton) v.findViewById(R.id.action_a);
-        FloatingActionButton fabAddTask = (FloatingActionButton) v.findViewById(R.id.action_b);
+        FloatingActionButton fabAddSubProject = (FloatingActionButton) v.findViewById(R.id.action_create_subproject);
+        FloatingActionButton fabAddTask = (FloatingActionButton) v.findViewById(R.id.action_create_task);
+        FloatingActionButton fabAddTaskSpeech = (FloatingActionButton) v.findViewById(R.id.action_create_task_speech);
 
         //Создание подпроекта
         fabAddSubProject.setOnClickListener(new View.OnClickListener() {
@@ -115,12 +122,17 @@ public class TasksListFragment extends Fragment {
         fabAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), TaskEditActivity.class);
-                intent.putExtra("mId", "0");
-                intent.putExtra("parent_ID", ID.toString());
-                intent.putExtra("Operation", "add");
-                startActivity(intent);
+                Intent addIntent = TaskEditActivity.getAddActivityIntent(getContext(), ID);
+                startActivity(addIntent);
                 getActivity().overridePendingTransition(R.anim.act_slide_down_in, R.anim.act_slide_down_out);
+            }
+        });
+        //Создание задачи
+        fabAddTaskSpeech.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent speechIntent = new Intent(getContext(), RecognizerActivity.class);
+                startActivityForResult(speechIntent, ACTIVITY_RESULT_SPEECH);
             }
         });
 
@@ -134,7 +146,7 @@ public class TasksListFragment extends Fragment {
             @Override
             public void onItemClick(int type, TaskListItem item) {
                 if (type == TasksListAdapter.ADAPTER_ITEM_TYPE_SUB_PROJECT) {
-                    //Если нажата "Задача" -> переходим дальше
+                    //Если нажат "Подпроект" -> переходим дальше
                     Task subProject = (Task) item;
                     Intent intent = new Intent(getActivity(), TasksListActivity.class);
                     intent.putExtra("mId", subProject.getID().toString());
@@ -142,13 +154,10 @@ public class TasksListFragment extends Fragment {
                     startActivity(intent);
                     getActivity().overridePendingTransition(R.anim.act_slide_left_in, R.anim.act_slide_left_out);
                 } else if (type == TasksListAdapter.ADAPTER_ITEM_TYPE_TASK) {
-                    //Если нажата "Подзадача" -> редактируем
+                    //Если нажата "задача" -> редактируем
                     Task subProject = (Task) item;
-                    Intent intent = new Intent(getActivity(), TaskEditActivity.class);
-                    intent.putExtra("mId", subProject.getID().toString());
-                    intent.putExtra("Operation", "edit");
-                    intent.putExtra("parent_ID", "0");
-                    startActivity(intent);
+                    Intent editIntent = TaskEditActivity.getEditActivityIntent(getContext(), subProject.getID());
+                    startActivity(editIntent);
                     getActivity().overridePendingTransition(R.anim.act_slide_down_in, R.anim.act_slide_down_out);
                 }
             }
@@ -206,12 +215,28 @@ public class TasksListFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.done:
-                Intent intent = new Intent(getActivity(), TasksDoneListActivity.class);
-                intent.putExtra("mId", ID.toString());
-                startActivity(intent);
+            case R.id.done_tasks:
+                startActivity(TasksDoneListActivity.getActivityIntent(getContext(), ID));
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ACTIVITY_RESULT_SPEECH) {
+            if (resultCode == RecognizerActivity.RESULT_OK && data != null) {
+                String result = data.getStringExtra(RecognizerActivity.EXTRA_RESULT);
+                if (!result.isEmpty()) {
+                    Intent addIntent = TaskEditActivity.getAddActivityIntent(getContext(), ID, result);
+                    startActivity(addIntent);
+                    getActivity().overridePendingTransition(R.anim.act_slide_down_in, R.anim.act_slide_down_out);
+                }
+            } else if (resultCode == RecognizerActivity.RESULT_ERROR) {
+                String error = ((ru.yandex.speechkit.Error) data.getSerializableExtra(RecognizerActivity.EXTRA_ERROR)).getString();
+                Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
