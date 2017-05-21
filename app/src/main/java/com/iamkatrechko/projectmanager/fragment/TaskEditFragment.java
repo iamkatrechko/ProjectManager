@@ -25,6 +25,7 @@ import com.iamkatrechko.projectmanager.ProjectLab;
 import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.dialog.DialogChoiceDatesFragment;
 import com.iamkatrechko.projectmanager.dialog.DialogSetTagsFragment;
+import com.iamkatrechko.projectmanager.entity.Project;
 import com.iamkatrechko.projectmanager.entity.Tag;
 import com.iamkatrechko.projectmanager.entity.Task;
 import com.iamkatrechko.projectmanager.utils.Utils;
@@ -309,7 +310,14 @@ public class TaskEditFragment extends Fragment implements View.OnClickListener {
         tvDateTime.setText(getString(R.string.not_specified));
         tvRemind.setText(getString(R.string.remind_off));
         tvTag.setText(getTagsInString());
-        textViewProject.setText(lab.getProject(UUID.fromString(getArguments().getString("parentID"))).getTitle());
+        Project project = null;
+        if (task != null) {
+            project = lab.getProjectOfTask(task.getID());
+        }
+        if (project == null) {
+            project = lab.getProjectOfTask(UUID.fromString(getArguments().getString("parentID")));
+        }
+        textViewProject.setText((project).getTitle());
     }
 
     /** Устанавливает значения для всех полей по текущей задаче */
