@@ -234,7 +234,7 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             Task task = (Task) taskListItem;
             _id = task.getID();
             tvTitle.setText(task.getTitle());
-            //vH.itemView.findViewById(R.id.card_view).setVisibility(task.getIsDone() ? View.GONE : View.VISIBLE);
+            //vH.itemView.findViewById(R.id.card_view).setVisibility(task.isDone() ? View.GONE : View.VISIBLE);
             tvDescription.setText(m.getFormatDate(task.getStringDate(), task.getTime()));
             flPriority.setBackgroundColor(Color.parseColor(aColors[task.getPriority()]));
             ivImageRemind.setVisibility(task.getIsNotify() ? View.VISIBLE : View.GONE);

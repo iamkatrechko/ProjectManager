@@ -15,6 +15,7 @@ import java.util.UUID;
  *         Date: 25.02.2016
  */
 public class Task implements TaskListItem {
+
     private static final String JSON_ID = "id";
     private static final String JSON_TITLE = "title";
     private static final String JSON_DESCRIPTION = "description";
@@ -38,7 +39,7 @@ public class Task implements TaskListItem {
     /** Описание подпроекта/задачи */
     private String mDescription;
     /** Метка о выполнении */
-    private Boolean mIsDone;
+    private boolean mIsDone;
     /** Тип задачи (подпроект/задача) */
     private String mType;
     /** Дата. Формат "dd.MM.yyyy" */
@@ -89,10 +90,7 @@ public class Task implements TaskListItem {
         mDescription = description;
     }
 
-    public Boolean getIsDone() {
-        if (mIsDone == null) {
-            mIsDone = false;
-        }
+    public Boolean isDone() {
         return mIsDone;
     }
 
