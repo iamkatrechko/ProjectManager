@@ -70,9 +70,9 @@
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/fab_colorNormal"
             fab:fab_colorPressed="@color/fab_colorPressed"
-            fab:fab_icon="@drawable/ic_check_box"
+            fab:fab_icon="@drawable/ic_mic_gray_24px"
             fab:fab_stroke_visible="false"
-            fab:fab_title="@string/fab_title_2"
+            fab:fab_title="@string/fab_title_3"
             />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
