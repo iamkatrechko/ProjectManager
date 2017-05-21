@@ -164,23 +164,10 @@ public class Task implements TaskListItem {
         return mTasks;
     }
 
-    /**
-     * Удаляет тег с заданным id
-     * @param tagId id удаляемого тега
-     */
-    public void deleteTag(UUID tagId) {
-        for (int i = 0; i < mTags.size(); i++) {
-            UUID currentId = mTags.get(i);
-            if (currentId == tagId) {
-                mTags.remove(i);
-            }
-        }
-    }
-
     public Task(JSONObject json) throws JSONException {
         mID = UUID.fromString(json.getString(JSON_ID));
         mTitle = json.getString(JSON_TITLE);
-        mDescription = json.getString(JSON_DESCRIPTION);
+        mDescription = json.optString(JSON_DESCRIPTION);
         mType = json.getString(JSON_TYPE);
 
         if (mType.equals(TASK_TYPE_SUB_PROJECT)) {

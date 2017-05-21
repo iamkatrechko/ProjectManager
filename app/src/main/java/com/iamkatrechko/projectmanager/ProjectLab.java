@@ -309,21 +309,28 @@ public class ProjectLab {
      * @param id id задачи для удаления
      */
     public void removeTaskByID(UUID id) {
+        new MyNotificationManager(mContext).deleteNotification(id);
         for (Project p : mProjects) {
 
             for (Task t1 : p.getTasks()) {
                 if (t1.getID().equals(id)) {
                     p.getTasks().remove(t1);
+                    saveProjectsIntoJSON();
+                    return;
                 } else {
 
                     for (Task t2 : t1.getTasks()) {
                         if (t2.getID().equals(id)) {
                             t1.getTasks().remove(t2);
+                            saveProjectsIntoJSON();
+                            return;
                         } else {
 
                             for (Task t3 : t2.getTasks()) {
                                 if (t3.getID().equals(id)) {
                                     t2.getTasks().remove(t3);
+                                    saveProjectsIntoJSON();
+                                    return;
                                 }
                             }
                         }
@@ -331,8 +338,6 @@ public class ProjectLab {
                 }
             }
         }
-        new MyNotificationManager(mContext).deleteNotification(id);
-        saveProjectsIntoJSON();
     }
 
     /**
@@ -698,5 +703,85 @@ public class ProjectLab {
             mProjects.add(p);
         }
         saveProjectsIntoJSON();
+    }
+
+    public void generatePresentData() {
+        generateTags();
+
+        Project project = new Project("Разработка приложения");
+        Task firstSubProject1 = generateSubProject("Интерфейс");
+
+        Task secondSubProject1 = generateSubProject("Окно списка задач");
+        secondSubProject1.getTasks().add(generateTask("Настроить внешний вид задачи"));
+        secondSubProject1.getTasks().add(generateTask("Реализовать выполнение задачи свайпом влево"));
+        secondSubProject1.getTasks().add(generateTask("Добавить значок напоминания задачи в списке"));
+        firstSubProject1.getTasks().add(secondSubProject1);
+
+        Task secondSubProject2 = generateSubProject("Анимации");
+        secondSubProject2.getTasks().add(generateTask("Добавить анимацию перехода между подпроектами"));
+        secondSubProject2.getTasks().add(generateTask("Добавить анимацию удаления задачи"));
+        firstSubProject1.getTasks().add(secondSubProject2);
+
+        firstSubProject1.getTasks().add(generateTask("Выбрать основные цвета приложения"));
+        firstSubProject1.getTasks().add(generateTask("Разработать макет главного экрана"));
+        firstSubProject1.getTasks().add(generateTask("Настроить свайпы"));
+        firstSubProject1.getTasks().add(generateTask("Обновить макеты на репозитории"));
+        firstSubProject1.getTasks().add(generateTask("Определить набор иконок"));
+        firstSubProject1.getTasks().add(generateTask("Доработать главное меню"));
+        project.getTasks().add(firstSubProject1);
+
+        Task firstSubProject2 = generateSubProject("Реклама");
+        firstSubProject2.getTasks().add(generateTask("Заказать статью на 4pda.ru"));
+        firstSubProject2.getTasks().add(generateTask("Выложить приложение на трекеры"));
+        firstSubProject2.getTasks().add(generateTask("Заказать статью в Android паблике вконтакте"));
+        project.getTasks().add(firstSubProject2);
+
+        project.getTasks().add(generateTask("Добавить голосовой ввод в описание приложения"));
+        project.getTasks().add(generateTask("Реализовать экспортирование задач в файл"));
+        project.getTasks().add(generateTask("Заменить третий скриншот в интернет-магазине Google Play"));
+        project.getTasks().add(generateTask("Доработать выбор проекта в редактировании задачи"));
+        project.getTasks().add(generateTask("Дописать статью по разработке приложения"));
+        mProjects.add(project);
+
+        Project project2 = new Project("Фильмы к просмотру");
+        project2.getTasks().add(generateTask("Побег из Шоушенка"));
+        project2.getTasks().add(generateTask("Меч короля Артура"));
+        project2.getTasks().add(generateTask("По соображениям совести"));
+        project2.getTasks().add(generateTask("По соображениям совести"));
+        project2.getTasks().add(generateTask("Выживший"));
+        project2.getTasks().add(generateTask("Гонка"));
+        project2.getTasks().add(generateTask("Гравитация"));
+        project2.getTasks().add(generateTask("Охота"));
+        project2.getTasks().add(generateTask("Исходный код"));
+        project2.getTasks().add(generateTask("Начало"));
+        project2.getTasks().add(generateTask("Отступники"));
+        project2.getTasks().add(generateTask("Запах женщины"));
+        project2.getTasks().add(generateTask("Лицо со шрамом"));
+        mProjects.add(project2);
+
+        saveTagsIntoJSON();
+        saveProjectsIntoJSON();
+    }
+
+    private Task generateSubProject(String title) {
+        Task resultSubProject = new Task(title);
+        resultSubProject.setDescription("");
+        resultSubProject.setType(Task.TASK_TYPE_SUB_PROJECT);
+        return resultSubProject;
+    }
+
+    private Task generateTask(String title) {
+        Random random = new Random();
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_YEAR, random.nextInt(7));
+
+        Task resultTask = new Task(title);
+        resultTask.setDescription("");
+        resultTask.setType(Task.TASK_TYPE_TASK);
+        resultTask.setDate(new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(calendar.getTimeInMillis()));
+        resultTask.setPriority(random.nextInt(4));
+        resultTask.addTag(mTags.get(random.nextInt(mTags.size())));
+
+        return resultTask;
     }
 }

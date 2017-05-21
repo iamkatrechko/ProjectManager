@@ -27,6 +27,7 @@ public class ServiceMenuActivity extends AppCompatActivity implements View.OnCli
         findViewById(R.id.button4).setOnClickListener(this);
         findViewById(R.id.button5).setOnClickListener(this);
         findViewById(R.id.button6).setOnClickListener(this);
+        findViewById(R.id.button7).setOnClickListener(this);
     }
 
     @Override
@@ -43,6 +44,9 @@ public class ServiceMenuActivity extends AppCompatActivity implements View.OnCli
                 break;
             case R.id.button6:
                 ProjectLab.get(this).generateTags();
+                break;
+            case R.id.button7:
+                ProjectLab.get(this).generatePresentData();
                 break;
         }
     }

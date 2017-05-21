@@ -39,7 +39,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Заново сгенерировать данные"/>
+        android:text="Cгенерировать данные"/>
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Cгенерировать презентационные данные"/>
 
     <Button
         android:id="@+id/button5"
