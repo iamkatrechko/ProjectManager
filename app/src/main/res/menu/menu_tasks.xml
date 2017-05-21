@@ -7,6 +7,7 @@
         android:id="@+id/done_tasks"
         android:orderInCategory="100"
         android:title="@string/done_tasks"
+        android:visible="false"
         app:showAsAction="never"
         />
 
