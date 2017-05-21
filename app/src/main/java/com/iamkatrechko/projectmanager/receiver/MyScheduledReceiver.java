@@ -20,90 +20,78 @@ import java.util.UUID;
  */
 public class MyScheduledReceiver extends BroadcastReceiver {
 
+    /** Тег для логирования */
+    private static final String TAG = MyScheduledReceiver.class.getSimpleName();
+
     /** Действие выполнения задачи */
     public static final String ACTION_RECEIVER_SET_DONE = "ACTION_RECEIVER_SET_DONE";
     /** Действие отображение уведомления о выполнении задачи */
     public static final String ACTION_RECEIVER_SHOW_MESSAGE = "ACTION_RECEIVER_SHOW_MESSAGE";
 
+    /** Вложенные данные. Идентификатор задачи */
+    public static final String EXTRA_TASK_ID = "EXTRA_TASK_ID";
+
     /** Класс по работе с проектами и задачами */
     private ProjectLab lab;
+    /** Менеджер уведомлений */
+    private NotificationManager notificationManager;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        //Обернул, чтобы null превращался в строку
-        String action = String.valueOf(intent.getAction());
-        Log.d("onReceive", "Action: " + action);
+        Log.d(TAG, "onReceive: action: " + intent.getAction());
+        if (intent.getAction() == null) {
+            return;
+        }
         lab = ProjectLab.get(context);
+        notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        switch (action) {
+        UUID id = (UUID) intent.getSerializableExtra(EXTRA_TASK_ID);
+        switch (intent.getAction()) {
             case ACTION_RECEIVER_SET_DONE:
-                setDone(context, intent);
+                setDone(id);
                 break;
             case ACTION_RECEIVER_SHOW_MESSAGE:
-                showNotification(context, intent);
+                showNotification(context, id);
                 break;
         }
     }
 
-    private void showNotification(Context context, Intent intent) {
-        UUID id = UUID.fromString(intent.getStringExtra("mId"));
-        //Task task = lab.getTaskOnAllLevel(id);
-        Task task = new Task("Задача");
-        task.setDescription("Описание");
-        task.setIsDone(false);
-        task.setType(Task.TASK_TYPE_TASK);
-        task.setDate("01.01.2001");
-        task.setTime("11:11");
-        task.setPriority(3);
-        task.setIsRepeat(false);
+    /**
+     * Отображает уведомления о задаче
+     * @param context контекст
+     * @param taskId  идентификатор задачи
+     */
+    private void showNotification(Context context, UUID taskId) {
+        Task task = lab.getTaskOnAllLevel(taskId);
         if (task == null) {
             return;
         }
-        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        //Intent scheduledIntent = new Intent(context, MainActivity.class);
-        Intent scheduledIntent = new Intent();
-        scheduledIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, scheduledIntent, 0);
 
         Intent intentSetDone = new Intent(context, MyScheduledReceiver.class);
-        intentSetDone.putExtra("mId", String.valueOf(id));
+        intentSetDone.putExtra(EXTRA_TASK_ID, taskId);
         intentSetDone.setAction(ACTION_RECEIVER_SET_DONE);
-        PendingIntent pIntentSetDone = PendingIntent.getBroadcast(context, id.hashCode(), intentSetDone, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pIntentSetDone = PendingIntent.getBroadcast(context, taskId.hashCode(), intentSetDone, PendingIntent.FLAG_ONE_SHOT);
 
         Notification.Builder builder = new Notification.Builder(context);
-        builder.setContentIntent(contentIntent)
-                .setSmallIcon(R.drawable.ic_done)
-                //.setSmallIcon(R.drawable.anim_status_bar)                                         //Анимированное оповещение
+        builder.setSmallIcon(R.drawable.ic_done)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_icon))
-                .setTicker("Название оповещения")// текст в строке состояния
-                //.setWhen(System.currentTimeMillis()).setAutoCancel(true)
-                .setContentTitle(task.getTitle()) // Заголовок уведомления
-                .addAction(0, "Выполнить", pIntentSetDone)
-                .addAction(0, "Кнопка 2", contentIntent)
-                .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE | Notification.DEFAULT_LIGHTS).setAutoCancel(true)
-                .setContentText(task.getDescription()); // Текст уведомления
+                .setContentTitle(task.getTitle())
+                .addAction(0, context.getString(R.string.action_done), pIntentSetDone)
+                .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE | Notification.DEFAULT_LIGHTS)
+                .setAutoCancel(true)
+                .setContentText(task.getDescription());
 
-        Notification n = builder.getNotification();
-        n.flags |= Notification.FLAG_AUTO_CANCEL;
-        //Uri ringURI = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        //n.sound = ringURI;
-
-        //long[] vibrate = new long[] { 1000, 1000, 1000, 1000, 1000 };                             //Вибрация, пауза, вибрация...
-        //n.vibrate = vibrate;
-
-        nm.notify(id.hashCode(), n);
+        notificationManager.notify(taskId.hashCode(), builder.build());
     }
 
-    private void setDone(Context context, Intent intent) {
-        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        UUID id = UUID.fromString(intent.getStringExtra("mId"));
-        nm.cancel(id.hashCode());
-        Task task = lab.getTaskOnAllLevel(id);
-        if (task != null) {
-            Log.d("MyScheduledReceiver", "setIsDone: задача найдена");
-            task.setIsDone(true);
-        }
-        Log.d("MyScheduledReceiver", "setIsDone: задача не найдена");
+    /**
+     * Помечает задачу как выполненную
+     * @param taskId идентификатор задачи
+     */
+    private void setDone(UUID taskId) {
+        Log.d(TAG, "Выполнение задачи:");
+        notificationManager.cancel(taskId.hashCode());
+        lab.removeTaskByID(taskId);
+        Log.d(TAG, "Задача выполнена");
     }
 }

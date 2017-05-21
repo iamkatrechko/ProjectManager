@@ -314,19 +314,16 @@ public class ProjectLab {
             for (Task t1 : p.getTasks()) {
                 if (t1.getID().equals(id)) {
                     p.getTasks().remove(t1);
-                    return;
                 } else {
 
                     for (Task t2 : t1.getTasks()) {
                         if (t2.getID().equals(id)) {
                             t1.getTasks().remove(t2);
-                            return;
                         } else {
 
                             for (Task t3 : t2.getTasks()) {
                                 if (t3.getID().equals(id)) {
                                     t2.getTasks().remove(t3);
-                                    return;
                                 }
                             }
                         }
@@ -334,6 +331,7 @@ public class ProjectLab {
                 }
             }
         }
+        new MyNotificationManager(mContext).deleteNotification(id);
         saveProjectsIntoJSON();
     }
 

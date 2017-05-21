@@ -17,40 +17,48 @@ import java.util.UUID;
  */
 public class MyNotificationManager {
 
-    private Context mContext;
-    private ProjectLab lab;
+    /** Тег для логирования */
+    private static final String TAG = MyNotificationManager.class.getSimpleName();
 
-    public MyNotificationManager(Context context){
+    /** Контекст */
+    private Context mContext;
+    /** Класс по работе с проектами и задачами */
+    private ProjectLab lab;
+    /** Сервис будильников */
+    private AlarmManager alarmManager;
+
+    public MyNotificationManager(Context context) {
         mContext = context;
         lab = ProjectLab.get(context);
+        alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
     }
 
     /**
      * Установка напоминания для заданной задачи
-     * @param id mId задачи для установки
+     * @param taskId идентификатор задачи для установки
      */
-    public void addNotification(UUID id){
-        Task task = lab.getTaskOnAllLevel(id);
+    public void addNotification(UUID taskId) {
+        Task task = lab.getTaskOnAllLevel(taskId);
+        deleteNotification(taskId);
+
         String date = task.getStringDate();
         String time = task.getTime();
 
-        deleteNotification(id);
-        if (time.equals("null")){
-            Log.d("MyNotificationManager", "Установка напоминания отменена - " + task.getTitle());
+        if (date.equals("null") || time.equals("null")) {
+            Log.d(TAG, "Установка напоминания отменена (время не задано) - " + task.getTitle());
             return;
         }
-        if (!task.getIsNotify()){
-            Log.d("MyNotificationManager", "Установка напоминания отменена - " + task.getTitle());
+        if (!task.getIsNotify()) {
+            Log.d(TAG, "Установка напоминания отменена (напоминание выключено) - " + task.getTitle());
             return;
         }
+        Log.d(TAG, "Установка напоминания - " + task.getTitle());
 
         Intent intent = new Intent(mContext, MyScheduledReceiver.class);
-        intent.putExtra("mId", String.valueOf(id));
+        intent.putExtra(MyScheduledReceiver.EXTRA_TASK_ID, taskId);
         intent.setAction(MyScheduledReceiver.ACTION_RECEIVER_SHOW_MESSAGE);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, generateRequestCode(id), intent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, taskId.hashCode(), intent, PendingIntent.FLAG_ONE_SHOT);
 
-        Log.d("MyNotificationManager", "Установка напоминания - " + task.getTitle());
-        AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, getTimeInMil(date, time), pendingIntent);
     }
 
@@ -58,20 +66,15 @@ public class MyNotificationManager {
      * Удаляет напоминание для заданной задачи
      * @param id mId задачи для удаления
      */
-    public void deleteNotification(UUID id){
-        Log.d("MyNotificationManager", "Удаление напоминания - " + lab.getTaskOnAllLevel(id).getTitle());
+    public void deleteNotification(UUID id) {
+        Log.d(TAG, "Удаление напоминания - " + lab.getTaskOnAllLevel(id).getTitle());
 
         Intent intent = new Intent(mContext, MyScheduledReceiver.class);
-        intent.putExtra("mId", String.valueOf(id));
+        intent.putExtra(MyScheduledReceiver.EXTRA_TASK_ID, id);
         intent.setAction(MyScheduledReceiver.ACTION_RECEIVER_SHOW_MESSAGE);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, generateRequestCode(id), intent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, id.hashCode(), intent, PendingIntent.FLAG_ONE_SHOT);
 
-        AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(pendingIntent);
-    }
-
-    private int generateRequestCode(UUID id){
-        return id.hashCode();
     }
 
     /**
@@ -80,12 +83,12 @@ public class MyNotificationManager {
      * @param time время в формате "HH:MM"
      * @return полученное время в миллисекундах
      */
-    public long getTimeInMil(String date, String time){
+    private long getTimeInMil(String date, String time) {
         int year = Integer.valueOf(date.split("\\.")[2]);
         int month = Integer.valueOf(date.split("\\.")[1]) - 1;
         int day = Integer.valueOf(date.split("\\.")[0]);
         int hour = Integer.valueOf(time.split("\\:")[0]);
-        int minute =  Integer.valueOf(time.split("\\:")[1]);
+        int minute = Integer.valueOf(time.split("\\:")[1]);
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
@@ -95,7 +98,7 @@ public class MyNotificationManager {
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
 
-        Log.d("MyNotificationManager", "Установленное время: " + calendar.getTime());
+        Log.d(TAG, "Установленное время: " + calendar.getTime());
         return calendar.getTimeInMillis();
     }
 }

@@ -27,6 +27,7 @@
     <string name="activity_tag_edit">Редактирование метки</string>
     <string name="action_delete">Удалить</string>
     <string name="action_edit">Редактировать</string>
+    <string name="action_done">Выполнить</string>
 
 
     <string name="choose_color">Выберите цвет</string>
