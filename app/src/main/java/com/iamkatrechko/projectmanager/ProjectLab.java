@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -609,6 +610,19 @@ public class ProjectLab {
         return mTags;
     }
 
+    /**
+     * Возвращает список дней, за которые есть события.
+     * Формат дат: "dd.MM.yyyy"
+     * @return список дней, за которые есть события
+     */
+    public HashSet<String> getAllTasksDays() {
+        HashSet<String> result = new HashSet<>();
+        for (Task task : getAllTasks()) {
+            result.add(task.getStringDate());
+        }
+        return result;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Работа с демо-данными ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -773,7 +787,7 @@ public class ProjectLab {
     private Task generateTask(String title) {
         Random random = new Random();
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_YEAR, random.nextInt(7));
+        calendar.add(Calendar.DAY_OF_YEAR, random.nextInt(14));
 
         Task resultTask = new Task(title);
         resultTask.setDescription("");

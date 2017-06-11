@@ -16,6 +16,7 @@ import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.activity.TaskEditActivity;
 import com.iamkatrechko.projectmanager.adapter.TasksListAdapter;
 import com.iamkatrechko.projectmanager.contract.OnItemClickListener;
+import com.iamkatrechko.projectmanager.decorator.EventDayDecorator;
 import com.iamkatrechko.projectmanager.entity.Task;
 import com.iamkatrechko.projectmanager.new_entity.TaskListItem;
 import com.iamkatrechko.projectmanager.utils.DateUtils;
@@ -83,6 +84,7 @@ public class CalendarFragment extends Fragment {
                 updateListForDay(date.getCalendar());
             }
         });
+        mCalendarView.addDecorator(new EventDayDecorator(mLab.getAllTasksDays()));
 
         mCalendarView.setOnMonthChangedListener(new OnMonthChangedListener() {
             @Override
