@@ -72,8 +72,8 @@ public class MyScheduledReceiver extends BroadcastReceiver {
         intentSetDone.setAction(ACTION_RECEIVER_SET_DONE);
         PendingIntent pIntentSetDone = PendingIntent.getBroadcast(context, taskId.hashCode(), intentSetDone, PendingIntent.FLAG_ONE_SHOT);
 
-        Notification.Builder builder = new Notification.Builder(context);
-        builder.setSmallIcon(R.drawable.ic_done)
+        Notification.Builder builder = new Notification.Builder(context)
+                .setSmallIcon(R.drawable.ic_done)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_icon))
                 .setContentTitle(task.getTitle())
                 .addAction(0, context.getString(R.string.action_done), pIntentSetDone)
