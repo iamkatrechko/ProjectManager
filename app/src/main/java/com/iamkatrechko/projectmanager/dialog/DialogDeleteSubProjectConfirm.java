@@ -14,24 +14,26 @@ import com.iamkatrechko.projectmanager.R;
 import java.util.UUID;
 
 /**
- * Диалог запроса на удаление проекта
+ * Диалог запроса на удаление подпроекта
  * @author iamkatrechko
  *         Date: 03.05.2017
  */
-public class DialogDeleteProjectConfirm extends DialogFragment {
+public class DialogDeleteSubProjectConfirm extends DialogFragment {
 
-    public static final String EXTRA_PROJECT_ID = "EXTRA_SUB_PROJECT_ID";
+    public static final String EXTRA_SUB_PROJECT_ID = "EXTRA_SUB_PROJECT_ID";
+    public static final String EXTRA_SUB_PROJECT_POSITION = "EXTRA_SUB_PROJECT_POSITION";
 
     /**
      * Возвращает новый инстанс фрагмента
-     * @param projectId идентификатор удаляемого проекта
+     * @param subProjectId идентификатор удаляемого подпроекта
      * @return новый инстанс фрагмента
      */
-    public static DialogDeleteProjectConfirm newInstance(UUID projectId) {
-        DialogDeleteProjectConfirm fragment = new DialogDeleteProjectConfirm();
+    public static DialogDeleteSubProjectConfirm newInstance(UUID subProjectId, int position) {
+        DialogDeleteSubProjectConfirm fragment = new DialogDeleteSubProjectConfirm();
 
         Bundle args = new Bundle();
-        args.putSerializable(EXTRA_PROJECT_ID, projectId);
+        args.putSerializable(EXTRA_SUB_PROJECT_ID, subProjectId);
+        args.putInt(EXTRA_SUB_PROJECT_POSITION, position);
         fragment.setArguments(args);
 
         return fragment;
@@ -50,8 +52,8 @@ public class DialogDeleteProjectConfirm extends DialogFragment {
     @NonNull
     public Dialog onCreateDialog(Bundle bundle) {
         return new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.delete_project_title)
-                .setMessage(R.string.delete_project_confirm)
+                .setTitle(R.string.delete_sub_project_title)
+                .setMessage(R.string.delete_sub_project_confirm)
                 .setPositiveButton(R.string.result_yes,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,

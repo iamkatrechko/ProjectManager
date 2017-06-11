@@ -38,7 +38,9 @@
     <string name="done_tasks">Выполненные</string>
 
     <string name="delete_project_title">Удаление проекта</string>
+    <string name="delete_sub_project_title">Удаление подпроекта</string>
     <string name="delete_project_confirm">Вы уверены, что хотите удалить проект вместе со всеми внутренними задачами?</string>
+    <string name="delete_sub_project_confirm">Вы уверены, что хотите удалить подпроект вместе со всеми внутренними задачами?</string>
 
     <string name="result_yes">Да</string>
     <string name="result_no">Нет</string>

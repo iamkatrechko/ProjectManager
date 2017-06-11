@@ -1,7 +1,6 @@
 package com.iamkatrechko.projectmanager.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
@@ -22,10 +21,10 @@ import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.SimpleItemTouchHelperCallback;
 import com.iamkatrechko.projectmanager.SimpleItemTouchHelperCallback.OnItemMoveAndSwipeListener;
 import com.iamkatrechko.projectmanager.SimpleItemTouchHelperCallback.OnItemSwipeListener;
-import com.iamkatrechko.projectmanager.activity.SubProjectEditActivity;
-import com.iamkatrechko.projectmanager.contract.ItemTouchHelperViewHolder;
-import com.iamkatrechko.projectmanager.contract.OnItemClickListener;
 import com.iamkatrechko.projectmanager.entity.Task;
+import com.iamkatrechko.projectmanager.interfce.ItemTouchHelperViewHolder;
+import com.iamkatrechko.projectmanager.interfce.OnItemClickListener;
+import com.iamkatrechko.projectmanager.interfce.OnSubProjectOptionsClick;
 import com.iamkatrechko.projectmanager.new_entity.DateLabel;
 import com.iamkatrechko.projectmanager.new_entity.TaskListItem;
 
@@ -59,6 +58,8 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private SimpleItemTouchHelperCallback callback;
     /** Виджет списка */
     private RecyclerView mRecyclerView;
+    /** Слушатель нажатий меню опций подпроекта */
+    private OnSubProjectOptionsClick mOnSubProjectOptionsClick;
 
     public TasksListAdapter(Context context) {
         this(context, false, false, 0, 0, 0, 0, false);
@@ -187,11 +188,19 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     /**
-     * УСтановить случатель перемещения и свайпа элементов
+     * Установить случатель перемещения и свайпа элементов
      * @param swipeListener случатель перемещения и свайпа элементов
      */
     public void setOnSwipedListener(OnItemSwipeListener swipeListener) {
         mItemSwipeListener = swipeListener;
+    }
+
+    /**
+     * Устанавливает слушатель нажатий на опции подпроекта
+     * @param listener слушатель нажатий на опции подпроекта
+     */
+    public void setOnSubProjectOptionsClick(OnSubProjectOptionsClick listener) {
+        mOnSubProjectOptionsClick = listener;
     }
 
     /** ViewHolderTask списка задач */
@@ -288,15 +297,14 @@ public class TasksListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()) {
                                 case R.id.action_edit:
-                                    Intent intent = new Intent(context, SubProjectEditActivity.class);
-                                    intent.putExtra("mId", _id.toString());
-                                    intent.putExtra("Operation", "edit");
-                                    intent.putExtra("parent_ID", "0");
-                                    context.startActivity(intent);
+                                    if (mOnSubProjectOptionsClick != null) {
+                                        mOnSubProjectOptionsClick.onEditClick(_id, getAdapterPosition());
+                                    }
                                     return true;
                                 case R.id.action_delete:
-                                    lab.removeTaskByID(_id);
-                                    notifyItemRemoved(getAdapterPosition());
+                                    if (mOnSubProjectOptionsClick != null) {
+                                        mOnSubProjectOptionsClick.onDeleteClick(_id, getAdapterPosition());
+                                    }
                                     return true;
                                 default:
                                     return false;

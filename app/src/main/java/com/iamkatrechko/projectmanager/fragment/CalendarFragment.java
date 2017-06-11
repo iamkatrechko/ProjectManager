@@ -15,7 +15,7 @@ import com.iamkatrechko.projectmanager.ProjectLab;
 import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.activity.TaskEditActivity;
 import com.iamkatrechko.projectmanager.adapter.TasksListAdapter;
-import com.iamkatrechko.projectmanager.contract.OnItemClickListener;
+import com.iamkatrechko.projectmanager.interfce.OnItemClickListener;
 import com.iamkatrechko.projectmanager.decorator.EventDayDecorator;
 import com.iamkatrechko.projectmanager.entity.Task;
 import com.iamkatrechko.projectmanager.new_entity.TaskListItem;

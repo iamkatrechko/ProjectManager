@@ -14,7 +14,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.iamkatrechko.projectmanager.adapter.TasksListAdapter;
-import com.iamkatrechko.projectmanager.contract.ItemTouchHelperViewHolder;
+import com.iamkatrechko.projectmanager.interfce.ItemTouchHelperViewHolder;
 
 public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 

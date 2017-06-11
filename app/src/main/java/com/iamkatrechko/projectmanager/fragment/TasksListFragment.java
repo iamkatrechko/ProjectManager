@@ -1,5 +1,6 @@
 package com.iamkatrechko.projectmanager.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,8 +27,10 @@ import com.iamkatrechko.projectmanager.activity.TasksDoneListActivity;
 import com.iamkatrechko.projectmanager.activity.TasksListActivity;
 import com.iamkatrechko.projectmanager.adapter.HistoryListAdapter;
 import com.iamkatrechko.projectmanager.adapter.TasksListAdapter;
-import com.iamkatrechko.projectmanager.contract.OnItemClickListener;
+import com.iamkatrechko.projectmanager.dialog.DialogDeleteSubProjectConfirm;
 import com.iamkatrechko.projectmanager.entity.Task;
+import com.iamkatrechko.projectmanager.interfce.OnItemClickListener;
+import com.iamkatrechko.projectmanager.interfce.OnSubProjectOptionsClick;
 import com.iamkatrechko.projectmanager.new_entity.TaskListItem;
 
 import java.util.ArrayList;
@@ -45,6 +48,8 @@ public class TasksListFragment extends Fragment {
 
     /** Идентификатор окна голосового ввода */
     private static final int ACTIVITY_RESULT_SPEECH = 1;
+    /** Идентификатор диалога удаления подпроекта */
+    private static final int DIALOG_DELETE_SUB_PROJECT = 126512;
 
     /** Список задач и подпроектов */
     private List<? extends TaskListItem> mTasksList = new ArrayList<>();
@@ -180,6 +185,23 @@ public class TasksListFragment extends Fragment {
                 adapter.notifyItemRemoved(position);
             }
         });
+        adapter.setOnSubProjectOptionsClick(new OnSubProjectOptionsClick() {
+            @Override
+            public void onDeleteClick(UUID subProjectId, int position) {
+                DialogDeleteSubProjectConfirm fragmentDialog = DialogDeleteSubProjectConfirm.newInstance(subProjectId, position);
+                fragmentDialog.setTargetFragment(TasksListFragment.this, DIALOG_DELETE_SUB_PROJECT);
+                fragmentDialog.show(getActivity().getSupportFragmentManager(), null);
+            }
+
+            @Override
+            public void onEditClick(UUID subProjectId, int position) {
+                Intent intent = new Intent(getActivity(), SubProjectEditActivity.class);
+                intent.putExtra("mId", subProjectId.toString());
+                intent.putExtra("Operation", "edit");
+                intent.putExtra("parent_ID", "0");
+                getActivity().startActivity(intent);
+            }
+        });
 
         mTasksListRecyclerView.setHasFixedSize(true);
         mTasksListRecyclerView.setAdapter(adapter);
@@ -240,6 +262,15 @@ public class TasksListFragment extends Fragment {
             } else if (resultCode == RecognizerActivity.RESULT_ERROR) {
                 String error = ((ru.yandex.speechkit.Error) data.getSerializableExtra(RecognizerActivity.EXTRA_ERROR)).getString();
                 Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+            }
+        }
+        if (resultCode == Activity.RESULT_OK && requestCode == DIALOG_DELETE_SUB_PROJECT) {
+            boolean delete = data.getBooleanExtra("delete", false);
+            if (delete) {
+                UUID subProjectId = (UUID) data.getSerializableExtra(DialogDeleteSubProjectConfirm.EXTRA_SUB_PROJECT_ID);
+                int subProjectPosition = data.getIntExtra(DialogDeleteSubProjectConfirm.EXTRA_SUB_PROJECT_POSITION, -1);
+                mProjectLab.removeTaskByID(subProjectId);
+                adapter.notifyItemRemoved(subProjectPosition);
             }
         }
     }
