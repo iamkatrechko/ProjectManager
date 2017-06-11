@@ -11,4 +11,12 @@
         app:showAsAction="never"
         />
 
+    <item
+        android:id="@+id/developer_menu"
+        android:orderInCategory="100"
+        android:title="Меню разработчика"
+        android:visible="@bool/isDeveloper"
+        app:showAsAction="never"
+        />
+
 </menu>

@@ -3,7 +3,6 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 25
     buildToolsVersion '25.0.2'
-
     defaultConfig {
         applicationId "com.iamkatrechko.projectmanager"
         minSdkVersion 16
@@ -15,9 +14,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue "bool", "isDeveloper", "false"
             buildConfigField "boolean", "isDeveloper", "false"
         }
         debug {
+            resValue "bool", "isDeveloper", "true"
             buildConfigField "boolean", "isDeveloper", "true"
         }
     }

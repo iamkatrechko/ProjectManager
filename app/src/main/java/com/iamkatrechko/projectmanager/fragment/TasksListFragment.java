@@ -19,6 +19,7 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.iamkatrechko.projectmanager.ProjectLab;
 import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.SimpleItemTouchHelperCallback;
+import com.iamkatrechko.projectmanager.activity.ServiceMenuActivity;
 import com.iamkatrechko.projectmanager.activity.SubProjectEditActivity;
 import com.iamkatrechko.projectmanager.activity.TaskEditActivity;
 import com.iamkatrechko.projectmanager.activity.TasksDoneListActivity;
@@ -217,6 +218,9 @@ public class TasksListFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.done_tasks:
                 startActivity(TasksDoneListActivity.getActivityIntent(getContext(), ID));
+                return true;
+            case R.id.developer_menu:
+                startActivity(new Intent(getActivity(), ServiceMenuActivity.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);
