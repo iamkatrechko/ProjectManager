@@ -14,7 +14,7 @@
     <item
         android:id="@+id/developer_menu"
         android:orderInCategory="100"
-        android:title="Меню разработчика"
+        android:title="@string/developer_menu"
         android:visible="@bool/isDeveloper"
         app:showAsAction="never"
         />

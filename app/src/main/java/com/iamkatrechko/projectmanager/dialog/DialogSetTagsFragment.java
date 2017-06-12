@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 
 import com.iamkatrechko.projectmanager.ProjectLab;
+import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.entity.Tag;
 
 import java.util.ArrayList;
@@ -65,7 +66,7 @@ public class DialogSetTagsFragment extends DialogFragment {
 
         android.support.v7.app.AlertDialog.Builder builder;
         builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
-        builder.setTitle("Выберите метки")
+        builder.setTitle(R.string.select_tags)
                 .setMultiChoiceItems(tagListString, tagListCheck,
                         new DialogInterface.OnMultiChoiceClickListener() {
                             @Override
@@ -74,7 +75,7 @@ public class DialogSetTagsFragment extends DialogFragment {
                             }
                         })
 
-                .setPositiveButton("Готово",
+                .setPositiveButton(R.string.result_apply,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
@@ -90,7 +91,7 @@ public class DialogSetTagsFragment extends DialogFragment {
                             }
                         })
 
-                .setNegativeButton("Отмена",
+                .setNegativeButton(R.string.result_cancel,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {

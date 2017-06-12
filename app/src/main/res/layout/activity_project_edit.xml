@@ -87,7 +87,7 @@
                     android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Цвет"
+                    android:text="@string/color"
                     android:textColor="#ff3f3f3f"
                     android:textSize="18sp"
                     />

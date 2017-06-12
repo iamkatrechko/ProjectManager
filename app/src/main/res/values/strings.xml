@@ -29,6 +29,11 @@
     <string name="action_edit">Редактировать</string>
     <string name="action_done">Выполнить</string>
 
+    <string name="developer_menu">Меню разработчика</string>
+    <string name="time_is_right">Используй свое время правильно</string>
+
+    <string name="developer_name">Иванов Михаил</string>
+    <string name="developer_email">iamkatrechko@yandex.ru</string>
 
     <string name="choose_color">Выберите цвет</string>
 
@@ -46,6 +51,9 @@
     <string name="result_no">Нет</string>
     <string name="result_cancel">Отмена</string>
     <string name="result_save">Сохранить</string>
+    <string name="result_apply">Применить</string>
+
+    <string name="toast_saved">Сохранено</string>
 
     <string name="nav_menu_today">Сегодня</string>
     <string name="nav_menu_week">7+ дней</string>
@@ -66,6 +74,33 @@
     <string name="empty_tasks_list_select_day">Список задач\nза выбранный день пуст</string>
     <string name="empty_tasks_list_select_project">Список задач пуст\n\n\nДля созданий новой задачи\nнажмите + в правом нижнем углу</string>
     <string name="empty_tasks_list_select_filter">Список задач\nвыбранного фильтра пуст</string>
+    <string name="changes_not_saved">Изменения не сохранены</string>
+    <string name="save_changes">Сохранить изменения перед выходом?</string>
+    <string name="set_time">Установка времени</string>
+    <string name="without_time">Без даты</string>
+    <string name="select_tags">Выберите метки</string>
+
+    <string name="date_done">Срок выполнения</string>
+    <string name="priority">Приоритет</string>
+    <string name="notify">Напоминание</string>
+    <string name="repeat">Повторение</string>
+    <string name="disabled">Отключено</string>
+    <string name="tag">Метка</string>
+    <string name="project">Проект</string>
+
+
+    <string name="warning">Подтверждение</string>
+    <string name="tag_delete">Вы уверены, что хотите удалить метку?</string>
+    <string name="change_priority">Выберите приоритет</string>
+    <string name="change_notification">Напоминание...</string>
+    <string name="no_set">Не задано</string>
+    <string name="today">Сегодня</string>
+    <string name="tomorrow">Завтра</string>
+
+
+    <string name="color">Цвет</string>
+    <string name="date">Дата</string>
+    <string name="time">Время</string>
 
     <string-array name="priorities">
         <item>Без приоритета</item>
@@ -116,5 +151,12 @@
         <item>Низкий приоритет</item>
         <item>Средний приоритет</item>
         <item>Высокий приоритет</item>
+    </string-array>
+
+    <string-array name="dates">
+        <item>Сегодня</item>
+        <item>Завтра</item>
+        <item>Установить вручную...</item>
+        <item>Без срока</item>
     </string-array>
 </resources>

@@ -13,7 +13,7 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:padding="6dp"
-        android:text="Сервисное меню"/>
+        android:text="@string/developer_menu"/>
 
     <LinearLayout
         android:layout_width="fill_parent"

@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.iamkatrechko.projectmanager.BuildConfig;
 import com.iamkatrechko.projectmanager.Methods;
 import com.iamkatrechko.projectmanager.MyNotificationManager;
 import com.iamkatrechko.projectmanager.ProjectLab;
@@ -107,6 +108,8 @@ public class TaskEditFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_subtask_edit, parent, false);
 
+        v.findViewById(R.id.linear_repeat).setVisibility(BuildConfig.isDeveloper ? View.VISIBLE : View.GONE);
+
         Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.setSubtitleTextColor(Color.WHITE);
@@ -187,7 +190,7 @@ public class TaskEditFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.linear_priority:
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Выберите приоритет")
+                builder.setTitle(R.string.change_priority)
                         .setSingleChoiceItems(priorities, tPriority,
                                 new DialogInterface.OnClickListener() {
                                     @Override
@@ -203,7 +206,7 @@ public class TaskEditFragment extends Fragment implements View.OnClickListener {
             case R.id.linear_reminder:
                 final AlertDialog.Builder builder2 = new AlertDialog.Builder(getActivity());
                 String[] remindValues = new String[]{getString(R.string.remind_off), getString(R.string.remind_on)};
-                builder2.setTitle("Напоминание...")
+                builder2.setTitle(R.string.change_notification)
                         .setSingleChoiceItems(remindValues, tIsNotify ? 1 : 0,
                                 new DialogInterface.OnClickListener() {
                                     @Override

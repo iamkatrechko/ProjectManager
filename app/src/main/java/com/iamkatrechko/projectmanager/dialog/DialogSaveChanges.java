@@ -9,6 +9,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
+import com.iamkatrechko.projectmanager.R;
+
 /**
  * Диалог подтверждения сохранения перед выходом
  * @author iamkatrechko
@@ -36,23 +38,23 @@ public class DialogSaveChanges extends DialogFragment {
     @NonNull
     public Dialog onCreateDialog(Bundle bundle) {
         return new AlertDialog.Builder(getActivity())
-                .setTitle("Изменения не сохранены")
-                .setMessage("Сохранить изменения перед выходом?")
-                .setPositiveButton("Да",
+                .setTitle(R.string.changes_not_saved)
+                .setMessage(R.string.save_changes)
+                .setPositiveButton(R.string.result_yes,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
                                                 int id) {
                                 sendResult(true);
                             }
                         })
-                .setNegativeButton("Нет",
+                .setNegativeButton(R.string.result_no,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
                                                 int id) {
                                 sendResult(false);
                             }
                         })
-                .setNeutralButton("Отмена", null)
+                .setNeutralButton(R.string.result_cancel, null)
                 .create();
     }
 }

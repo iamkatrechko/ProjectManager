@@ -39,7 +39,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="2dp"
-            android:text="Используй свое время правильно"
+            android:text="@string/time_is_right"
             android:textColor="#ffffff"
             android:textSize="15sp"/>
 

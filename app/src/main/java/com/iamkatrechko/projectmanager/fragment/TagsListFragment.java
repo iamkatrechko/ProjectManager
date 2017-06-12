@@ -52,7 +52,7 @@ public class TagsListFragment extends Fragment {
             @Override
             public void onDeleteClick(Tag tag) {
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                DialogDeleteConfirm fragmentDialog = DialogDeleteConfirm.newInstance("Подтверждение", "Вы уверены, что хотите удалить метку?", tag);
+                DialogDeleteConfirm fragmentDialog = DialogDeleteConfirm.newInstance(getString(R.string.warning), getString(R.string.tag_delete), tag);
                 fragmentDialog.setTargetFragment(TagsListFragment.this, 125125);
                 fragmentDialog.show(fragmentManager, "DIALOG_DELETE_CONFIRM");
             }

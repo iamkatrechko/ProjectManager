@@ -36,9 +36,9 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:singleLine="true"
-                android:text="Задача"
                 android:textColor="#424242"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                tools:text="Подпроект"/>
 
             <TextView
                 android:id="@+id/description"
@@ -48,9 +48,9 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:singleLine="true"
-                android:text="Описание"
                 android:textColor="#757575"
-                android:textSize="13sp"/>
+                android:textSize="13sp"
+                tools:text="Описание подпроекта"/>
         </LinearLayout>
 
         <ImageView

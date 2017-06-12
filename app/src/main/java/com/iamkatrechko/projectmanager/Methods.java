@@ -1,6 +1,7 @@
 package com.iamkatrechko.projectmanager;
 
 import android.content.Context;
+
 import com.iamkatrechko.projectmanager.utils.DateUtils;
 
 public class Methods {
@@ -22,7 +23,8 @@ public class Methods {
         String formatDate;
 
         if (date.equals("null") && time.equals("null")) {
-            formatDate = "Не задано";
+            // TODO перевести в ресурсы
+            formatDate = mContext.getString(R.string.no_set);
         } else {
             formatDate = getFormatDate(date, time);
         }
@@ -42,17 +44,17 @@ public class Methods {
         if (date.equals(DateUtils.getTodayDate())) {                                                          //Если дата = сегодня
 
             if (time.equals("null")) {
-                formatDate = "Сегодня";
+                formatDate = mContext.getString(R.string.today);
             } else {
-                formatDate = "Сегодня - " + time;
+                formatDate = mContext.getString(R.string.today) + " - " + time;
             }
 
         } else if (date.equals(DateUtils.getTomorrowDate())) {                                                //Если дата = завтра
 
             if (time.equals("null")) {
-                formatDate = "Завтра";
+                formatDate = mContext.getString(R.string.tomorrow);
             } else {
-                formatDate = "Завтра - " + time;
+                formatDate = mContext.getString(R.string.tomorrow) + " - " + time;
             }
 
         } else if (date.equals("null")) {                                                           //Если дата не стоит

@@ -42,6 +42,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 
+import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.utils.DateUtils;
 
 public class DialogChoiceDatesFragment extends DialogFragment {
@@ -96,7 +97,7 @@ public class DialogChoiceDatesFragment extends DialogFragment {
         date = getArguments().getString("date");
         time = getArguments().getString("time");
 
-        final String[] mItemsNames = {"Сегодня", "Завтра", "Установить вручную...", "Без срока"};
+        final String[] mItemsNames = getResources().getStringArray(R.array.dates);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 

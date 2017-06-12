@@ -173,8 +173,8 @@ public class DialogSetDateTimeFragment extends DialogFragment {
 
         return new AlertDialog.Builder(getActivity())
                 .setView(view)
-                .setTitle("Установка времени")
-                .setPositiveButton("Применить", new DialogInterface.OnClickListener() {
+                .setTitle(R.string.set_time)
+                .setPositiveButton(R.string.result_apply, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogInterface, int n) {
                         if (checkBoxTime.isChecked()) {
                             time = editTextTime.getText().toString();
@@ -184,7 +184,7 @@ public class DialogSetDateTimeFragment extends DialogFragment {
                         date = editTextDate.getText().toString();
                         sendResult(date, time);
                     }
-                }).setNegativeButton("Без даты", new DialogInterface.OnClickListener() {
+                }).setNegativeButton(R.string.without_time, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         date = "null";

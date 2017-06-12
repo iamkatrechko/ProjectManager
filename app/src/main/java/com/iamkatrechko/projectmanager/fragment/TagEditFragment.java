@@ -136,7 +136,7 @@ public class TagEditFragment extends Fragment {
             boolean save = data.getBooleanExtra("save_changes", false);
             if (save) {
                 saveCurrentTag();
-                Toast.makeText(getActivity(), "Сохранено", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.toast_saved, Toast.LENGTH_SHORT).show();
             } else {
                 getActivity().finish();
             }

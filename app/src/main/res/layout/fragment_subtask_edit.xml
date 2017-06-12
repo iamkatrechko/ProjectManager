@@ -90,7 +90,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Срок выполнения"
+                        android:text="@string/date_done"
                         android:textColor="#212121"
                         android:textSize="18sp"/>
 
@@ -130,7 +130,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Приоритет"
+                        android:text="@string/priority"
                         android:textColor="#212121"
                         android:textSize="18sp"/>
 
@@ -171,7 +171,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Напоминание"
+                        android:text="@string/notify"
                         android:textColor="#212121"
                         android:textSize="18sp"/>
 
@@ -211,7 +211,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Повторение"
+                        android:text="@string/repeat"
                         android:textColor="#212121"
                         android:textSize="18sp"/>
 
@@ -221,7 +221,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#757575"
                         android:textSize="15sp"
-                        android:text="Отключено"
+                        android:text="@string/disabled"
                         tools:text="Наименование повтора"
                         />
 
@@ -254,7 +254,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Метка"
+                        android:text="@string/tag"
                         android:textColor="#212121"
                         android:textSize="18sp"/>
 
@@ -298,7 +298,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Проект"
+                        android:text="@string/project"
                         android:textColor="#212121"
                         android:textSize="18sp"/>
 

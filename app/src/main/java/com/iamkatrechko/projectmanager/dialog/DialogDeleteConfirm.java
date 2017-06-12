@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
+import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.entity.Tag;
 
 /**
@@ -53,13 +54,13 @@ public class DialogDeleteConfirm extends DialogFragment {
         return new AlertDialog.Builder(getActivity())
                 .setTitle(title)
                 .setMessage(text)
-                .setPositiveButton("Ок",
+                .setPositiveButton(R.string.result_yes,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
                                                 int id) {
                                 sendResult(true);
                             }
                         })
-                .setNegativeButton("Отмена", null).create();
+                .setNegativeButton(R.string.result_cancel, null).create();
     }
 }
