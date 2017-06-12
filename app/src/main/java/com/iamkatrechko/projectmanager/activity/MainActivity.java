@@ -195,6 +195,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     item.addChildItem(new ExpMenuItem.ChildItem(getString(R.string.nav_menu_tags_edit), Color.BLACK));
                     break;
+                case MENU_ITEM_SETTINGS:
                 case MENU_ITEM_PROJECTS_EDIT:
                 case MENU_ITEM_TAGS_EDIT:
                     continue;
