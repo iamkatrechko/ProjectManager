@@ -8,6 +8,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.iamkatrechko.projectmanager.BuildConfig;
 import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.expandable_menu.ExpMenuItem;
 import com.iamkatrechko.projectmanager.expandable_menu.ExpMenuItems;
@@ -15,7 +16,7 @@ import com.iamkatrechko.projectmanager.expandable_menu.ExpMenuItems;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.iamkatrechko.projectmanager.expandable_menu.ExpMenuItems.*;
+import static com.iamkatrechko.projectmanager.expandable_menu.ExpMenuItems.EXP_ITEM_HEADER;
 
 /**
  * Created on 08.03.2017
@@ -74,7 +75,11 @@ public class MainMenuAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             if (groupPosition == 0) {
-                convertView = inflater.inflate(R.layout.navigation_view_header, null);
+                if (BuildConfig.isDeveloper) {
+                    convertView = inflater.inflate(R.layout.navigation_view_header_debug, null);
+                } else {
+                    convertView = inflater.inflate(R.layout.navigation_view_header, null);
+                }
             } else {
                 convertView = inflater.inflate(R.layout.exp_list_group_view, null);
             }
