@@ -4,6 +4,7 @@
 
     <color name="swipe_to_delete_color">#eb5a46</color>
     <color name="swipe_to_set_done_color">#61bd4f</color>
+    <color name="swipe_to_change_date_color">#f2d600</color>
 
     <color name="toolBarColor1">#885d9e</color>
     <color name="actionBarColor1">#89609e</color>

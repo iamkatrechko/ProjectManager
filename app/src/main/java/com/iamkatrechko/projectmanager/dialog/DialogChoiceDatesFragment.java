@@ -56,11 +56,25 @@ public class DialogChoiceDatesFragment extends DialogFragment {
      * @return новый экземпляр фрагмента
      */
     public static DialogChoiceDatesFragment newInstance(String date, String time) {
+        return newInstance(date, time, null);
+    }
+
+    /**
+     * Возвращает новый экземпляр фрагмента
+     * @param date   начальная дата
+     * @param time   начальное время
+     * @param bundle прочие данные
+     * @return новый экземпляр фрагмента
+     */
+    public static DialogChoiceDatesFragment newInstance(String date, String time, Bundle bundle) {
         DialogChoiceDatesFragment fragment = new DialogChoiceDatesFragment();
         Bundle args = new Bundle();
 
         args.putString("date", date);
         args.putString("time", time);
+        if (bundle != null) {
+            args.putAll(bundle);
+        }
 
         fragment.setArguments(args);
         return fragment;
@@ -71,6 +85,7 @@ public class DialogChoiceDatesFragment extends DialogFragment {
             return;
         }
         Intent a = new Intent();
+        a.putExtras(getArguments());
         a.putExtra("date", date);
         a.putExtra("time", time);
         getTargetFragment().onActivityResult(getTargetRequestCode(), 0, a);
@@ -81,14 +96,14 @@ public class DialogChoiceDatesFragment extends DialogFragment {
         date = getArguments().getString("date");
         time = getArguments().getString("time");
 
-        final String[] mItemsNames ={"Сегодня", "Завтра", "Установить вручную...", "Без срока"};
+        final String[] mItemsNames = {"Сегодня", "Завтра", "Установить вручную...", "Без срока"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         builder.setItems(mItemsNames, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
-                switch (item){
+                switch (item) {
                     case 0:
                         sendResult(DateUtils.getTodayDate(), "null");
                         break;

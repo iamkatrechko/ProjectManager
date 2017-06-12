@@ -27,6 +27,7 @@ import com.iamkatrechko.projectmanager.activity.TasksDoneListActivity;
 import com.iamkatrechko.projectmanager.activity.TasksListActivity;
 import com.iamkatrechko.projectmanager.adapter.HistoryListAdapter;
 import com.iamkatrechko.projectmanager.adapter.TasksListAdapter;
+import com.iamkatrechko.projectmanager.dialog.DialogChoiceDatesFragment;
 import com.iamkatrechko.projectmanager.dialog.DialogDeleteSubProjectConfirm;
 import com.iamkatrechko.projectmanager.entity.Task;
 import com.iamkatrechko.projectmanager.interfce.OnItemClickListener;
@@ -46,10 +47,15 @@ import ru.yandex.speechkit.gui.RecognizerActivity;
  */
 public class TasksListFragment extends Fragment {
 
+    /** Ключ аргемента идентификатора проекта/подпроекта */
+    private static final String EXTRA_PARENT_ID = "mId";
+
     /** Идентификатор окна голосового ввода */
-    private static final int ACTIVITY_RESULT_SPEECH = 1;
+    private static final int DIALOG_RESULT_SPEECH = 1;
     /** Идентификатор диалога удаления подпроекта */
     private static final int DIALOG_DELETE_SUB_PROJECT = 126512;
+    /** Идентификатор диалога смены даты выполнения */
+    private static final int DIALOG_CHANGE_DATE = 723242;
 
     /** Список задач и подпроектов */
     private List<? extends TaskListItem> mTasksList = new ArrayList<>();
@@ -62,7 +68,7 @@ public class TasksListFragment extends Fragment {
     /** Кнопка создания подпроектов и задач */
     private FloatingActionsMenu fMenu;
     /** Id текущего подпроекта или задачи */
-    private UUID ID;
+    private UUID parentId;
     /** Виджет списка узлов иерархии задачи */
     private RecyclerView mRecyclerViewHistory;
     /** Адаптер списка узлов иерархии задачи */
@@ -70,14 +76,14 @@ public class TasksListFragment extends Fragment {
 
     /**
      * Возвращает новый инстанс фрагмента
-     * @param ID id открываемого подпроекта
+     * @param ID идентификатор открываемого подпроекта
      * @return новый инстанс фрагмента
      */
     public static TasksListFragment newInstance(UUID ID) {
         TasksListFragment fragment = new TasksListFragment();
         Bundle args = new Bundle();
 
-        args.putString("mId", ID.toString());
+        args.putString(EXTRA_PARENT_ID, ID.toString());
 
         fragment.setArguments(args);
         return fragment;
@@ -89,14 +95,14 @@ public class TasksListFragment extends Fragment {
         setHasOptionsMenu(true);
         setRetainInstance(true);
 
-        ID = UUID.fromString(getArguments().getString("mId"));
+        parentId = UUID.fromString(getArguments().getString(EXTRA_PARENT_ID));
         mProjectLab = ProjectLab.get(getActivity());
-        mTasksList = mProjectLab.getTasksListOnAllLevel(ID);
+        mTasksList = mProjectLab.getTasksListOnAllLevel(parentId);
         mHistoryListAdapter = new HistoryListAdapter();
-        adapter = new TasksListAdapter(getActivity(), false, true,
-                getResources().getColor(R.color.swipe_to_delete_color),
+        adapter = new TasksListAdapter(getActivity(), true, true,
+                getResources().getColor(R.color.swipe_to_change_date_color),
                 getResources().getColor(R.color.swipe_to_set_done_color),
-                R.drawable.ic_delete,
+                R.drawable.ic_today_white_24dp,
                 R.drawable.ic_done,
                 true);
     }
@@ -117,8 +123,8 @@ public class TasksListFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), SubProjectEditActivity.class);
-                intent.putExtra("mId", "0");
-                intent.putExtra("parent_ID", ID.toString());
+                intent.putExtra(EXTRA_PARENT_ID, "0");
+                intent.putExtra("parent_ID", parentId.toString());
                 intent.putExtra("Operation", "add");
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.act_slide_down_in, R.anim.act_slide_down_out);
@@ -128,7 +134,7 @@ public class TasksListFragment extends Fragment {
         fabAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent addIntent = TaskEditActivity.getAddActivityIntent(getContext(), ID);
+                Intent addIntent = TaskEditActivity.getAddActivityIntent(getContext(), parentId);
                 startActivity(addIntent);
                 getActivity().overridePendingTransition(R.anim.act_slide_down_in, R.anim.act_slide_down_out);
             }
@@ -138,12 +144,12 @@ public class TasksListFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent speechIntent = new Intent(getContext(), RecognizerActivity.class);
-                startActivityForResult(speechIntent, ACTIVITY_RESULT_SPEECH);
+                startActivityForResult(speechIntent, DIALOG_RESULT_SPEECH);
             }
         });
 
-        Log.d("TasksListFragment", "Уровень вхождения - " + mProjectLab.getLevelOfParent(ID));
-        if (mProjectLab.getLevelOfParent(ID) == 2) {                                                         //Скрытие кнопки добавление подпроекта
+        Log.d("TasksListFragment", "Уровень вхождения - " + mProjectLab.getLevelOfParent(parentId));
+        if (mProjectLab.getLevelOfParent(parentId) == 2) {                                                         //Скрытие кнопки добавление подпроекта
             fMenu.removeButton(fabAddSubProject);
         }
 
@@ -155,7 +161,7 @@ public class TasksListFragment extends Fragment {
                     //Если нажат "Подпроект" -> переходим дальше
                     Task subProject = (Task) item;
                     Intent intent = new Intent(getActivity(), TasksListActivity.class);
-                    intent.putExtra("mId", subProject.getID().toString());
+                    intent.putExtra(EXTRA_PARENT_ID, subProject.getID().toString());
                     intent.putExtra("Type", subProject.getType());
                     startActivity(intent);
                     getActivity().overridePendingTransition(R.anim.act_slide_left_in, R.anim.act_slide_left_out);
@@ -171,11 +177,12 @@ public class TasksListFragment extends Fragment {
         adapter.setOnSwipedListener(new SimpleItemTouchHelperCallback.OnItemSwipeListener() {
             @Override
             public void onItemLeftSwipe(int position) {
-                Log.d("setIsDone", String.valueOf(position) + " - " + ((Task) mTasksList.get(position)).getTitle());
-                //myNotificationManager.deleteNotification(mTasks.get(position).getID());
-                ((Task) mTasksList.get(position)).setIsDone(true);
-                adapter.notifyItemRemoved(position);
-                //notifyDataSetChanged();
+                Bundle bundle = new Bundle();
+                bundle.putInt("pos", position);
+                DialogChoiceDatesFragment dialogChoiceDatesFragment = DialogChoiceDatesFragment.newInstance(null, null, bundle);
+                dialogChoiceDatesFragment.setTargetFragment(TasksListFragment.this, DIALOG_CHANGE_DATE);
+                dialogChoiceDatesFragment.show(getFragmentManager(), DialogChoiceDatesFragment.class.getSimpleName());
+                adapter.notifyItemChanged(position);
             }
 
             @Override
@@ -196,7 +203,7 @@ public class TasksListFragment extends Fragment {
             @Override
             public void onEditClick(UUID subProjectId, int position) {
                 Intent intent = new Intent(getActivity(), SubProjectEditActivity.class);
-                intent.putExtra("mId", subProjectId.toString());
+                intent.putExtra(EXTRA_PARENT_ID, subProjectId.toString());
                 intent.putExtra("Operation", "edit");
                 intent.putExtra("parent_ID", "0");
                 getActivity().startActivity(intent);
@@ -211,7 +218,7 @@ public class TasksListFragment extends Fragment {
         mRecyclerViewHistory.setHasFixedSize(true);
         mRecyclerViewHistory.setAdapter(mHistoryListAdapter);
         mRecyclerViewHistory.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        mHistoryListAdapter.setData(mProjectLab.getHistoryList(ID));
+        mHistoryListAdapter.setData(mProjectLab.getHistoryList(parentId));
 
         return v;
     }
@@ -239,7 +246,7 @@ public class TasksListFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.done_tasks:
-                startActivity(TasksDoneListActivity.getActivityIntent(getContext(), ID));
+                startActivity(TasksDoneListActivity.getActivityIntent(getContext(), parentId));
                 return true;
             case R.id.developer_menu:
                 startActivity(new Intent(getActivity(), ServiceMenuActivity.class));
@@ -251,11 +258,11 @@ public class TasksListFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ACTIVITY_RESULT_SPEECH) {
+        if (requestCode == DIALOG_RESULT_SPEECH) {
             if (resultCode == RecognizerActivity.RESULT_OK && data != null) {
                 String result = data.getStringExtra(RecognizerActivity.EXTRA_RESULT);
                 if (!result.isEmpty()) {
-                    Intent addIntent = TaskEditActivity.getAddActivityIntent(getContext(), ID, result);
+                    Intent addIntent = TaskEditActivity.getAddActivityIntent(getContext(), parentId, result);
                     startActivity(addIntent);
                     getActivity().overridePendingTransition(R.anim.act_slide_down_in, R.anim.act_slide_down_out);
                 }
@@ -272,6 +279,18 @@ public class TasksListFragment extends Fragment {
                 mProjectLab.removeTaskByID(subProjectId);
                 adapter.notifyItemRemoved(subProjectPosition);
             }
+        }
+        if (resultCode == 0 && requestCode == DIALOG_CHANGE_DATE) {
+            int pos = data.getIntExtra("pos", -1);
+            String date = data.getStringExtra("date");
+            String time = data.getStringExtra("time");
+            if (date != null) {
+                mProjectLab.setTaskDate(((Task) mTasksList.get(pos)).getID(), date);
+            }
+            if (time != null) {
+                mProjectLab.setTaskTime(((Task) mTasksList.get(pos)).getID(), time);
+            }
+            adapter.notifyItemChanged(pos);
         }
     }
 }

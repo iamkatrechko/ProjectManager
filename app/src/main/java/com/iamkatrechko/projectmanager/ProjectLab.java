@@ -603,6 +603,30 @@ public class ProjectLab {
     }
 
     /**
+     * Устанавливает дату выполнения заданной задаче
+     * @param taskId идентификатор задачи
+     * @param date   дата выполнения
+     */
+    public void setTaskDate(UUID taskId, String date) {
+        Task task = getTaskOnAllLevel(taskId);
+        if (task != null) {
+            getTaskOnAllLevel(taskId).setDate(date);
+        }
+    }
+
+    /**
+     * Устанавливает время выполнения заданной задаче
+     * @param taskId идентификатор задачи
+     * @param time   время выполнения
+     */
+    public void setTaskTime(UUID taskId, String time) {
+        Task task = getTaskOnAllLevel(taskId);
+        if (task != null) {
+            getTaskOnAllLevel(taskId).setTime(time);
+        }
+    }
+
+    /**
      * Получить список всех тегов
      * @return список всех тегов
      */
