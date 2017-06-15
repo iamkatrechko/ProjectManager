@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.iamkatrechko.projectmanager.MyNotificationManager;
 import com.iamkatrechko.projectmanager.ProjectLab;
 import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.SimpleItemTouchHelperCallback;
@@ -73,6 +74,8 @@ public class TasksListFragment extends Fragment {
     private RecyclerView mRecyclerViewHistory;
     /** Адаптер списка узлов иерархии задачи */
     private HistoryListAdapter mHistoryListAdapter;
+    /** Менеджер уведомлений */
+    private MyNotificationManager mMyNotificationManager;
 
     /**
      * Возвращает новый инстанс фрагмента
@@ -95,6 +98,7 @@ public class TasksListFragment extends Fragment {
         setHasOptionsMenu(true);
         setRetainInstance(true);
 
+        mMyNotificationManager = new MyNotificationManager(getActivity());
         parentId = UUID.fromString(getArguments().getString(EXTRA_PARENT_ID));
         mProjectLab = ProjectLab.get(getActivity());
         mTasksList = mProjectLab.getTasksListOnAllLevel(parentId);
@@ -187,8 +191,8 @@ public class TasksListFragment extends Fragment {
 
             @Override
             public void onItemRightSwipe(int position) {
-                //myNotificationManager.deleteNotification(mTasks.get(position).getID());
-                mProjectLab.removeTaskByID(((Task) mTasksList.get(position)).getID());
+                UUID taskId = ((Task) mTasksList.get(position)).getID();
+                mProjectLab.removeTaskByID(taskId);
                 adapter.notifyItemRemoved(position);
             }
         });

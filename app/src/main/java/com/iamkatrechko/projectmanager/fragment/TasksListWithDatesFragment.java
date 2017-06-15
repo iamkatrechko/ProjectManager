@@ -10,17 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
+import com.iamkatrechko.projectmanager.MyNotificationManager;
 import com.iamkatrechko.projectmanager.ProjectLab;
 import com.iamkatrechko.projectmanager.R;
 import com.iamkatrechko.projectmanager.SimpleItemTouchHelperCallback;
 import com.iamkatrechko.projectmanager.activity.TaskEditActivity;
 import com.iamkatrechko.projectmanager.adapter.TasksListAdapter;
-import com.iamkatrechko.projectmanager.interfce.OnItemClickListener;
 import com.iamkatrechko.projectmanager.entity.Task;
+import com.iamkatrechko.projectmanager.interfce.OnItemClickListener;
 import com.iamkatrechko.projectmanager.new_entity.TaskListItem;
 import com.iamkatrechko.projectmanager.utils.TasksUtils;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Фрагмент со списком задач с датированными метками
@@ -52,6 +54,8 @@ public class TasksListWithDatesFragment extends Fragment {
     private RecyclerView recyclerView;
     /** Кнопка добавления новой задачи */
     private AddFloatingActionButton actionAdd;
+    /** Менеджер уведомлений */
+    private MyNotificationManager mMyNotificationManager;
 
     /**
      * Возвращает новый экземпляр фрагмента
@@ -74,6 +78,7 @@ public class TasksListWithDatesFragment extends Fragment {
         setHasOptionsMenu(true);
         setRetainInstance(true);
 
+        mMyNotificationManager = new MyNotificationManager(getContext());
         lab = ProjectLab.get(getActivity());
         currentMode = LIST_WITH_DATES_MODE.values()[getArguments().getInt(EXTRA_MODE)];
     }
@@ -87,9 +92,9 @@ public class TasksListWithDatesFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.section_list);
 
         adapter = new TasksListAdapter(getActivity(), false, true,
-                getResources().getColor(R.color.swipe_to_set_done_color),
                 getResources().getColor(R.color.swipe_to_delete_color),
-                R.drawable.ic_done, R.drawable.ic_delete, false);
+                getResources().getColor(R.color.swipe_to_set_done_color),
+                R.drawable.ic_delete, R.drawable.ic_done, false);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
         adapter.setEmptyView(view.findViewById(R.id.emptyView));
@@ -103,7 +108,8 @@ public class TasksListWithDatesFragment extends Fragment {
 
             @Override
             public void onItemRightSwipe(int position) {
-                lab.removeTaskByID(((Task) mTasksWithDates.get(position)).getID());
+                UUID taskId = ((Task) mTasksWithDates.get(position)).getID();
+                lab.removeTaskByID(taskId);
                 updateTasksList();
             }
         });

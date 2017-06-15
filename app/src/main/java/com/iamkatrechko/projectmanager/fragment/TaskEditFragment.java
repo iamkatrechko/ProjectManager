@@ -256,7 +256,6 @@ public class TaskEditFragment extends Fragment implements View.OnClickListener {
         switch (item.getItemId()) {
             case R.id.delete:
                 if (Operation.equals("edit")) {
-                    myNotificationManager.deleteNotification(task.getID());
                     lab.removeTaskByID(task.getID());
                     getActivity().finish();
                 }
