@@ -20,10 +20,16 @@ import java.util.UUID;
  * Created by Muxa on 10.04.2016.
  */
 public class TasksListByTagFragment extends Fragment {
+
+    /** Класс по работе с проектами и задачами */
     private ProjectLab lab;
+    /** Идентификатор тега, по которому производится поиск */
     private UUID tagID;
+    /** Виджет списка задач */
     private RecyclerView recyclerView;
+    /** Список задач */
     private List<Task> mTasksList;
+    /** Адаптер списка задач */
     private TasksListAdapter adapter;
 
     public static TasksListByTagFragment newInstance(UUID tagID) {
@@ -32,6 +38,7 @@ public class TasksListByTagFragment extends Fragment {
         Bundle args = new Bundle();
         args.putString("tagID", tagID.toString());
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -42,9 +49,11 @@ public class TasksListByTagFragment extends Fragment {
         setRetainInstance(true);
 
         tagID = UUID.fromString(getArguments().getString("tagID"));
-        //Type = getArguments().getString("Type");
 
         lab = ProjectLab.get(getActivity());
+        mTasksList = lab.getTasksListByTag(tagID);
+        adapter = new TasksListAdapter(getActivity());
+        adapter.setData(mTasksList);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
@@ -54,17 +63,7 @@ public class TasksListByTagFragment extends Fragment {
         recyclerView = (RecyclerView) v.findViewById(R.id.section_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
-
-        mTasksList = lab.getTasksListByTag(tagID);
-
-        adapter = new TasksListAdapter(getActivity(), true, true,
-                getResources().getColor(R.color.swipe_to_set_done_color),
-                getResources().getColor(R.color.swipe_to_delete_color),
-                R.drawable.ic_done, R.drawable.ic_delete, false);
-        adapter.setData(mTasksList);
-
         recyclerView.setAdapter(adapter);
-
         return v;
     }
 
