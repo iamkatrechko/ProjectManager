@@ -21,10 +21,10 @@ import com.iamkatrechko.projectmanager.entity.Tag;
 import com.iamkatrechko.projectmanager.expandable_menu.ExpMenuItem;
 import com.iamkatrechko.projectmanager.expandable_menu.ExpMenuItems;
 import com.iamkatrechko.projectmanager.fragment.CalendarFragment;
-import com.iamkatrechko.projectmanager.fragment.TasksListFilterFragment;
 import com.iamkatrechko.projectmanager.fragment.ProjectsListFragment;
 import com.iamkatrechko.projectmanager.fragment.TagsListFragment;
 import com.iamkatrechko.projectmanager.fragment.TasksListByTagFragment;
+import com.iamkatrechko.projectmanager.fragment.TasksListFilterFragment;
 import com.iamkatrechko.projectmanager.fragment.TasksListFragment;
 import com.iamkatrechko.projectmanager.fragment.TasksListWithDatesFragment;
 import com.iamkatrechko.projectmanager.utils.Utils;
@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new Themes(this);
         Utils.onActivityCreateSetTheme(this, Integer.valueOf(Themes.getNumTheme()));
         setContentView(R.layout.activity_main);
         lab = ProjectLab.get(this);
@@ -78,9 +77,6 @@ public class MainActivity extends AppCompatActivity {
             UUID ID = lab.getProjects().get(0).getID();
             getProjectFragment(ID);
         }
-
-        String key = "79b8f85e-b240-44a0-a2ff-a2f618831303";
-        SpeechKit.getInstance().configure(getApplicationContext(), key);
     }
 
     public void initToolBar() {
@@ -154,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
                         getProjectFragment(_id);
                         return true;
                     case MENU_ITEM_FILTERS:
-                        getFilterFragment(childPosition);
+                        openFilterFragment(childPosition);
                         return true;
                     case MENU_ITEM_TAGS:
                         if (childPosition == menuItem.getChildItemCount() - 1) {
@@ -222,36 +218,11 @@ public class MainActivity extends AppCompatActivity {
         //setTitle(R.string.title_section1);
     }
 
-    public void getFilterFragment(int filterType) {
+    public void openFilterFragment(int filterType) {
         drawerLayout.closeDrawers();
-        switch (filterType) {
-            case 0:
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, TasksListFilterFragment.newInstance(0))
-                        .commit();
-                break;
-            case 1:
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, TasksListFilterFragment.newInstance(1))
-                        .commit();
-                break;
-            case 2:
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, TasksListFilterFragment.newInstance(2))
-                        .commit();
-                break;
-            case 3:
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, TasksListFilterFragment.newInstance(3))
-                        .commit();
-                break;
-            case 4:
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, TasksListFilterFragment.newInstance(4))
-                        .commit();
-                break;
-        }
-
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, TasksListFilterFragment.newInstance(filterType))
+                .commit();
     }
 
     public void getTagFragment(UUID id) {
@@ -308,7 +279,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        ProjectLab lab = ProjectLab.get(this);
         lab.saveProjectsIntoJSON();
         lab.saveTagsIntoJSON();
     }
