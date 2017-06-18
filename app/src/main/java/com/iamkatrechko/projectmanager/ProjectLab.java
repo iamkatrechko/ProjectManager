@@ -1,6 +1,7 @@
 package com.iamkatrechko.projectmanager;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.iamkatrechko.projectmanager.entity.Project;
@@ -40,6 +41,9 @@ public class ProjectLab {
 
         loadTagsFromJSON();
         loadProjectsFromJSON();
+        if (mProjects.isEmpty()) {
+            mProjects.add(new Project(context.getString(R.string.default_project), ContextCompat.getColor(context, R.color.toolBarColor1)));
+        }
     }
 
     public static ProjectLab get(Context c) {

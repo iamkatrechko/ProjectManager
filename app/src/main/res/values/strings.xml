@@ -41,6 +41,7 @@
     <string name="error_enter_task_title">Введите название задачи</string>
 
     <string name="done_tasks">Выполненные</string>
+    <string name="default_project">Общий список</string>
 
     <string name="delete_project_title">Удаление проекта</string>
     <string name="delete_sub_project_title">Удаление подпроекта</string>
