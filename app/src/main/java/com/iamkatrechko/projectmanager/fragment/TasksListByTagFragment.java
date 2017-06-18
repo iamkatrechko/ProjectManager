@@ -59,6 +59,7 @@ public class TasksListByTagFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_tasks_list, parent, false);
+        v.findViewById(R.id.multiple_actions).setVisibility(View.GONE);
 
         recyclerView = (RecyclerView) v.findViewById(R.id.section_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
