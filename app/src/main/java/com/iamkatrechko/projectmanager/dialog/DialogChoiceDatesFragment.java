@@ -113,10 +113,10 @@ public class DialogChoiceDatesFragment extends DialogFragment {
                         break;
                     case 2:
                         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                        DialogSetDateTimeFragment fragmentDialog = DialogSetDateTimeFragment.newInstance(date, time);
+                        DialogSetDateTimeFragment fragmentDialog = DialogSetDateTimeFragment.newInstance(date, time, getArguments());
                         fragmentDialog.setTargetFragment(getTargetFragment(), getTargetRequestCode());
                         fragmentDialog.show(fragmentManager, "setDateTime");
-                        getDialog().cancel();
+                        //getDialog().cancel();
                         break;
                     case 3:
                         sendResult("null", "null");
@@ -125,6 +125,11 @@ public class DialogChoiceDatesFragment extends DialogFragment {
             }
         });
         return builder.create();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
 

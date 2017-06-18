@@ -64,15 +64,22 @@ public class DialogSetDateTimeFragment extends DialogFragment {
     private int hour;
     private int minute;
 
-    public static DialogSetDateTimeFragment newInstance(String date, String time) {
+    public static DialogSetDateTimeFragment newInstance(String date, String time, Bundle bundle) {
         DialogSetDateTimeFragment fragment = new DialogSetDateTimeFragment();
         Bundle args = new Bundle();
 
         args.putString("date", date);
         args.putString("time", time);
+        if (bundle != null) {
+            args.putAll(bundle);
+        }
 
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public static DialogSetDateTimeFragment newInstance(String date, String time) {
+        return newInstance(date, time, null);
     }
 
     private void sendResult(String date, String time) {
@@ -80,6 +87,7 @@ public class DialogSetDateTimeFragment extends DialogFragment {
             return;
         }
         Intent a = new Intent();
+        a.putExtras(getArguments());
         a.putExtra("date", date);
         a.putExtra("time", time);
         getTargetFragment().onActivityResult(getTargetRequestCode(), 0, a);
@@ -95,7 +103,7 @@ public class DialogSetDateTimeFragment extends DialogFragment {
         final EditText editTextTime = (EditText) view.findViewById(R.id.editTextTime);
         final CheckBox checkBoxTime = (CheckBox) view.findViewById(R.id.checkBoxTime);
 
-        if (date.equals("null")) {
+        if (date == null || date.equals("null")) {
             editTextDate.setText(DateUtils.getTodayDate());
             setBufDate(DateUtils.getTodayDate());
         } else {
@@ -122,7 +130,7 @@ public class DialogSetDateTimeFragment extends DialogFragment {
             }
         });
 
-        if (time.equals("null")) {
+        if (time == null || time.equals("null")) {
             editTextTime.setText("12:00");
             setBufTime("12:00");
         } else {
